@@ -113,8 +113,8 @@ var contr = angular.module('app.controllers', [])
                 $rootScope.isHideMainContent = true;
 
                 $scope.loginData = {
-                    userName: "",
-                    password: "",
+                    userName: "Admin@gmail.com",
+                    password: "Admin",
                     useRefreshTokens: false
                 };
 
@@ -207,11 +207,12 @@ var contr = angular.module('app.controllers', [])
 
 // Path: /Home
 .controller('HomeController', [
-    '$scope', '$rootScope', 'authService', '$location', function ($scope, $rootScope, authService, $location) {
+    '$scope', '$rootScope', 'authService', '$location', 'TestApi',
+    function ($scope, $rootScope, authService, $location, TestApi) {
         if (authService.authentication.isAuth == false) {
             $location.path('/Login');
         } else {
-
+            TestApi.get();
         }
     }
 ])

@@ -13,6 +13,13 @@ angular.module('app.services', ['ngResource'])
         }
      ])
 
+     .factory('TestApi', [
+        '$resource', function ($resource) {
+            return $resource(urlApiTestChess, {}, {
+            });
+        }
+     ])
+
     .factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
         var authServiceFactory = {};
         var _authentication = {
@@ -74,10 +81,10 @@ angular.module('app.services', ['ngResource'])
         };
 
         var _fillAuthData = function () {
-
+            
             var authData = localStorageService.get('authorizationData');
             if (authData) {
-                _authentication.isAuth = false;
+                _authentication.isAuth = true;
                 _authentication.UserId = authData.UserId;
                 _authentication.Email = authData.Email;
                 _authentication.Token = authData.Token;

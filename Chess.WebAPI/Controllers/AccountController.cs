@@ -3,6 +3,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using Chess.Models;
 using Chess.Services.Interfaces;
+using Chess.WebAPI.Filters.AuthorizationFilters;
 
 namespace Chess.WebAPI.Controllers
 {

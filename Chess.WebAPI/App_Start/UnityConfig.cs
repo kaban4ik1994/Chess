@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using Chess.Entities;
 using Chess.Entities.Models;
 using Chess.Services;
 using Chess.Services.Interfaces;
+using Chess.WebAPI.Filters.AuthorizationFilters;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Repository.Pattern.DataContext;
@@ -43,12 +45,12 @@ namespace Chess.WebAPI.App_Start
         {
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
-
+            
             container
                 .RegisterType<IDataContextAsync, ChessContext>(new PerResolveLifetimeManager())
                 .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerResolveLifetimeManager())
                 .RegisterType<IRepositoryAsync<User>, Repository<User>>()
-                .RegisterType<IUserService, UserService>();
+                .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager());
         }
     }
 }
