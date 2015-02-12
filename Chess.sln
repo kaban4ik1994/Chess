@@ -30,6 +30,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6B882E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Helpers", "Chess.Helpers\Chess.Helpers.csproj", "{C04E9281-4BF2-4607-B748-FDDD06F76906}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Models", "Chess.Models\Chess.Models.csproj", "{3CE4A4D3-7BFE-46D9-9F6B-D4DF764A77A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.WebUI", "Chess.WebUI\Chess.WebUI.csproj", "{A891E45F-C721-40E9-BC1A-F0C6245E23F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +98,18 @@ Global
 		{C04E9281-4BF2-4607-B748-FDDD06F76906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C04E9281-4BF2-4607-B748-FDDD06F76906}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C04E9281-4BF2-4607-B748-FDDD06F76906}.Release|x86.ActiveCfg = Release|Any CPU
+		{3CE4A4D3-7BFE-46D9-9F6B-D4DF764A77A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE4A4D3-7BFE-46D9-9F6B-D4DF764A77A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE4A4D3-7BFE-46D9-9F6B-D4DF764A77A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3CE4A4D3-7BFE-46D9-9F6B-D4DF764A77A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE4A4D3-7BFE-46D9-9F6B-D4DF764A77A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE4A4D3-7BFE-46D9-9F6B-D4DF764A77A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{A891E45F-C721-40E9-BC1A-F0C6245E23F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A891E45F-C721-40E9-BC1A-F0C6245E23F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A891E45F-C721-40E9-BC1A-F0C6245E23F5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A891E45F-C721-40E9-BC1A-F0C6245E23F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A891E45F-C721-40E9-BC1A-F0C6245E23F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A891E45F-C721-40E9-BC1A-F0C6245E23F5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

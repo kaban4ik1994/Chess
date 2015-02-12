@@ -1,0 +1,81 @@
+﻿<div class="animated fadeInDown no-right-panel">
+    <!-- possible classes: minified, no-right-panel, fixed-ribbon, fixed-header, fixed-width-->
+    <header id="header">
+        <!--<span id="logo"></span>-->
+
+        <div id="logo-group">
+            <span id="logo"> <img src="img/logo.png" alt="SmartAdmin"> </span>
+
+            <!-- END AJAX-DROPDOWN -->
+        </div>
+        <span id="extr-page-header-space" class="pull-right"> <span class="hidden-mobile">Need an account?</span> <a ng-href="#/Login" class="btn btn-danger">Sign In</a> </span>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div id="content" class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-4 col-lg-4">
+                <div class="well no-padding">
+                    <form id="smart-form-register" class="smart-form client-form">
+                        <header>
+                            Registration
+                        </header>
+
+                        <fieldset>
+                            <section>
+                                <label class="input">
+                                    <i class="icon-append fa fa-user"></i>
+                                    <input type="text" name="username" ng-model="user.UserName" placeholder="Username">
+                                    <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                </label>
+                            </section>
+
+                            <section>
+                                <label class="input">
+                                    <i class="icon-append fa fa-envelope"></i>
+                                    <input type="email" name="email" ng-model="user.Email" placeholder="Email address">
+                                    <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                </label>
+                            </section>
+
+                            <section>
+                                <label class="input">
+                                    <i class="icon-append fa fa-lock"></i>
+                                    <input type="password" name="password" ng-model="user.Password" placeholder="Password" id="password">
+                                    <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                </label>
+                            </section>
+
+                            <!--<section>
+                                <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                    <input type="password" name="passwordConfirm" placeholder="Confirm password">
+                                    <b class="tooltip tooltip-bottom-right">Don't forget your password</b> </label>
+                            </section>-->
+                        </fieldset>
+
+                        <fieldset>
+                            <div class="row">
+                                <section class="col col-6">
+                                    <label class="input">
+                                        <input type="text" ng-model="user.FirstName" name="firstname" placeholder="First name">
+                                    </label>
+                                </section>
+                                <section class="col col-6">
+                                    <label class="input">
+                                        <input type="text" ng-model="user.LastName" name="lastname" placeholder="Last name">
+                                    </label>
+                                </section>
+                            </div>
+                        </fieldset>
+                        <footer>
+                            <button type="submit" class="btn btn-primary">
+                                Register
+                            </button>
+                        </footer>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,7 +3,7 @@ using Chess.Entities.SeedFillers;
 
 namespace Chess.Entities
 {
-    public class ChessContextInitializer : DropCreateDatabaseAlways<ChessContext>
+    public class ChessContextInitializer : CreateDatabaseIfNotExists<ChessContext>
     {
         protected override void Seed(ChessContext context)
         {

@@ -49,6 +49,14 @@
       <Project>{a4e11b99-ed80-4021-b491-841eaa44a474}</Project>
       <Name>Chess.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chess.Helpers\Chess.Helpers.csproj">
+      <Project>{c04e9281-4bf2-4607-b748-fddd06f76906}</Project>
+      <Name>Chess.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chess.Models\Chess.Models.csproj">
+      <Project>{3ce4a4d3-7bfe-46d9-9f6b-d4df764a77a2}</Project>
+      <Name>Chess.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chess.Repositories\Chess.Repositories.csproj">
       <Project>{f897aaa7-1b8c-4881-9b7c-215f0d875375}</Project>
       <Name>Chess.Repositories</Name>

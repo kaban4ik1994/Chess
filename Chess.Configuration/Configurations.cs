@@ -21,11 +21,35 @@ namespace Chess.Configuration
             }
         }
 
+        public static string AdminFirstName
+        {
+            get
+            {
+                return "Andrey";
+            }
+        }
+
+        public static string AdminSecondName
+        {
+            get
+            {
+                return "Kiselyov";
+            }
+        }
+
+        public static string AdminUserName
+        {
+            get
+            {
+                return "Admin";
+            }
+        }
+
         public static List<string> Roles
         {
             get
             {
-                return new List<string> { "Admin", "Manager" };
+                return new List<string> { "Admin", "User" };
             }
         }
     }

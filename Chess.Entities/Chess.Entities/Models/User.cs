@@ -6,6 +6,9 @@ namespace Chess.Entities.Models
     public partial class User : Entity
     {
         public long UserId { get; set; }
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public bool Active { get; set; }

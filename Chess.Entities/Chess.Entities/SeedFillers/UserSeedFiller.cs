@@ -28,6 +28,9 @@ namespace Chess.Entities.SeedFillers
             return new User
                        {
                            Active = true,
+                           UserName = Configurations.AdminUserName,
+                           FirstName = Configurations.AdminFirstName,
+                           SecondName = Configurations.AdminSecondName,
                            Email = Configurations.AdminEmail,
                            PasswordHash = PasswordHashHelper.GetHash(Configurations.AdminPassword),
                            ObjectState = ObjectState.Added
