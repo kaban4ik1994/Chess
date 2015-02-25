@@ -1,0 +1,77 @@
+﻿<div ng-controller="HotelModalDialogController">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">
+            &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Отель</h4>
+    </div>
+    <div class="modal-body widget-body">
+        <form action="" id="itemForm" ng-formvalidation class="smart-form" name="itemForm">
+            <fieldset>
+                <section>
+                    <autocomplite-dropdown element-id="'country'"
+                                           api="extendedApi.countryApi"
+                                           number-elements="NumberOfCountriesForAutoCompleteDropDown"
+                                           filter="'filter[Name]'"
+                                           model="item.Country"
+                                           placeholder="'Страна'"
+                                           input-formatter="'model.Name'"
+                                           template-url="'customCountryDropdownTemplate.html'"
+                                           element-class="'form-control'">
+                    </autocomplite-dropdown>
+                </section>
+
+                <section>
+                    <autocomplite-dropdown element-id="'region'"
+                                           api="extendedApi.regionApi"
+                                           number-elements="NumberOfRegionsForAutoCompleteDropDown"
+                                           filter="'filter[Name]'"
+                                           extended-filters="GetExtendedFiters"
+                                           model="item.Region"
+                                           placeholder="'Регион'"
+                                           input-formatter="'model.Name'"
+                                           template-url="'customRegionDropdownTemplate.html'"
+                                           element-class="'form-control'">
+                    </autocomplite-dropdown>
+                </section>
+
+                <section>
+                    <label class="input">
+                        <i class="icon-prepend fa fa-institution"></i>
+                        <input type="text" required id="fname" name="text" ng-model="item.Name" placeholder="Название отеля">
+                    </label>
+                </section>
+
+                <section>
+                    <label class="input rating">
+                        <input type="radio" value="5" ng-model="item.Stars"
+                               name="stars-rating" id="stars-rating-5">
+                        <label for="stars-rating-5"><i class="fa fa-star"></i></label>
+                        <input type="radio" value="4"  ng-model="item.Stars"
+                               name="stars-rating" id="stars-rating-4">
+                        <label for="stars-rating-4"><i class="fa fa-star"></i></label>
+                        <input type="radio" value="3" ng-model="item.Stars"
+                               name="stars-rating" id="stars-rating-3">
+                        <label for="stars-rating-3"><i class="fa fa-star"></i></label>
+                        <input type="radio" value="2" ng-model="item.Stars"
+                               name="stars-rating" id="stars-rating-2">
+                        <label for="stars-rating-2"><i class="fa fa-star"></i></label>
+                        <input type="radio" value="1" ng-model="item.Stars"
+                               name="stars-rating" id="stars-rating-1">
+                        <label for="stars-rating-1"><i class="fa fa-star"></i></label>
+                    </label>
+                </section>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" ng-click="cancel()" class="btn btn-default" data-dismiss="modal">
+            Отмена
+        </button>
+        <button type="button" ng-click="ok(item)"
+                ng-disabled="itemForm.$invalid || itemForm.fname.$dirty && itemForm.fname.$invalid"
+                class="btn btn-primary">
+            Сохранить
+        </button>
+    </div>
+</div>

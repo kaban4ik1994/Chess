@@ -1,0 +1,60 @@
+﻿<div id="main" role="main">
+    <div id="content" ng-hide="isLoading">
+        <div class="row">
+            <div class="tab-content">
+                <form class="smart-form col-sm-12" id="serviceform" name="serviceform">
+                    <div class="tab-pane" id="tab2">
+                        <header>
+                            <h3 class="text-center">Сервис</h3>
+                        </header>
+                        <div>
+                            <fieldset ng-show="showOptions.isShowSelectionMenu" class="col-sm-12">
+                                <section class="col-sm-3">
+                                    <label class="btn btn-block btn-success btn-lg" ng-model="showOptions.ShowFormType" 
+                                           ng-disabled="showOptions.isTicketFormDisabled" btn-radio="'Ticket'">
+                                        <i class="glyphicon glyphicon-plus"></i>Билет
+                                    </label>
+                                </section>
+                                <section class="col-sm-3">
+                                    <label class="btn btn-block btn-success btn-lg" ng-model="showOptions.ShowFormType"
+                                           ng-disabled="showOptions.isTransferFormDisabled" btn-radio="'Transfer'">
+                                        <i class="glyphicon glyphicon-plus"></i>Перевозка
+                                    </label>
+                                </section>
+                                <section class="col-sm-3">
+                                    <label class="btn btn-block btn-success btn-lg" ng-model="showOptions.ShowFormType"
+                                           ng-disabled="showOptions.isHotelFormDisabled" btn-radio="'Hotel'">
+                                        <i class="glyphicon glyphicon-plus"></i>Отель
+                                    </label>
+                                </section>
+                                <section class="col-sm-3">
+                                    <label class="btn btn-block btn-success btn-lg" ng-model="showOptions.ShowFormType"
+                                           ng-disabled="showOptions.isPackageFormDisabled" btn-radio="'TourPackage'">
+                                        <i class="glyphicon glyphicon-plus"></i>Пакет
+                                    </label>
+                                </section>
+                               
+                            </fieldset>
+                            
+                            <fieldset ng-show="showOptions.ShowFormType=='Ticket'" ng-controller="AirTicketServiceController">
+                                <div ng-include="'views/templates/airTicketServiceTemplate.html'"></div>
+                            </fieldset>
+
+                            <fieldset ng-show="showOptions.ShowFormType=='Transfer'" ng-controller="TransferServiceController">
+                                <div ng-include="'views/templates/transferServiceTemplate.html'"></div>
+                            </fieldset>
+
+                            <fieldset ng-show="showOptions.ShowFormType=='Hotel'" ng-controller="HotelServiceController">
+                                <div ng-include="'views/templates/hotelServiceTemplate.html'"></div>
+                            </fieldset>
+
+                            <fieldset ng-show="showOptions.ShowFormType=='TourPackage'" ng-controller="TourPackageServiceController">
+                                <div ng-include="'views/templates/tourPackageServiceTemplate.html'"></div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

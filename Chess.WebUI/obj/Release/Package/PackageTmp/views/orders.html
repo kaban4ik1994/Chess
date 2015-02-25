@@ -1,0 +1,48 @@
+﻿<div id="main" role="main">
+    <div id="content" ng-hide="isLoading">
+        <!--<a class="btn btn-info" ng-click="tableParams.sorting({})">Clear sorting</a>-->
+        <section class="col-sm-12">
+            <section class="col-sm-12">
+                <a ng-href="#/Order" class="btn btn-block btn-success btn-lg btn">Добавить новый заказ</a>
+            </section>
+        </section>
+        <section class="col-sm-12">
+            <table ng-table="tableParams" show-filter="true" class="table">
+                <tr ng-repeat="order in $data">
+                    <td data-title="'Номер'" filter="{ 'Number': 'input-xs' }" sortable="'Number'">
+                        {{order.Number}}
+                    </td>
+                    <td data-title="'Дата'" filter="{ 'Date': 'date' }" sortable="'Date' ">
+                        {{order.Date | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td data-title="'Клиент'" filter="{ 'CustomerName': 'input-xs' }" sortable="'CustomerName'">
+                        {{order.CustomerName}}
+                    </td>
+                    <td data-title="'Компания'" filter="{ 'CompanyName': 'input-xs' }" sortable="'CompanyName'">
+                        {{order.CompanyName}}
+                    </td>
+                    <td data-title="'Менеджер'" filter="{ 'ManagerName': 'input-xs' }" sortable="'ManagerName'">
+                        {{order.ManagerName}}
+                    </td>
+                    <td data-title="'Сумма'" filter="{ 'Sum': 'input-xs' }" sortable="'Sum'">
+                        {{order.CurrencyName}} {{order.Sum}}
+                    </td>
+                    <td>
+                        <a class="btn btn-info btn-lg" ng-href="#/Order/{{order.OrderId}}">Редактировать</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-danger btn-lg" ng-href="" ng-click="deleteOrder(order.OrderId)">Удалить</a>
+                    </td>
+                </tr>
+            </table>
+
+            <script type="text/ng-template" id="ng-table/filters/date.html">
+                <input class="form-control input-xs" id="startdate" ng-datepicker type="text" placeholder="" ng-model="params.filter()[name]">
+            </script>
+
+            <script type="text/ng-template" id="ng-table/filters/input-xs.html">
+                <input type="text" class="form-control input-xs" ng-model="params.filter()[name]" name="filter-input-xs" value="" />
+            </script>
+        </section>
+    </div>
+</div>

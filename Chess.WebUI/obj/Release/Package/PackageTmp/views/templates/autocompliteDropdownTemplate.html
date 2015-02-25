@@ -1,0 +1,97 @@
+﻿<label class="input">
+    <input class={{elementClass}} type="text" id="{{elementId}}" ng-model="model" ng-blur="blur()"
+           typeahead-input-formatter={{inputFormatter}} placeholder="{{placeholder}}"
+           typeahead-wait-ms="" typeahead="item for item in getItems($viewValue)"
+           typeahead-loading="loading" typeahead-editable="false" typeahead-template-url={{templateUrl}} typeahead-min-length="-1">
+    <i ng-show="loading" class="icon-append">
+        <img src="/img/select2-spinner.gif" />
+    </i>
+</label>
+
+<script type="text/ng-template" id="customManagerDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.Name +' ('+match.model.Email+')' | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customClientDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.Name +' ('+match.model.Email+')' | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customCompanyDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.Name | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customAirlineDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.Name | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customAirportDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.Name | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customCountryDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.Name | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customRegionDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.Name | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customRoomTypeDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.Name | typeaheadHighlight:query"></span>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customHotelDropdownTemplate.html">
+    <a class="col-sm-12  hotel-dropdown-element">
+        <div class="pull-left hotel-name" bind-html-unsafe="match.model.Name | typeaheadHighlight:query"></div>
+
+        <div class="pull-right hotel-stars" style="padding-left:10px">
+            <span ng-if="match.model.Stars==1">
+                <span class="glyphicon glyphicon-star"></span>
+            </span>
+            <span ng-if="match.model.Stars==2">
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+            </span>
+            <span ng-if="match.model.Stars==3">
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+            </span>
+            <span ng-if="match.model.Stars==4">
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+            </span>
+            <span ng-if="match.model.Stars==5">
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+            </span>
+        </div>
+    </a>
+</script>
+
+<script type="text/ng-template" id="customCurrencyDropdownTemplate.html">
+    <a>
+        <span bind-html-unsafe="match.model.CurrencyName | typeaheadHighlight:query"></span>
+    </a>
+</script>

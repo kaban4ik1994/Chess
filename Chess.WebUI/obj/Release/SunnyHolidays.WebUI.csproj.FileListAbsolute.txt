@@ -1,0 +1,5 @@
+D:\Dev\sh\SunnyHolidays\SunnyHolidays.WebUI\bin\SunnyHolidays.WebUI.dll.config
+D:\Dev\sh\SunnyHolidays\SunnyHolidays.WebUI\bin\SunnyHolidays.WebUI.dll
+D:\Dev\sh\SunnyHolidays\SunnyHolidays.WebUI\bin\SunnyHolidays.WebUI.pdb
+D:\Dev\sh\SunnyHolidays\SunnyHolidays.WebUI\obj\Release\SunnyHolidays.WebUI.dll
+D:\Dev\sh\SunnyHolidays\SunnyHolidays.WebUI\obj\Release\SunnyHolidays.WebUI.pdb

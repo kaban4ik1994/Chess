@@ -1,0 +1,77 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+/*
+ * INDEX
+ * 
+ * - HTML
+ * - BODY
+ * - CUSTOM STYLES
+ */
+
+.select2-container-multi .select2-choices li {
+    float: none;
+    text-align: center;
+    height: 41px;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+    padding: 10px 16px 10px 16px;
+    font-size: 17px;
+    line-height: 1.33;
+}
+
+.select2-container-multi .select2-choices .select2-search-choice div {
+    padding: 10px 16px 10px 16px;
+}
+
+#orderServices .select2-search-field {
+    display: none;
+}
+
+.select2-searching {
+    display: none !important;
+}
+
+.select2-drop .select2-drop-multi .select2-display-none .select2-drop-active {
+    display: none !important;
+}
+
+.select2-no-results {
+    display: none !important;
+}
+
+.date-input {
+    float: none;
+    text-align: center;
+    height: 41px;
+    padding: 10px 16px 10px 16px;
+    font-size: 17px;
+    line-height: 1.33;
+}
+
+.hotel-dropdown-element {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+    .hotel-dropdown-element .hotel-stars {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .hotel-dropdown-element .hotel-name {
+        padding-left: 20px;
+        padding-right: 20px;
+    }

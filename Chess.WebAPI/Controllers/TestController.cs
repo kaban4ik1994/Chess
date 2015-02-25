@@ -10,7 +10,7 @@ using Chess.WebAPI.Filters.AuthorizationFilters;
 
 namespace Chess.WebAPI.Controllers
 {
-    [CheckRole("Admin"), EnableCors("*", "*", "*")]
+    [CheckRole("Admin,User"), EnableCors("*", "*", "*")]
     public class TestController : ApiController
     {
         // GET: api/Test

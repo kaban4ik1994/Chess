@@ -51,7 +51,9 @@ smartApp.constant('ngAuthSettings', {
 });
 
 smartApp.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('badRequestInterceptorService');
     $httpProvider.interceptors.push('authInterceptorService');
+    $httpProvider.interceptors.push('successInterceptorService');
 });
 
 smartApp.run(['$rootScope', 'settings', 'authService', function ($rootScope, settings, authService) {

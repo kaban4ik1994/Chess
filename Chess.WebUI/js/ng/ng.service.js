@@ -19,6 +19,80 @@ angular.module('app.services', ['ngResource'])
             });
         }
      ])
+     .factory('badRequestInterceptorService', [
+        '$q', function ($q) {
+            var badRequestInterceptorService = {};
+
+            var _responseError = function (rejection) {
+                if (rejection.status === 400) {
+                    console.log(rejection)
+                    var data;
+                    for (var key in rejection.data.ModelState) {
+                        data = rejection.data.ModelState[key];
+                        break;
+                    }
+
+                    var message = data
+                        ? data[0]
+                        : "Не удалось выполнить запрос";
+                    $.smallBox({
+                        title: message,
+                        content: "<i class='fa fa-clock-o'></i> <i>" + 'Это окно автоматически закроется через 3 секунды.' + "</i>",
+                        color: "#FF0000",
+                        iconSmall: "fa fa-check bounce animated",
+                        timeout: 3000
+                    });
+                }
+                return $q.reject(rejection);
+            };
+
+            badRequestInterceptorService.responseError = _responseError;
+
+            return badRequestInterceptorService;
+        }
+     ])
+
+    .factory('successInterceptorService', [
+        '$q', '$injector', '$location', 'localStorageService',
+        function ($q, $injector, $location, localStorageService) {
+            var successInterceptorService = {};
+
+            function showSmallBox(message) {
+                $.smallBox({
+                    title: message,
+                    content: "<i class='fa fa-clock-o'></i> <i>" + 'Это окно автоматически закроется через 3 секунды.' + "</i>",
+                    color: "#296191",
+                    iconSmall: "fa fa-check bounce animated",
+                    timeout: 3000
+                });
+            }
+
+            var request = function (config) {
+                return config;
+            };
+
+            var response = function (res) {
+                if (res.status === 200 && res.config.method === "POST") {
+                    showSmallBox("Сохранение данных выполнено успешно.");
+                } else if (res.status === 200 && res.config.method === "PUT") {
+                    showSmallBox("Добавление данных выполнено успешно.");
+                } else if (res.status === 200 && res.config.method === "DELETE") {
+                    showSmallBox("Данные успешно удалены.");
+                }
+                return res;
+            };
+
+            var responseError = function (rejection) {
+                return $q.reject(rejection);
+            };
+
+            successInterceptorService.response = response;
+            successInterceptorService.request = request;
+            successInterceptorService.responseError = responseError;
+
+            return successInterceptorService;
+        }
+    ])
 
     .factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
         var authServiceFactory = {};
@@ -81,7 +155,7 @@ angular.module('app.services', ['ngResource'])
         };
 
         var _fillAuthData = function () {
-            
+
             var authData = localStorageService.get('authorizationData');
             if (authData) {
                 _authentication.isAuth = true;

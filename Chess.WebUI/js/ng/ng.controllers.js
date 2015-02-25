@@ -1,7 +1,7 @@
 
 var contr = angular.module('app.controllers', [])
     .factory('settings', [
-        '$rootScope', function($rootScope) {
+        '$rootScope', function ($rootScope) {
             // supported languages
 
             var settings = {
@@ -63,7 +63,7 @@ var contr = angular.module('app.controllers', [])
         }
     ])
     .controller('PageViewController', [
-        '$scope', '$route', '$animate', function($scope, $route, $animate) {
+        '$scope', '$route', '$animate', function ($scope, $route, $animate) {
             // controler of the dynamically loaded views, for DEMO purposes only.
             /*$scope.$on('$viewContentLoaded', function() {
 			
@@ -71,10 +71,10 @@ var contr = angular.module('app.controllers', [])
         }
     ])
     .controller('SmartAppController', [
-        '$scope', '$rootScope', '$location', 'authService', function($scope, $rootScope, $location, authService) {
+        '$scope', '$rootScope', '$location', 'authService', function ($scope, $rootScope, $location, authService) {
             // your main controller
 
-            $scope.logOut = function() {
+            $scope.logOut = function () {
                 authService.logOut();
                 $location.path('/Login');
             };
@@ -83,10 +83,10 @@ var contr = angular.module('app.controllers', [])
         }
     ])
     .controller('LangController', [
-        '$scope', 'settings', 'localize', function($scope, settings, localize) {
+        '$scope', 'settings', 'localize', function ($scope, settings, localize) {
             $scope.languages = settings.languages;
             $scope.currentLang = settings.currentLang;
-            $scope.setLang = function(lang) {
+            $scope.setLang = function (lang) {
                 settings.currentLang = lang;
                 $scope.currentLang = lang;
                 localize.setLang(lang);
@@ -101,7 +101,7 @@ var contr = angular.module('app.controllers', [])
     // Path: /Login
     .controller('LoginController', [
         '$scope', '$rootScope', '$location', 'authService', 'ngAuthSettings', 'ngProgress',
-        function($scope, $rootScope, $location, authService, ngAuthSettings, ngProgress) {
+        function ($scope, $rootScope, $location, authService, ngAuthSettings, ngProgress) {
 
             if (authService.authentication.isAuth == true) {
                 $location.path('/Home');
@@ -120,30 +120,30 @@ var contr = angular.module('app.controllers', [])
 
                 $scope.message = null;
 
-                $scope.deleteMessage = function() {
+                $scope.deleteMessage = function () {
                     $scope.message = null;
                     $scope.showErrorMessages = true;
                 };
 
-                $scope.login = function() {
+                $scope.login = function () {
                     ngProgress.start();
                     $scope.showErrorMessages = true;
-                    authService.login($scope.loginData).then(function(response) {
-                            ngProgress.complete();
-                            $location.path('/Home');
-                            $rootScope.isHideHeader = false;
-                            $rootScope.isHideLeftPanel = false;
-                            $rootScope.isHideFooter = false;
-                            $rootScope.isHideMainContent = false;
-                        },
-                        function(err) {
+                    authService.login($scope.loginData).then(function (response) {
+                        ngProgress.complete();
+                        $location.path('/Home');
+                        $rootScope.isHideHeader = false;
+                        $rootScope.isHideLeftPanel = false;
+                        $rootScope.isHideFooter = false;
+                        $rootScope.isHideMainContent = false;
+                    },
+                        function (err) {
                             ngProgress.complete();
                             var errorMessage = "Login or password are not correct";
                             $scope.message = errorMessage; //err.error_description;
                         });
                 };
 
-                $scope.authExternalProvider = function(provider) {
+                $scope.authExternalProvider = function (provider) {
 
                     var redirectUri = location.protocol + '//' + location.host + '/authcomplete.html';
 
@@ -155,9 +155,9 @@ var contr = angular.module('app.controllers', [])
                     var oauthWindow = window.open(externalProviderUrl, "Authenticate Account", "location=0,status=0,width=600,height=750");
                 };
 
-                $scope.authCompletedCB = function(fragment) {
+                $scope.authCompletedCB = function (fragment) {
 
-                    $scope.$apply(function() {
+                    $scope.$apply(function () {
 
                         if (fragment.haslocalaccount == 'False') {
 
@@ -174,12 +174,12 @@ var contr = angular.module('app.controllers', [])
                         } else {
                             //Obtain access token and redirect to orders
                             var externalData = { provider: fragment.provider, externalAccessToken: fragment.external_access_token };
-                            authService.obtainAccessToken(externalData).then(function(response) {
+                            authService.obtainAccessToken(externalData).then(function (response) {
 
-                                    $location.path('/orders');
+                                $location.path('/orders');
 
-                                },
-                                function(err) {
+                            },
+                                function (err) {
                                     $scope.message = err.error_description;
                                 });
                         }
@@ -202,6 +202,12 @@ var contr = angular.module('app.controllers', [])
                 $rootScope.isHideLeftPanel = true;
                 $rootScope.isHideFooter = true;
                 $rootScope.isHideMainContent = true;
+
+                $scope.register = function (item) {
+                    accountApi.add(item, function() {
+                        $location.path('/Login');
+                    });
+                };
             }
         }])
 

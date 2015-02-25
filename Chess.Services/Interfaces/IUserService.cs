@@ -11,5 +11,6 @@ namespace Chess.Services.Interfaces
     {
         Task<UserModel> GetUserByEmailAndPasswordAsync(string email, string password);
         Task<bool> GetUserAccessByTokenQuery(Guid token, List<string> roles);
+        Task<long> AddUser(User user);
     }
 }

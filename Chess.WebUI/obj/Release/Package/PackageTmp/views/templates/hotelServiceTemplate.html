@@ -1,0 +1,165 @@
+﻿<section class="col-sm-12">
+    <label class="input">
+        <input class="form-control input-lg"
+               id="number-hotel"
+               name="number-hotel"
+               type="text"
+               placeholder="Номер"
+               ng-model="hotel.number">
+    </label>
+</section>
+
+<section class="col-sm-12">
+    <autocomplite-dropdown element-id="'country-hotel'"
+                           api="countryApi"
+                           number-elements="NumberOfCountriesForAutoCompleteDropDown"
+                           filter="'filter[Name]'"
+                           model="hotel.Country"
+                           placeholder="'Страна'"
+                           input-formatter="'model.Name'"
+                           template-url="'customCountryDropdownTemplate.html'"
+                           element-class="'form-control input-lg'">
+    </autocomplite-dropdown>
+</section>
+
+<section class="col-sm-12">
+    <autocomplite-dropdown element-id="'region-hotel'"
+                           api="regionApi"
+                           number-elements="NumberOfRegionsForAutoCompleteDropDown"
+                           filter="'filter[Name]'"
+                           extended-filters="GetExtendedFiters"
+                           model="hotel.Region"
+                           placeholder="'Регион'"
+                           input-formatter="'model.Name'"
+                           template-url="'customRegionDropdownTemplate.html'"
+                           element-class="'form-control input-lg'">
+    </autocomplite-dropdown>
+</section>
+
+<section class="col-sm-11">
+    <autocomplite-dropdown element-id="'hotel-hotel'"
+                           api="hotelApi"
+                           number-elements="NumberOfHotelsForAutoCompleteDropDown"
+                           filter="'filter[Name]'"
+                           extended-filters="GetExtendedFiters"
+                           model="hotel.Hotel"
+                           placeholder="'Отель (начните вводить значение...)'"
+                           input-formatter="'model.Name'"
+                           template-url="'customHotelDropdownTemplate.html'"
+                           element-class="'form-control input-lg'">
+    </autocomplite-dropdown>
+</section>
+
+
+<section class="col-sm-1">
+    <modal template-url="'views/templates/hotelModalDialogTemplate.html'"
+           api="hotelApi"
+           extended-api="{countryApi:countryApi, regionApi:regionApi}"
+           size="'sm'"
+           selector="selector"
+           box-title-success="'Отель успешно сохранен.'"
+           box-title-fail="'Не удалось сохранить отель.'"
+           box-content-success="'Это окно автоматически закроется через 3 секунды.'"
+           box-content-fail="'Это окно автоматически закроется через 3 секунды.'">
+    </modal>
+</section>
+
+<section class="col-sm-12">
+    <label class="select">
+        <select class="input-lg" ng-model="hotel.RoomTypeId">
+            <option value="">Тип комнаты</option>
+            <option value="{{roomType.RoomTypeId}}" ng-repeat="roomType in roomTypes.Items">{{roomType.Name}}</option>-->
+        </select> <i></i>
+    </label>
+</section>
+<section class="col-sm-12">
+    <label class="select">
+        <select class="input-lg" ng-model="hotel.FeedTypeId">
+            <option value="">Тип питания</option>
+            <option value="{{feedType.FeedTypeId}}" ng-repeat="feedType in feedTypes.Items">{{feedType.Name}}</option>-->
+        </select> <i></i>
+    </label>
+</section>
+
+<section class="col-sm-12">
+    <label class="input">
+        <input class="form-control input-lg"
+               id="adultCount-hotel"
+               name="adultCount-hotel"
+               type="text"
+               placeholder="Количество взрослых"
+               ng-model="hotel.adultCount">
+    </label>
+</section>
+
+<section class="col-sm-12">
+    <label class="input">
+        <input class="form-control input-lg"
+               id="childrenCount-hotel"
+               name="childrenCount-hotel"
+               type="text"
+               placeholder="Количество детей"
+               ng-model="hotel.childrenCount">
+    </label>
+</section>
+<section class="col-sm-12">
+    <autocomplite-dropdown element-id="'currency-hotel'"
+                           api="currencyApi"
+                           number-elements="1000"
+                           filter="'filter[CurrencyName]'"
+                           model="hotel.currency"
+                           placeholder="'Валюта (начните вводить значение...)'"
+                           input-formatter="'model.CurrencyName'"
+                           template-url="'customCurrencyDropdownTemplate.html'"
+                           element-class="'form-control input-lg'">
+    </autocomplite-dropdown>
+</section>
+
+<section class="col-sm-12">
+    <label class="input">
+        <input class="form-control input-lg"
+               id="price-hotel"
+               name="price-hotel"
+               type="text"
+               placeholder="Цена"
+               ng-model="hotel.price">
+    </label>
+</section>
+
+<section class="col-sm-12">
+    <label class="input">
+        <input class="form-control input-lg"
+               id="commission-hotel"
+               name="commission-hotel"
+               type="text"
+               placeholder="Комиссия"
+               ng-model="hotel.commission">
+    </label>
+</section>
+
+<section class="col-sm-12">
+    <a href="" ng-click="save(hotel)" id="addHotel"
+       ng-disabled="hotel.commission==''
+       || hotel.commission==null
+       || hotel.price==''
+       || hotel.price==null
+       || hotel.currency==''
+       || hotel.currency==null
+       || hotel.Hotel==''
+       || hotel.Hotel==null
+       || hotel.RoomTypeId==''
+       || hotel.RoomTypeId==null
+       || hotel.FeedTypeId==''
+       || hotel.FeedTypeId==null
+       || hotel.Region==''
+       || hotel.Region==null
+       || hotel.Country==''
+       || hotel.Country==null
+       || hotel.number==''
+       || hotel.number==null
+       || hotel.childrenCount==''
+       || hotel.childrenCount==null
+       || hotel.adultCount==''
+       || hotel.adultCount==null"
+       class=" btn btn-block btn-info btn-lg btn"><i class="glyphicon glyphicon-plus"></i>Сохранить сервис</a>
+</section>
