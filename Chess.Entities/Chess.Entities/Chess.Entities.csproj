@@ -79,6 +79,7 @@
     <Compile Include="Mapping\TokenMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Mapping\UserRoleMap.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bot.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameLog.cs" />
@@ -91,7 +92,9 @@
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeedFillers\AbstractSeedFiller.cs" />
+    <Compile Include="SeedFillers\InvitationSeedFiller.cs" />
     <Compile Include="SeedFillers\ISeedFiller.cs" />
+    <Compile Include="SeedFillers\PlayerSeedFiller.cs" />
     <Compile Include="SeedFillers\RoleSeedFiller.cs" />
     <Compile Include="SeedFillers\TokenSeedFiller.cs" />
     <Compile Include="SeedFillers\UserRoleSeedFiller.cs" />

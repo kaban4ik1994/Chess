@@ -74,7 +74,7 @@ angular.module('app.services', ['ngResource'])
             var response = function (res) {
                 if (res.status === 200 && res.config.method === "POST") {
                     showSmallBox("Сохранение данных выполнено успешно.");
-                } else if (res.status === 200 && res.config.method === "PUT") {
+                } else if (res.status === 201 && res.config.method === "PUT") {
                     showSmallBox("Добавление данных выполнено успешно.");
                 } else if (res.status === 200 && res.config.method === "DELETE") {
                     showSmallBox("Данные успешно удалены.");

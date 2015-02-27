@@ -10,7 +10,7 @@ namespace Chess.Entities.Mapping
         {
             HasKey(user => user.UserId);
 
-            Property(user => user.UserId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+          //  Property(user => user.UserId).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(user => user.UserName).IsRequired();
             Property(user => user.FirstName).IsRequired();
             Property(user => user.SecondName).IsRequired();
