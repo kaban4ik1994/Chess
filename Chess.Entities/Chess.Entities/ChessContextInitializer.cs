@@ -7,17 +7,17 @@ namespace Chess.Entities
     {
         protected override void Seed(ChessContext context)
         {
-            var roleFiller = new RoleSeedFiller(context);
-            roleFiller.Fill();
+            //var roleFiller = new RoleSeedFiller(context);
+            //roleFiller.Fill();
 
-            var userFiller = new UserSeedFiller(context);
-            userFiller.Fill();
+            //var userFiller = new UserSeedFiller(context);
+            //userFiller.Fill();
 
-            var userRoleFiller = new UserRoleSeedFiller(context);
-            userRoleFiller.Fill();
+            //var userRoleFiller = new UserRoleSeedFiller(context);
+            //userRoleFiller.Fill();
 
-            var tokenFiller = new TokenSeedFiller(context);
-            tokenFiller.Fill();
+            //var tokenFiller = new TokenSeedFiller(context);
+            //tokenFiller.Fill();
             base.Seed(context);
         }
     }

@@ -21,6 +21,12 @@ namespace Chess.Entities
         public DbSet<Token> Tokens { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<PlayerGame> PlayerGames { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<GameLog> GameLogs { get; set; }
+        public DbSet<Bot> Bots { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
