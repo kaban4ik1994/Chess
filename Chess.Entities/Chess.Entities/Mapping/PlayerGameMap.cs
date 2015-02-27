@@ -4,9 +4,9 @@ using Chess.Entities.Models;
 
 namespace Chess.Entities.Mapping
 {
-    public class PlayerGamesMap : EntityTypeConfiguration<PlayerGame>
+    public class PlayerGameMap : EntityTypeConfiguration<PlayerGame>
     {
-        public PlayerGamesMap()
+        public PlayerGameMap()
         {
             HasKey(player => player.Id);
             Property(player => player.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);

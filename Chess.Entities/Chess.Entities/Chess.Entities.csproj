@@ -69,6 +69,12 @@
   <ItemGroup>
     <Compile Include="ChessContext.cs" />
     <Compile Include="ChessContextInitializer.cs" />
+    <Compile Include="Mapping\BotMap.cs" />
+    <Compile Include="Mapping\GameMap.cs" />
+    <Compile Include="Mapping\GameLogMap.cs" />
+    <Compile Include="Mapping\InvitationMap.cs" />
+    <Compile Include="Mapping\PlayerMap.cs" />
+    <Compile Include="Mapping\PlayerGameMap.cs" />
     <Compile Include="Mapping\RoleMap.cs" />
     <Compile Include="Mapping\TokenMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />

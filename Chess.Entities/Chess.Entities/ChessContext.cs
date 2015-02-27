@@ -34,6 +34,12 @@ namespace Chess.Entities
             modelBuilder.Configurations.Add(new TokenMap());
             modelBuilder.Configurations.Add(new RoleMap());
             modelBuilder.Configurations.Add(new UserRoleMap());
+            modelBuilder.Configurations.Add(new BotMap());
+            modelBuilder.Configurations.Add(new GameLogMap());
+            modelBuilder.Configurations.Add(new GameMap());
+            modelBuilder.Configurations.Add(new InvitationMap());
+            modelBuilder.Configurations.Add(new PlayerGameMap());
+            modelBuilder.Configurations.Add(new PlayerMap());
         }
     }
 }
