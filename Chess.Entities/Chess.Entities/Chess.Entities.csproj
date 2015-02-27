@@ -73,6 +73,12 @@
     <Compile Include="Mapping\TokenMap.cs" />
     <Compile Include="Mapping\UserMap.cs" />
     <Compile Include="Mapping\UserRoleMap.cs" />
+    <Compile Include="Models\Bot.cs" />
+    <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\GameLog.cs" />
+    <Compile Include="Models\Invitation.cs" />
+    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerGame.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Token.cs" />
     <Compile Include="Models\User.cs" />

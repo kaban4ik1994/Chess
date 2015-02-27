@@ -5,11 +5,6 @@ namespace Chess.Entities.Models
 {
     public partial class User : Entity
     {
-        public User()
-        {
-            UserRoles = new List<UserRole>();
-            Tokens = new List<Token>();
-        }
 
         public long UserId { get; set; }
         public string UserName { get; set; }
@@ -19,6 +14,7 @@ namespace Chess.Entities.Models
         public string PasswordHash { get; set; }
         public bool Active { get; set; }
 
+        public Player Player { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<Token> Tokens { get; set; }
     }
