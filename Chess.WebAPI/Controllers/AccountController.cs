@@ -15,12 +15,10 @@ namespace Chess.WebAPI.Controllers
     public class AccountController : ApiController
     {
         private readonly IUserService _userService;
-        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
 
-        public AccountController(IUserService userService, IUnitOfWorkAsync unitOfWorkAsync)
+        public AccountController(IUserService userService)
         {
             _userService = userService;
-            _unitOfWorkAsync = unitOfWorkAsync;
         }
 
         [HttpGet]

@@ -11,12 +11,19 @@
                 <!-- widget edit box -->
 
                 <div class="widget-body no-padding smart-form">
-                    <h5 class="todo-group-title"><i class="fa fa-check"></i> Доступные приглашения (<small class="num-of-tasks">{{availableInvitation.Count}}</small>)</h5>
+                    <h5 class="todo-group-title">
+                        <i class="fa fa-check"></i> Доступные приглашения (<small class="num-of-tasks">{{availableInvitation.Count}}</small>)
+                        <small class="pull-right">
+                            <a ng-href="" ng-click="newInvitation()" class="btn btn-block btn-sm btn-success">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </small>
+                    </h5>
                     <ul id="sortable2" class="todo">
                         <li ng-repeat="item in availableInvitation.Items">
                             <span class="" style="padding-left: 0; width: 50px">
-                                   <label class="input-lg">
-                                    <a href="#"  class="btn btn-block btn-lg btn-success"><i class="fa fa-check"></i></a>
+                                <label class="input-lg">
+                                    <a href="#" class="btn btn-block btn-lg btn-info"><i class="fa fa-check"></i></a>
                                     <i></i>
                                 </label>
                             </span>

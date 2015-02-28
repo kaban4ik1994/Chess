@@ -79,5 +79,6 @@
     "Page Header": "Верхний колонтитул страницы",
     "Subtitle": "Подзаголовок",
     "Orders": "Заказы",
-    "Currency Rate": "Курсы валют"
+    "Currency Rate": "Курсы валют",
+    "Invitation": "Приглашения"
 }

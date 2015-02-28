@@ -79,5 +79,6 @@
     "Page Header": "Page Header",
     "Subtitle": "Subtitle",
     "Orders": "Orders",
-    "Currency Rate": "Currency Rate"
+    "Currency Rate": "Currency Rate",
+    "Invitation": "Invitation"
 }

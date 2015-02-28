@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http;
-using System.Web.Http.Filters;
-using System.Web.Routing;
 using AutoMapper;
 using Chess.WebAPI.App_Start;
 using Chess.WebAPI.Mappings;
-using Microsoft.Practices.Unity.Configuration;
 using Microsoft.Practices.Unity.WebApi;
 
 namespace Chess.WebAPI
@@ -28,6 +22,7 @@ namespace Chess.WebAPI
                 config =>
                 {
                     config.AddProfile<UserModelProfile>();
+                    config.AddProfile<InvitationModelProfile>();
                 });
             Mapper.AssertConfigurationIsValid();
         }

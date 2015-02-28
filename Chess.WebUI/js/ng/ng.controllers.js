@@ -225,8 +225,8 @@ var contr = angular.module('app.controllers', [])
 
  // Path : /Invitation
     .controller('InvitationController', [
-        '$scope', '$rootScope', 'authService', '$location', 'availableInvitationApi', 'ngProgress',
-        function ($scope, $rootScope, authService, $location, availableInvitationApi, ngProgress) {
+        '$scope', '$rootScope', 'authService', '$location', 'availableInvitationApi', 'invitationApi', 'ngProgress',
+        function ($scope, $rootScope, authService, $location, availableInvitationApi, invitationApi, ngProgress) {
             if (authService.authentication.isAuth == false) {
                 $location.path('/Login');
             } else {
@@ -239,6 +239,25 @@ var contr = angular.module('app.controllers', [])
                     ngProgress.complete();
                     $scope.isLoading = false;
                 });
+
+                $scope.newInvitation = function () {
+                    ngProgress.start();
+                    invitationApi.add({ InvitatorId: authService.authentication.UserId }, function () {
+                        ngProgress.complete();
+                        $scope.refreshInvitation();
+                    }, function () {
+                        ngProgress.complete();
+                    });
+                };
+
+                $scope.refreshInvitation = function () {
+                    ngProgress.start();
+                    $scope.availableInvitation = availableInvitationApi.get({}, function () {
+                        ngProgress.complete();
+                    }, function () {
+                        ngProgress.complete();
+                    });
+                };
             }
         }
     ])

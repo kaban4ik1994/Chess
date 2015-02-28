@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using Chess.Entities.Models;
 using Chess.Services;
 using Chess.Services.Interfaces;
 using Chess.WebAPI.App_Start;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.WebApi;
-using Repository.Pattern.Ef6;
 
 namespace Chess.WebAPI.Filters.AuthorizationFilters
 {

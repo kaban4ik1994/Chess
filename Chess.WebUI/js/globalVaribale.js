@@ -5,3 +5,4 @@ var urlApiAccountChess = baseUrlApiChess + "Account";
 
 var urlApiTestChess = baseUrlApiChess + "Test";
 var urlApiAvailableInvitation = baseUrlApiChess + "AvailableInvitation";
+var urlApiInvitation = baseUrlApiChess + "Invitation";

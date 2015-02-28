@@ -15,6 +15,7 @@ namespace Chess.Services
     public class UserService : Service<User>, IUserService
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync; 
+        
         public UserService(IRepositoryAsync<User> repository, IUnitOfWorkAsync unitOfWorkAsync)
             : base(repository)
         {
@@ -53,7 +54,6 @@ namespace Chess.Services
         {
             Insert(user);
             await _unitOfWorkAsync.SaveChangesAsync();
-
             return await Task.FromResult(user.UserId);
         }
     }

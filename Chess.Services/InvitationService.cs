@@ -5,15 +5,19 @@ using Chess.Entities.Models;
 using Chess.Models;
 using Chess.Services.Interfaces;
 using Repository.Pattern.Repositories;
+using Repository.Pattern.UnitOfWork;
 using Service.Pattern;
 
 namespace Chess.Services
 {
     public class InvitationService : Service<Invitation>, IInvitationService
     {
-        public InvitationService(IRepositoryAsync<Invitation> repository)
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+
+        public InvitationService(IRepositoryAsync<Invitation> repository, IUnitOfWorkAsync unitOfWorkAsync)
             : base(repository)
         {
+            _unitOfWorkAsync = unitOfWorkAsync;
         }
 
         public Task<IEnumerable<InvitationViewModel>> GetAvailableInvitationAsync()
@@ -31,6 +35,18 @@ namespace Chess.Services
         public Task<long> GetAvailableInvitationCountAsync()
         {
             return Task.FromResult(Query(x => x.IsAccepted == false && x.IsDeclined == false).Select().LongCount());
+        }
+
+        public async Task<long> AddInvitation(Invitation invitation)
+        {
+            Insert(invitation);
+            await _unitOfWorkAsync.SaveChangesAsync();
+            return await Task.FromResult(invitation.Id);
+        }
+
+        public Task<bool> DeleteInvitationByInvitationIdAndUserId(long invitationId, long userId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
