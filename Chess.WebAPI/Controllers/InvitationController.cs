@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using AutoMapper;
@@ -32,7 +33,8 @@ namespace Chess.WebAPI.Controllers
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(long invitationId)
         {
-            
+            var token = HttpContext.Current.Request.Headers.Get("Authorization");
+            return null;
         }
     }
 }
