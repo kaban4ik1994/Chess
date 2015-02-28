@@ -1421,6 +1421,7 @@
     <Content Include="obj\Release\Package\PackageTmp\views\website-template.html" />
     <Content Include="obj\Release\SunnyHolidays.WebUI.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Release\_WPPLastBuildInfo.txt" />
+    <Content Include="views\invitation.html" />
     <Content Include="views\register.html" />
     <Content Include="sound\bigbox.mp3" />
     <Content Include="sound\license.txt" />

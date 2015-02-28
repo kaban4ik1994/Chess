@@ -204,7 +204,7 @@ var contr = angular.module('app.controllers', [])
                 $rootScope.isHideMainContent = true;
 
                 $scope.register = function (item) {
-                    accountApi.add(item, function() {
+                    accountApi.add(item, function () {
                         $location.path('/Login');
                     });
                 };
@@ -223,7 +223,25 @@ var contr = angular.module('app.controllers', [])
     }
 ])
 
-
+ // Path : /Invitation
+    .controller('InvitationController', [
+        '$scope', '$rootScope', 'authService', '$location', 'availableInvitationApi', 'ngProgress',
+        function ($scope, $rootScope, authService, $location, availableInvitationApi, ngProgress) {
+            if (authService.authentication.isAuth == false) {
+                $location.path('/Login');
+            } else {
+                ngProgress.start();
+                $scope.isLoading = true;
+                $scope.availableInvitation = availableInvitationApi.get({}, function () {
+                    ngProgress.complete();
+                    $scope.isLoading = false;
+                }, function () {
+                    ngProgress.complete();
+                    $scope.isLoading = false;
+                });
+            }
+        }
+    ])
 
  // Path: /error/404
 .controller('Error404Controller', ['$scope', '$rootScope', '$location', '$window', 'authService', function ($scope, $rootScope, $location, $window, authService) {

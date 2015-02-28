@@ -50,7 +50,9 @@ namespace Chess.WebAPI.App_Start
                 .RegisterType<IDataContextAsync, ChessContext>(new PerResolveLifetimeManager())
                 .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerResolveLifetimeManager())
                 .RegisterType<IRepositoryAsync<User>, Repository<User>>()
-                .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager());
+                .RegisterType<IRepositoryAsync<Invitation>, Repository<Invitation>>()
+                .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager())
+                .RegisterType<IInvitationService, InvitationService>(new PerThreadLifetimeManager());
         }
     }
 }

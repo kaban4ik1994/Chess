@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
 using Chess.Entities.Models;
@@ -15,7 +14,7 @@ namespace Chess.Services
 {
     public class UserService : Service<User>, IUserService
     {
-        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync; 
         public UserService(IRepositoryAsync<User> repository, IUnitOfWorkAsync unitOfWorkAsync)
             : base(repository)
         {

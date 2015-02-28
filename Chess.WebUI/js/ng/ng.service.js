@@ -13,6 +13,14 @@ angular.module('app.services', ['ngResource'])
         }
      ])
 
+    .factory('availableInvitationApi', [
+        '$resource', function ($resource) {
+            return $resource(urlApiAvailableInvitation, {}, {
+
+            });
+        }
+    ])
+
      .factory('TestApi', [
         '$resource', function ($resource) {
             return $resource(urlApiTestChess, {}, {

@@ -39,6 +39,10 @@ smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provid
             controller: 'RegisterController',
             templateUrl: 'views/register.html'
         })
+        .when('/Invitation', {
+            controller: 'InvitationController',
+            templateUrl: 'views/invitation.html'
+        })
 		.otherwise({
 		    controller: 'Error404Controller',
 		    templateUrl: 'views/404.html'

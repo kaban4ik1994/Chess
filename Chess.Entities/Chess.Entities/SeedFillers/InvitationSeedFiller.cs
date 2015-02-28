@@ -30,7 +30,7 @@ namespace Chess.Entities.SeedFillers
             return new Invitation
             {
                 Invitator = players[index],
-                CreateDate = DateTime.Now.Date,
+                CreateDate = DateTime.Now,
                 IsAccepted = false,
                 IsDeclined = false,
                 ObjectState = ObjectState.Added
