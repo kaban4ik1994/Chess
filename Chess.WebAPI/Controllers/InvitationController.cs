@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -7,6 +8,7 @@ using Chess.Entities.Models;
 using Chess.Services.Interfaces;
 using Chess.WebAPI.Filters.AuthorizationFilters;
 using Chess.WebAPI.Models;
+using Microsoft.Practices.Unity.Utility;
 using Repository.Pattern.UnitOfWork;
 
 namespace Chess.WebAPI.Controllers
@@ -33,8 +35,12 @@ namespace Chess.WebAPI.Controllers
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(long invitationId)
         {
+            if (!ModelState.IsValid) return BadRequest();
             var token = HttpContext.Current.Request.Headers.Get("Authorization");
-            return null;
+            var result =
+                await _invitationService.DeleteInvitationByInvitationIdAndUserToken(invitationId, Guid.Parse(token));
+            if (result) return Ok();
+            return BadRequest();
         }
     }
 }

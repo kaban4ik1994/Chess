@@ -118,7 +118,7 @@ angular.module('app.services', ['ngResource'])
             UserId: 0,
             Email: "",
             Token: "",
-            Roles: "",
+            IsAdmin: "",
             UserName: "",
             FirstName: "",
             SecondName: "",
@@ -132,12 +132,20 @@ angular.module('app.services', ['ngResource'])
             var deferred = $q.defer();
 
             $http.get(urlApiAccountChess + '?' + data.toString(), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, data: data }).success(function (response) {
+
+                var isAdmin = false;
+                response.Roles.forEach(function (element) {
+                    if (element === 'Admin') {
+                        isAdmin = true;
+                    }
+                });
+
                 localStorageService.set('authorizationData',
                 {
                     UserId: response.UserId,
                     Email: response.Email,
                     Token: response.Token,
-                    Roles: response.Roles,
+                    IsAdmin: isAdmin,
                     UserName: response.UserName,
                     FirstName: response.FirstName,
                     SecondName: response.SecondName,
@@ -146,7 +154,7 @@ angular.module('app.services', ['ngResource'])
                 _authentication.UserId = response.UserId;
                 _authentication.Email = response.Email;
                 _authentication.Token = response.Token;
-                _authentication.Roles = response.Roles;
+                _authentication.IsAdmin = isAdmin;
                 _authentication.UserName = response.UserName;
                 _authentication.FirstName = response.FirstName;
                 _authentication.SecondName = response.SecondName;
@@ -165,7 +173,7 @@ angular.module('app.services', ['ngResource'])
             _authentication.UserId = 0;
             _authentication.Email = "";
             _authentication.Token = "";
-            _authentication.Roles = "";
+            _authentication.IsAdmin = "";
             _authentication.UserName = "";
             _authentication.FirstName = "";
             _authentication.SecondName = "";
@@ -180,7 +188,7 @@ angular.module('app.services', ['ngResource'])
                 _authentication.UserId = authData.UserId;
                 _authentication.Email = authData.Email;
                 _authentication.Token = authData.Token;
-                _authentication.Roles = authData.Roles;
+                _authentication.IsAdmin = authData.IsAdmin;
                 _authentication.UserName = authData.UserName;
                 _authentication.FirstName = authData.FirstName;
                 _authentication.SecondName = authData.SecondName;

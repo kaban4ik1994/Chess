@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Chess.Entities.Models;
@@ -13,11 +14,13 @@ namespace Chess.Services
     public class InvitationService : Service<Invitation>, IInvitationService
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+        private readonly IRepositoryAsync<User> _repositoryAsync;
 
-        public InvitationService(IRepositoryAsync<Invitation> repository, IUnitOfWorkAsync unitOfWorkAsync)
+        public InvitationService(IRepositoryAsync<Invitation> repository, IUnitOfWorkAsync unitOfWorkAsync, IRepositoryAsync<User> repositoryAsync)
             : base(repository)
         {
             _unitOfWorkAsync = unitOfWorkAsync;
+            _repositoryAsync = repositoryAsync;
         }
 
         public Task<IEnumerable<InvitationViewModel>> GetAvailableInvitationAsync()
@@ -44,9 +47,30 @@ namespace Chess.Services
             return await Task.FromResult(invitation.Id);
         }
 
-        public Task<bool> DeleteInvitationByInvitationIdAndUserId(long invitationId, long userId)
+        public async Task<bool> DeleteInvitationByInvitationIdAndUserToken(long invitationId, Guid userToken)
         {
-            throw new System.NotImplementedException();
+            var isAdmin = await Task.FromResult(_repositoryAsync.Query(user1 => user1.Tokens.Any(token1 => token1.TokenData == userToken) && user1.Active)
+              .Include(user1 => user1.UserRoles)
+              .Include(user1 => user1.UserRoles.Select(role => role.Role))
+              .Select()
+              .Any(user1 => user1.UserRoles.Any(role => role.Role.Name == "Admin")));
+
+            if (isAdmin)
+            {
+                Delete(invitationId);
+            }
+
+            else
+            {
+                var invitation = Query(x =>
+                    x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
+                    && x.Id == invitationId).Select().FirstOrDefault();
+                if (invitation == null) return await Task.FromResult(false);
+                Delete(invitation.Id);
+            }
+
+            await _unitOfWorkAsync.SaveChangesAsync();
+            return await Task.FromResult(true);
         }
     }
 }

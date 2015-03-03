@@ -20,16 +20,21 @@
                         </small>
                     </h5>
                     <ul id="sortable2" class="todo">
-                        <li ng-repeat="item in availableInvitation.Items">
-                            <span class="" style="padding-left: 0; width: 50px">
+                        <li ng-repeat="item in availableInvitation.Items" class="fa-apple">
+                            <i></i>
+                            <span class="pull-right" ng-if="currentUserId==item.InvitatorId || isAdmin">
+                                <a ng-href="" ng-click="deleteInvitation(item.Id)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                            </span>
+                            <span  style="padding-left: 0; width: 50px">
                                 <label class="input-lg">
-                                    <a href="#" class="btn btn-block btn-lg btn-info"><i class="fa fa-check"></i></a>
+                                    <a href="#" class="btn btn-block btn-sm btn-info"><i class="fa fa-check"></i></a>
                                     <i></i>
                                 </label>
                             </span>
                             <p style="padding-left: 25px">
-                                <strong>{{item.InvitatorUserName}}</strong>
+                                <strong>{{item.InvitatorUserName}}{{item.InvitatorId}}{{currentUserId}}</strong>
                                 <span class="date">{{item.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                    
                             </p>
                         </li>
                     </ul>

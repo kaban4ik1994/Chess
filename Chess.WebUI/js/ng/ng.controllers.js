@@ -234,11 +234,21 @@ var contr = angular.module('app.controllers', [])
                     $scope.isLoading = false;
                 });
 
+                $scope.isAdmin = authService.authentication.IsAdmin;
+                $scope.currentUserId = authService.authentication.UserId;
+
                 $scope.newInvitation = function () {
                     invitationApi.add({ InvitatorId: authService.authentication.UserId }, function () {
                         $scope.refreshInvitation();
                     }, function () {
                     });
+                };
+
+                $scope.deleteInvitation = function(id) {
+                    invitationApi.delete({ invitationId: id }, function() {
+                        $scope.refreshInvitation();
+                    });
+                    
                 };
 
                 $scope.refreshInvitation = function () {

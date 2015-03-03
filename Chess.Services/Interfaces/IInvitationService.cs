@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Chess.Entities.Models;
 using Chess.Models;
@@ -11,6 +12,6 @@ namespace Chess.Services.Interfaces
         Task<IEnumerable<InvitationViewModel>> GetAvailableInvitationAsync();
         Task<long> GetAvailableInvitationCountAsync();
         Task<long> AddInvitation(Invitation invitation);
-        Task<bool> DeleteInvitationByInvitationIdAndUserId(long invitationId, long userId);
+        Task<bool> DeleteInvitationByInvitationIdAndUserToken(long invitationId, Guid userToken);
     }
 }
