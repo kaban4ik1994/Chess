@@ -1,7 +1,7 @@
 var smartApp = angular.module('smartApp', [
   	'ngRoute',
     'ngTable',
-    'ngProgress',
+    'angular-loading-bar',
     'ngAnimate', // this is buggy, jarviswidget will not work with ngAnimate :(
   	'ui.bootstrap',
     'plunker',
@@ -13,6 +13,11 @@ var smartApp = angular.module('smartApp', [
   	'app.activity',
   	'app.smartui',
     'LocalStorageModule'
+]);
+
+smartApp.config([
+        'cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
+        }
 ]);
 
 smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provide) {

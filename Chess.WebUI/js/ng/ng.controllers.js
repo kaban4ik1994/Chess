@@ -100,8 +100,8 @@ var contr = angular.module('app.controllers', [])
 
     // Path: /Login
     .controller('LoginController', [
-        '$scope', '$rootScope', '$location', 'authService', 'ngAuthSettings', 'ngProgress',
-        function ($scope, $rootScope, $location, authService, ngAuthSettings, ngProgress) {
+        '$scope', '$rootScope', '$location', 'authService', 'ngAuthSettings',
+        function ($scope, $rootScope, $location, authService, ngAuthSettings) {
 
             if (authService.authentication.isAuth == true) {
                 $location.path('/Home');
@@ -126,10 +126,8 @@ var contr = angular.module('app.controllers', [])
                 };
 
                 $scope.login = function () {
-                    ngProgress.start();
                     $scope.showErrorMessages = true;
                     authService.login($scope.loginData).then(function (response) {
-                        ngProgress.complete();
                         $location.path('/Home');
                         $rootScope.isHideHeader = false;
                         $rootScope.isHideLeftPanel = false;
@@ -137,7 +135,6 @@ var contr = angular.module('app.controllers', [])
                         $rootScope.isHideMainContent = false;
                     },
                         function (err) {
-                            ngProgress.complete();
                             var errorMessage = "Login or password are not correct";
                             $scope.message = errorMessage; //err.error_description;
                         });
@@ -192,8 +189,8 @@ var contr = angular.module('app.controllers', [])
 
     // Path: /Register
     .controller('RegisterController', [
-        '$scope', '$rootScope', '$location', 'authService', 'ngAuthSettings', 'ngProgress', 'accountApi',
-        function ($scope, $rootScope, $location, authService, ngAuthSettings, ngProgress, accountApi) {
+        '$scope', '$rootScope', '$location', 'authService', 'ngAuthSettings', 'accountApi',
+        function ($scope, $rootScope, $location, authService, ngAuthSettings, accountApi) {
             if (authService.authentication.isAuth == true) {
                 $location.path('/Home');
             } else {
@@ -225,37 +222,28 @@ var contr = angular.module('app.controllers', [])
 
  // Path : /Invitation
     .controller('InvitationController', [
-        '$scope', '$rootScope', 'authService', '$location', 'availableInvitationApi', 'invitationApi', 'ngProgress',
-        function ($scope, $rootScope, authService, $location, availableInvitationApi, invitationApi, ngProgress) {
+        '$scope', '$rootScope', 'authService', '$location', 'availableInvitationApi', 'invitationApi',
+        function ($scope, $rootScope, authService, $location, availableInvitationApi, invitationApi) {
             if (authService.authentication.isAuth == false) {
                 $location.path('/Login');
             } else {
-                ngProgress.start();
                 $scope.isLoading = true;
                 $scope.availableInvitation = availableInvitationApi.get({}, function () {
-                    ngProgress.complete();
                     $scope.isLoading = false;
                 }, function () {
-                    ngProgress.complete();
                     $scope.isLoading = false;
                 });
 
                 $scope.newInvitation = function () {
-                    ngProgress.start();
                     invitationApi.add({ InvitatorId: authService.authentication.UserId }, function () {
-                        ngProgress.complete();
                         $scope.refreshInvitation();
                     }, function () {
-                        ngProgress.complete();
                     });
                 };
 
                 $scope.refreshInvitation = function () {
-                    ngProgress.start();
                     $scope.availableInvitation = availableInvitationApi.get({}, function () {
-                        ngProgress.complete();
                     }, function () {
-                        ngProgress.complete();
                     });
                 };
             }
