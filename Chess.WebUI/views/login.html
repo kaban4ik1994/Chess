@@ -6,7 +6,7 @@
             <span id="logo"> <img src="/img/logo.png" alt="SmartAdmin"> </span>
             <!-- END AJAX-DROPDOWN -->
         </div>
-        <span id="extr-page-header-space" class="pull-right"> <span class="hidden-mobile">Need an account?</span> <a ng-href="#/Register" class="btn btn-danger">Create account</a> </span>
+        <span id="extr-page-header-space" class="pull-right"> <span class="hidden-mobile">Нужен аккаунт?</span> <a ng-href="#/Register" class="btn btn-danger">Создать аккаунт</a> </span>
     </header>
     <!-- MAIN CONTENT -->
     <div id="content" class="container">
@@ -16,7 +16,7 @@
                     <form id="login-form" ng-formvalidation class="smart-form client-form" name="myForm">
                         <!--ng-submit=" login()"-->
                         <header>
-                            Sign In
+                            Вход
                         </header>
                         <div ng-if="showErrorMessages">
                             <div ng-if="message" class="alert alert-danger fade in">
@@ -28,19 +28,19 @@
                         </div>
                         <fieldset>
                             <section>
-                                <label class="label">E-mail</label>
+                                <label class="label">Электронная почта</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-user"></i>
-                                    <input type="email" id="email"  name="email" data-ng-model="loginData.userName" required ng-change="deleteMessage()">
-                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b>
+                                    <input type="email" id="email" name="email" data-ng-model="loginData.userName" required ng-change="deleteMessage()">
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Введите адрес электронной почты</b>
                                 </label>
                             </section>
                             <section>
-                                <label class="label">Password</label>
+                                <label class="label">Пароль</label>
                                 <label class="input">
                                     <i class="icon-append fa fa-lock"></i>
                                     <input type="password" id="password" value="Admin" name="password" data-ng-model="loginData.password" required ng-change="deleteMessage()">
-                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
+                                    <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i>Введите ваш пароль</b>
                                 </label>
                                 <div class="note">
                                     <!--<a href="forgotpassword.html">Forgot password?</a>-->
@@ -49,7 +49,7 @@
                         </fieldset>
                         <footer>
                             <button data-ng-click="login()" ng-disabled="myForm.password.$dirty && myForm.password.$invalid ||myForm.email.$dirty && myForm.email.$invalid" type="submit" class="btn btn-primary">
-                                Sign in
+                                Вход
                             </button>
                         </footer>
                     </form>

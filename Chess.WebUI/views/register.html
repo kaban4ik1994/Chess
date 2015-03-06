@@ -8,7 +8,7 @@
 
             <!-- END AJAX-DROPDOWN -->
         </div>
-        <span id="extr-page-header-space" class="pull-right"> <span class="hidden-mobile">Need an account?</span> <a ng-href="#/Login" class="btn btn-danger">Sign In</a> </span>
+        <span id="extr-page-header-space" class="pull-right"> <span class="hidden-mobile">Уже есть аккаунт?</span> <a ng-href="#/Login" class="btn btn-danger">Вход</a> </span>
     </header>
 
     <!-- MAIN CONTENT -->
@@ -18,31 +18,31 @@
                 <div class="well no-padding">
                     <form id="smart-form-register" class="smart-form client-form" ng-submit="register(user)">
                         <header>
-                            Registration
+                            Регистрация
                         </header>
 
                         <fieldset>
                             <section>
                                 <label class="input">
                                     <i class="icon-append fa fa-user"></i>
-                                    <input type="text" name="username" ng-model="user.UserName" placeholder="Username">
-                                    <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                    <input type="text" name="username" ng-model="user.UserName" placeholder="Имя пользователя">
+                                    <b class="tooltip tooltip-bottom-right">Ваше имя пользователя</b>
                                 </label>
                             </section>
 
                             <section>
                                 <label class="input">
                                     <i class="icon-append fa fa-envelope"></i>
-                                    <input type="email" name="email" ng-model="user.Email" placeholder="Email address">
-                                    <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                    <input type="email" name="email" ng-model="user.Email" placeholder="Адрес электронной почты">
+                                    <b class="tooltip tooltip-bottom-right">Адрес вашей электронной почты</b>
                                 </label>
                             </section>
 
                             <section>
                                 <label class="input">
                                     <i class="icon-append fa fa-lock"></i>
-                                    <input type="password" name="password" ng-model="user.Password" placeholder="Password" id="password">
-                                    <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                    <input type="password" name="password" ng-model="user.Password" placeholder="Пароль" id="password">
+                                    <b class="tooltip tooltip-bottom-right">Не забудьте ваш пароль</b>
                                 </label>
                             </section>
 
@@ -57,19 +57,19 @@
                             <div class="row">
                                 <section class="col col-6">
                                     <label class="input">
-                                        <input type="text" ng-model="user.FirstName" name="firstname" placeholder="First name">
+                                        <input type="text" ng-model="user.FirstName" name="firstname" placeholder="Имя">
                                     </label>
                                 </section>
                                 <section class="col col-6">
                                     <label class="input">
-                                        <input type="text" ng-model="user.LastName" name="lastname" placeholder="Last name">
+                                        <input type="text" ng-model="user.LastName" name="lastname" placeholder="Фамилия">
                                     </label>
                                 </section>
                             </div>
                         </fieldset>
                         <footer>
                             <button type="submit" class="btn btn-primary">
-                                Register
+                                Зарегестрироваться
                             </button>
                         </footer>
                     </form>
