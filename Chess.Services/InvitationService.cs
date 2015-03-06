@@ -40,11 +40,17 @@ namespace Chess.Services
             return Task.FromResult(Query(x => x.IsAccepted == false && x.IsDeclined == false).Select().LongCount());
         }
 
-        public async Task<long> AddInvitation(Invitation invitation)
+        public async Task<InvitationViewModel> AddInvitation(Invitation invitation)
         {
             Insert(invitation);
             await _unitOfWorkAsync.SaveChangesAsync();
-            return await Task.FromResult(invitation.Id);
+            return await Task.FromResult(Query(item => invitation.Id == item.Id).Select(result => new InvitationViewModel
+             {
+                 CreateDate = result.CreateDate,
+                 Id = result.Id,
+                 InvitatorId = result.InvitatorId,
+                 InvitatorUserName = result.Invitator.User.UserName
+             }).FirstOrDefault());
         }
 
         public async Task<bool> DeleteInvitationByInvitationIdAndUserToken(long invitationId, Guid userToken)

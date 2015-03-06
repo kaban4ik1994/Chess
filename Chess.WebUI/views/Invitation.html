@@ -18,21 +18,26 @@
                                 <i class="fa fa-plus"></i>
                             </a>
                         </small>
+                        <small class="pull-right margin-right-5">
+                            <a ng-href="" ng-click="refreshInvitation()" class="btn btn-block btn-sm btn-info">
+                                <i class="fa fa-refresh"></i>
+                            </a>
+                        </small>
                     </h5>
                     <ul id="sortable2" class="todo">
                         <li ng-repeat="item in availableInvitation.Items" class="fa-apple">
                             <i></i>
-                            <span class="pull-right" ng-if="currentUserId==item.InvitatorId || isAdmin">
+                            <span class="pull-right margin-top-10" ng-if="currentUserId==item.InvitatorId || isAdmin">
                                 <a ng-href="" ng-click="deleteInvitation(item.Id)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                             </span>
-                            <span  style="padding-left: 0; width: 50px">
-                                <label class="input-lg">
-                                    <a href="#" class="btn btn-block btn-sm btn-info"><i class="fa fa-check"></i></a>
+                            <span  style="padding-left: 0; width: 50px" >
+                                <label class="input-lg" >
+                                    <a href="#" ng-disabled="currentUserId==item.InvitatorId" class="btn btn-block btn-sm btn-info"><i class="fa fa-check"></i></a>
                                     <i></i>
                                 </label>
                             </span>
                             <p style="padding-left: 25px">
-                                <strong>{{item.InvitatorUserName}}{{item.InvitatorId}}{{currentUserId}}</strong>
+                                <strong>{{item.InvitatorUserName}}</strong>
                                 <span class="date">{{item.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                     
                             </p>

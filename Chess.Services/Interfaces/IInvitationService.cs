@@ -11,7 +11,7 @@ namespace Chess.Services.Interfaces
     {
         Task<IEnumerable<InvitationViewModel>> GetAvailableInvitationAsync();
         Task<long> GetAvailableInvitationCountAsync();
-        Task<long> AddInvitation(Invitation invitation);
+        Task<InvitationViewModel> AddInvitation(Invitation invitation);
         Task<bool> DeleteInvitationByInvitationIdAndUserToken(long invitationId, Guid userToken);
     }
 }

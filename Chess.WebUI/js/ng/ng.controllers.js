@@ -238,17 +238,22 @@ var contr = angular.module('app.controllers', [])
                 $scope.currentUserId = authService.authentication.UserId;
 
                 $scope.newInvitation = function () {
-                    invitationApi.add({ InvitatorId: authService.authentication.UserId }, function () {
-                        $scope.refreshInvitation();
+                    invitationApi.add({ InvitatorId: authService.authentication.UserId }, function (item) {
+                        $scope.availableInvitation.Items.push(item);
+                        $scope.availableInvitation.Count++;
                     }, function () {
                     });
                 };
 
-                $scope.deleteInvitation = function(id) {
-                    invitationApi.delete({ invitationId: id }, function() {
-                        $scope.refreshInvitation();
+                $scope.deleteInvitation = function (id) {
+                    invitationApi.delete({ invitationId: id }, function () {
+                        angular.forEach($scope.availableInvitation.Items, function (value, index) {
+                            if (value.Id == id) {
+                                $scope.availableInvitation.Items.splice(index, 1);
+                                $scope.availableInvitation.Count--;
+                            }
+                        });
                     });
-                    
                 };
 
                 $scope.refreshInvitation = function () {
