@@ -8,6 +8,7 @@ var smartApp = angular.module('smartApp', [
     'app.services',
   	'app.controllers',
   	'app.main',
+    'app.animations',
   	'app.navigation',
   	'app.localize',
   	'app.activity',

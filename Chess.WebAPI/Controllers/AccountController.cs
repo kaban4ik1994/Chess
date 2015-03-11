@@ -25,7 +25,9 @@ namespace Chess.WebAPI.Controllers
         public async Task<IHttpActionResult> Get([FromUri]LogInViewModel model)
         {
             if (!ModelState.IsValid) return BadRequest();
-            return Ok(await _userService.GetUserByEmailAndPasswordAsync(model.Email, model.Password));
+            var result = await _userService.GetUserByEmailAndPasswordAsync(model.Email, model.Password);
+            if (result == null) return BadRequest();
+            return Ok(result);
         }
 
         [HttpPut]

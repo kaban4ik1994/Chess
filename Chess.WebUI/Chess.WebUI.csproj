@@ -136,6 +136,7 @@
     <Content Include="sound\voice_alert.ogg" />
     <Content Include="sound\voice_off.ogg" />
     <Content Include="sound\voice_on.ogg" />
+    <Content Include="js\ng\ng.animations.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -25,7 +25,7 @@
                         </small>
                     </h5>
                     <ul id="sortable2" class="todo">
-                        <li ng-repeat="item in availableInvitation.Items" class="fa-apple">
+                        <li ng-repeat="item in availableInvitation.Items" class="fa-apple repeat-animation">
                             <i></i>
                             <span class="pull-right margin-top-10" ng-if="currentUserId==item.InvitatorId || isAdmin">
                                 <a ng-href="" ng-click="deleteInvitation(item.Id)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
