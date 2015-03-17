@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\chessboard-0.3.0.css" />
     <Content Include="css\loading-bar\loading-bar.css" />
     <Content Include="css\ngTable\ng-table.less" />
     <Content Include="fonts\fontawesome-webfont.eot" />
@@ -75,6 +76,8 @@
     <Content Include="img\jqueryui\index.php" />
     <Content Include="img\pattern\index.php" />
     <Content Include="img\superbox\index.php" />
+    <Content Include="js\libs\chessComponents\chess.js" />
+    <Content Include="js\libs\chessComponents\chessboard.js" />
     <Content Include="js\libs\loading-bar\loading-bar.js" />
     <Content Include="js\libs\ngTable\dist\ng-table.min.js.map" />
     <Content Include="js\ng\ng.chessboard.js" />
@@ -138,6 +141,7 @@
     <Content Include="sound\voice_off.ogg" />
     <Content Include="sound\voice_on.ogg" />
     <Content Include="js\ng\ng.animations.js" />
+    <Content Include="js\ng\ng.chess.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
