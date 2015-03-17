@@ -75,3 +75,43 @@
         padding-left: 20px;
         padding-right: 20px;
     }
+
+.example {
+    float: left;
+}
+
+.board {
+    margin: 5px;
+}
+
+    .board.board-xs {
+        width: 200px;
+    }
+
+    .board.board-sm {
+        width: 300px;
+    }
+
+    .board.board-md {
+        width: 500px;
+    }
+
+    .board.board-lg {
+        width: 700px;
+    }
+
+    .board.board-fluid-xs {
+        width: 15%;
+    }
+
+    .board.board-fluid-sm {
+        width: 30%;
+    }
+
+    .board.board-fluid-md {
+        width: 50%;
+    }
+
+    .board.board-fluid-lg {
+        width: 70%;
+    }

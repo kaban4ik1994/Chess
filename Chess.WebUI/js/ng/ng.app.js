@@ -13,12 +13,13 @@ var smartApp = angular.module('smartApp', [
   	'app.localize',
   	'app.activity',
   	'app.smartui',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'nywton.chess'
 ]);
 
 smartApp.config([
-        'cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
-        }
+    'cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+    }
 ]);
 
 smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provide) {
@@ -44,6 +45,10 @@ smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provid
         .when('/Register', {
             controller: 'RegisterController',
             templateUrl: 'views/register.html'
+        })
+        .when('/Game', {
+            controller: 'GameController',
+            templateUrl: 'views/game.html'
         })
         .when('/Invitation', {
             controller: 'InvitationController',

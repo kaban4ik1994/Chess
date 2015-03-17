@@ -1,0 +1,23 @@
+﻿<div id="main" role="main" ng-hide="isLoading">
+    <fieldset class="row">
+        <section class="col pull-left  padding-10 " style="width: 600px">
+            <div class="" style="">
+                <nywton-chessgame data-game="game"
+                                  data-board="board"
+                                  ></nywton-chessgame> <!--data-nywton-random-vs-random--> 
+            </div>
+        </section>
+
+        <section class="col  padding-10 ">
+            <label class="label label-danger margin-bottom-10">Игровая статистика:</label> <br/>
+            
+            <span data-ng-repeat="entry in game.history() track by $index" ng-init="figure=getMoveDataByEntryAndColor(entry,$even)">
+                <span data-ng-hide="$first" class="margin-right-5 margin-bottom-10">,</span>
+                <span data-ng-class="{'label label-info': $last,
+                       'label label-warning': figure.isCheck,
+                       'label label-danger': figure.isGameOver,
+                       'label label-success': figure.isKnockDown }" class="ng-binding">{{figure.Symbol + '(' + figure.Name + ') - ' + figure.Position}}</span>
+            </span>
+        </section>
+    </fieldset>
+</div>

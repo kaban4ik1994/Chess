@@ -1395,3 +1395,5 @@ angular.module('app.smartui', [])
             }
         };
     })
+
+    

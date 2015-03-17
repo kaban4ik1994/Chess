@@ -206,21 +206,22 @@ var contr = angular.module('app.controllers', [])
                     });
                 };
             }
-        }])
+        }
+    ])
 
 // Path: /Home
-.controller('HomeController', [
-    '$scope', '$rootScope', 'authService', '$location', 'TestApi',
-    function ($scope, $rootScope, authService, $location, TestApi) {
-        if (authService.authentication.isAuth == false) {
-            $location.path('/Login');
-        } else {
-            TestApi.get();
+    .controller('HomeController', [
+        '$scope', '$rootScope', 'authService', '$location', 'TestApi',
+        function ($scope, $rootScope, authService, $location, TestApi) {
+            if (authService.authentication.isAuth == false) {
+                $location.path('/Login');
+            } else {
+                TestApi.get();
+            }
         }
-    }
-])
+    ])
 
- // Path : /Invitation
+    // Path : /Invitation
     .controller('InvitationController', [
         '$scope', '$rootScope', 'authService', '$location', 'availableInvitationApi', 'invitationApi',
         function ($scope, $rootScope, authService, $location, availableInvitationApi, invitationApi) {
@@ -265,16 +266,86 @@ var contr = angular.module('app.controllers', [])
         }
     ])
 
- // Path: /error/404
-.controller('Error404Controller', ['$scope', '$rootScope', '$location', '$window', 'authService', function ($scope, $rootScope, $location, $window, authService) {
+    //Path /game/Id
+    .controller('GameController', [
+        '$scope', '$interval', 'NywtonChessGameService', function ($scope, $interval, chessGameService) {
 
-    if (authService.authentication.isAuth == false) {
-        $location.path('/Login');
-    } else {
-        $rootScope.isLoading = false;
-        $scope.$root.title = 'Error 404: Page Not Found';
-    }
-}]);
+            console.log($scope)
+            
+            function makeRandomMove() {
+                if ($scope.game.turn() == 'b') {
+                    chessGameService.makeRandomMove($scope.game, $scope.board);
+                }
+            }
+
+            $interval(makeRandomMove, 100);
+            
+
+            $scope.getMoveDataByEntryAndColor = function (entry, color) { //color: true- white, false- black
+                var result = {
+                    Name: '',
+                    Symbol: '',
+                    Position: '',
+                    isGameOver: angular.copy($scope.game.game_over()),
+                    isCheck: angular.copy($scope.game.in_check()),
+                    isCheckMate: angular.copy($scope.game.in_checkmate()),
+                    isStalemate: angular.copy($scope.game.in_stalemate()),
+                    isDraw: angular.copy($scope.game.in_draw()),
+                    isKnockDown: entry.indexOf('x') >= 0
+                };
+
+                entry = entry.replace('+', '');
+                entry = entry.replace('#', '');
+                entry = entry.replace('=', '');
+                switch (entry.charAt(0)) {
+                    case 'N':
+                        result.Name = 'Конь';
+                        result.Symbol = color ? '♘' : '♞';
+                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
+                        break;
+
+                    case 'B':
+                        result.Name = 'Слон';
+                        result.Symbol = color ? '♗' : '♝';
+                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
+                        break;
+                    case 'R':
+                        result.Name = 'Ладья';
+                        result.Symbol = color ? '♖' : '♜';
+                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
+                        break;
+                    case 'Q':
+                        result.Name = 'Ферзь';
+                        result.Symbol = color ? '♕' : '♛';
+                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
+                        break;
+                    case 'K':
+                        result.Name = 'Король';
+                        result.Symbol = color ? '♔' : '♚';
+                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
+                        break;
+                    default:
+                        result.Name = 'Пешка';
+                        result.Symbol = color ? '♙' : '♟';
+                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
+
+                        break;
+                }
+                return result;
+            };
+        }
+    ])
+
+    //Error 404
+    .controller('Error404Controller', ['$scope', '$rootScope', '$location', '$window', 'authService', function ($scope, $rootScope, $location, $window, authService) {
+
+        if (authService.authentication.isAuth == false) {
+            $location.path('/Login');
+        } else {
+            $rootScope.isLoading = false;
+            $scope.$root.title = 'Error 404: Page Not Found';
+        }
+    }]);
 
 
 

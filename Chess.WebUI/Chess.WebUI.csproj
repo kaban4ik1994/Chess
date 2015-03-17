@@ -77,6 +77,7 @@
     <Content Include="img\superbox\index.php" />
     <Content Include="js\libs\loading-bar\loading-bar.js" />
     <Content Include="js\libs\ngTable\dist\ng-table.min.js.map" />
+    <Content Include="js\ng\ng.chessboard.js" />
     <Content Include="js\plugin\ckeditor\CHANGES.md" />
     <Content Include="js\plugin\ckeditor\LICENSE.md" />
     <Content Include="js\plugin\ckeditor\plugins\scayt\LICENSE.md" />
@@ -1424,6 +1425,7 @@
     <Content Include="obj\Release\Package\PackageTmp\views\website-template.html" />
     <Content Include="obj\Release\SunnyHolidays.WebUI.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Release\_WPPLastBuildInfo.txt" />
+    <Content Include="views\game.html" />
     <Content Include="views\invitation.html" />
     <Content Include="views\register.html" />
     <Content Include="sound\bigbox.mp3" />
