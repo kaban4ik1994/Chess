@@ -74,6 +74,7 @@ namespace Chess.Core.Models
                 color = Color.Black;
                 isEmptyCell = false;
             }
+
             if(isEmptyCell) return null;
             
             switch (position.X)

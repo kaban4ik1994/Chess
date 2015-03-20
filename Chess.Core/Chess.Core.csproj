@@ -48,7 +48,16 @@
     <Compile Include="FactoryFigures\CreatorPawn.cs" />
     <Compile Include="FactoryFigures\CreatorQueen.cs" />
     <Compile Include="FactoryFigures\CreatorRook.cs" />
+    <Compile Include="Mediator\BishopColleague.cs" />
+    <Compile Include="Mediator\FigureColleague.cs" />
+    <Compile Include="Mediator\IMoveMediator.cs" />
+    <Compile Include="Mediator\KingColleague.cs" />
+    <Compile Include="Mediator\KnightColleague.cs" />
     <Compile Include="Mediator\Mediator.cs" />
+    <Compile Include="Mediator\MoveMediator.cs" />
+    <Compile Include="Mediator\PawnColleague.cs" />
+    <Compile Include="Mediator\QueenColleague.cs" />
+    <Compile Include="Mediator\RookColleague.cs" />
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\Chessboard.cs" />
     <Compile Include="Models\Figure.cs" />
