@@ -4,6 +4,17 @@ namespace Chess.Core.Models
 {
     public class Position
     {
+        public Position()
+        {
+
+        }
+
+        public Position(Position position)
+        {
+            X = position.X;
+            Y = position.Y;
+        }
+
         public char X { get; set; }
         public int Y { get; set; }
 

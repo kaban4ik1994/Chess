@@ -14,7 +14,7 @@ namespace Chess.Core.Mediator
             return Mediator.Send(from, to, chessboard, this);
         }
 
-        public bool Move(Position from, Position to, Chessboard chessboard)
+        public override bool Move(Position from, Position to, Chessboard chessboard)
         {
             //TODO logic
             return true;

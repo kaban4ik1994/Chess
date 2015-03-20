@@ -1,4 +1,6 @@
-﻿namespace Chess.Core.Mediator
+﻿using Chess.Core.Models;
+
+namespace Chess.Core.Mediator
 {
     public abstract class FigureColleague
     {
@@ -9,5 +11,6 @@
             Mediator = mediator;
         }
 
+        public abstract bool Move(Position from, Position to, Chessboard chessboard);
     }
 }

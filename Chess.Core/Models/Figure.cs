@@ -5,6 +5,17 @@ namespace Chess.Core.Models
 {
     public class Figure
     {
+        public Figure()
+        {
+            
+        }
+
+        public Figure(Figure figure)
+        {
+            Type = figure.Type;
+            Color = figure.Color;
+        }
+
         public FigureType Type { get; set; }
         public Color Color { get; set; }
 

@@ -16,11 +16,12 @@ namespace Chess.CoreTests
 
             var meditor = new MoveMediator();
 
-            var pawnColleague=new PawnColleague(meditor);
+            var pawnColleague = new PawnColleague(meditor);
 
             meditor.PawnColleague = pawnColleague;
 
-            Assert.IsFalse(pawnColleague.Send(new Position(), new Position(), board));
+            Assert.IsTrue(pawnColleague.Send(new Position { X = 'A', Y = 2 }, new Position { X = 'A', Y = 3 }, board));
+            Assert.IsFalse(pawnColleague.Send(new Position { X = 'A', Y = 2 }, new Position { X = 'B', Y = 2 }, board));
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Policy;
 using Chess.Core.Enums;
 using Chess.Core.FactoryFigures;
 
@@ -37,6 +39,18 @@ namespace Chess.Core.Models
 
         }
 
+        public void SetFigureByPosition(Figure figure, Position position)
+        {
+            
+        }
+
+
+        public void ChangeThePositionOfTheFigure(Position from, Position to)
+        {
+         //   GetCellByPosition(from)
+           
+        }
+
         public void InitNewGame()
         {
             for (var x = 0; x <= 7; x++)
@@ -48,10 +62,16 @@ namespace Chess.Core.Models
             }
         }
 
+        public Cell GetCellByPosition(Position position)
+        {
+            var cell = Board.Cast<Cell>().First(x => x.Position.Equals(position));
+            return cell;
+        }
+
         public Figure GetFigureByPosition(Position position)
         {
-            var cell = Board.Cast<Cell>().FirstOrDefault(x => x.Position.Equals(position));
-            return cell == null ? null : cell.Figure;
+            var cell = Board.Cast<Cell>().First(x => x.Position.Equals(position));
+            return cell.Figure;
         }
 
         private Figure GetFigureByStartingPosition(Position position)
@@ -59,7 +79,7 @@ namespace Chess.Core.Models
             if (position.Y == 2) return _creatorPawn.FactoryMethod(Color.White);
             if (position.Y == 7) return _creatorPawn.FactoryMethod(Color.Black);
 
-            var color=Color.White;
+            var color = Color.White;
 
             var isEmptyCell = true;
 
@@ -75,8 +95,8 @@ namespace Chess.Core.Models
                 isEmptyCell = false;
             }
 
-            if(isEmptyCell) return null;
-            
+            if (isEmptyCell) return null;
+
             switch (position.X)
             {
                 case 'A':
