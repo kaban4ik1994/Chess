@@ -270,15 +270,26 @@ var contr = angular.module('app.controllers', [])
     .controller('GameController', [
         '$scope', '$interval', 'gameApi', function ($scope, $interval, gameApi) {
 
+            function getActiveFigure() {
+                var result;
+                angular.forEach($scope.chessBoard, function (row) {
+                    angular.forEach(row, function (column) {
+                        if (column.active == true) {
+                            result = column;
+                        }
+                    });
+                });
+                return result;
+            }
+
             $scope.chessBoard = gameApi.query();
 
             $scope.selectedItem = function (item) {
-                angular.forEach($scope.chessBoard, function (row) {
-                    angular.forEach(row, function (column) {
-                        column.active = false;
-                    });
-                });
 
+                var activeFigur = getActiveFigure();
+                if (activeFigur != null) {
+                    activeFigur.active = false;
+                }
                 item.active = true;
             };
         }
