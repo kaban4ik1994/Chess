@@ -3,8 +3,8 @@ using Chess.Core.Models;
 
 namespace Chess.Core.FactoryFigures
 {
-    public abstract class Creator
+    public interface ICreatorPawn
     {
-        public abstract Figure FactoryMethod(Color color);
+        Figure FactoryMethod(Color color);
     }
 }

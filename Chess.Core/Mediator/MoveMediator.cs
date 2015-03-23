@@ -1,47 +1,60 @@
-﻿using Chess.Core.Models;
+﻿using Chess.Core.Enums;
+using Chess.Core.Models;
 
 namespace Chess.Core.Mediator
 {
-    public class MoveMediator : Mediator
+    public class MoveMediator : IMoveMediator
     {
 
-        public PawnColleague PawnColleague;
-        public QueenColleague QueenColleague;
-        public RookColleague RookColleague;
-        public KingColleague KingColleague;
-        public KnightColleague KnightColleague;
-        public BishopColleague BishopColleague;
+        private readonly IPawnColleague _pawnColleague;
+        private readonly IQueenColleague _queenColleague;
+        private readonly IRookColleague _rookColleague;
+        private readonly IKingColleague _kingColleague;
+        private readonly IKnightColleague _knightColleague;
+        private readonly IBishopColleague _bishopColleague;
 
-        public override bool Send(Position from, Position to, Chessboard chessboard, FigureColleague colleague)
+        public MoveMediator(IPawnColleague pawnColleague, IQueenColleague queenColleague, IRookColleague rookColleague, IKingColleague kingColleague, IKnightColleague knightColleague, IBishopColleague bishopColleague)
         {
-            if (PawnColleague == colleague)
+            _pawnColleague = pawnColleague;
+            _queenColleague = queenColleague;
+            _rookColleague = rookColleague;
+            _kingColleague = kingColleague;
+            _knightColleague = knightColleague;
+            _bishopColleague = bishopColleague;
+        }
+
+        public bool Send(Position from, Position to, Chessboard chessboard)
+        {
+            var figureFrom = chessboard.GetFigureByPosition(from);
+            if (figureFrom == null) return false;
+            if (figureFrom.Type == FigureType.Pawn)
             {
-                return PawnColleague.Move(from, to, chessboard);
+                return _pawnColleague.Move(from, to, chessboard);
             }
 
-            if (QueenColleague == colleague)
+            if (figureFrom.Type == FigureType.Queen)
             {
-                return QueenColleague.Move(from, to, chessboard);
+                return _queenColleague.Move(from, to, chessboard);
             }
 
-            if (RookColleague == colleague)
+            if (figureFrom.Type == FigureType.Rook)
             {
-                return RookColleague.Move(from, to, chessboard);
+                return _rookColleague.Move(from, to, chessboard);
             }
 
-            if (KingColleague == colleague)
+            if (figureFrom.Type == FigureType.King)
             {
-                return KingColleague.Move(from, to, chessboard);
+                return _kingColleague.Move(from, to, chessboard);
             }
 
-            if (KnightColleague == colleague)
+            if (figureFrom.Type == FigureType.Knight)
             {
-                return KnightColleague.Move(from, to, chessboard);
+                return _knightColleague.Move(from, to, chessboard);
             }
 
-            if (BishopColleague == colleague)
+            if (figureFrom.Type == FigureType.Bishop)
             {
-                return BishopColleague.Move(from, to, chessboard);
+                return _bishopColleague.Move(from, to, chessboard);
             }
             return false;
         }

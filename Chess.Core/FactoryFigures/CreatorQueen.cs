@@ -3,9 +3,9 @@ using Chess.Core.Models;
 
 namespace Chess.Core.FactoryFigures
 {
-    public class CreatorQueen : Creator
+    public class CreatorQueen : ICreatorQueen
     {
-        public override Figure FactoryMethod(Color color)
+        public Figure FactoryMethod(Color color)
         {
             return new Figure { Color = color, Type = FigureType.Queen };
         }

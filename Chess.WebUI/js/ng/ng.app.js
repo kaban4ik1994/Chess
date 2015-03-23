@@ -2,6 +2,7 @@ var smartApp = angular.module('smartApp', [
   	'ngRoute',
     'ngTable',
     'angular-loading-bar',
+    'ngDraggable',
     'ngAnimate', // this is buggy, jarviswidget will not work with ngAnimate :(
   	'ui.bootstrap',
     'plunker',

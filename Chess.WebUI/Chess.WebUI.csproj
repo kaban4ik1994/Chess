@@ -79,6 +79,7 @@
     <Content Include="js\libs\chessComponents\chess.js" />
     <Content Include="js\libs\chessComponents\chessboard.js" />
     <Content Include="js\libs\loading-bar\loading-bar.js" />
+    <Content Include="js\libs\ngDraggable.js" />
     <Content Include="js\libs\ngTable\dist\ng-table.min.js.map" />
     <Content Include="js\ng\ng.chessboard.js" />
     <Content Include="js\plugin\ckeditor\CHANGES.md" />

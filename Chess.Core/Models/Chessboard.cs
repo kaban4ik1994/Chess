@@ -1,25 +1,30 @@
 ﻿using System;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Policy;
 using Chess.Core.Enums;
 using Chess.Core.FactoryFigures;
 
 namespace Chess.Core.Models
 {
-    public class Chessboard
+    public class Chessboard : IChessboard
     {
         public Cell[,] Board { get; set; }
 
-        private readonly Creator _creatorBishop = new CreatorBishop();
-        private readonly Creator _creatorKing = new CreatorKing();
-        private readonly Creator _creatorKnight = new CreatorKnight();
-        private readonly Creator _creatorPawn = new CreatorPawn();
-        private readonly Creator _creatorQueen = new CreatorQueen();
-        private readonly Creator _creatorRook = new CreatorRook();
+        public ICreatorBishop CreatorBishop { get; private set; }
+        public ICreatorKing CreatorKing { get; private set; }
+        public ICreatorKnight CreatorKnight { get; private set; }
+        public ICreatorPawn CreatorPawn { get; private set; }
+        public ICreatorQueen CreatorQueen { get; private set; }
+        public ICreatorRook CreatorRook { get; private set; }
 
-        public Chessboard()
+        public Chessboard(ICreatorBishop creatorBishop, ICreatorKing creatorKing, ICreatorKnight creatorKnight, ICreatorPawn creatorPawn, ICreatorQueen creatorQueen, ICreatorRook creatorRook)
         {
+            CreatorBishop = creatorBishop;
+            CreatorKing = creatorKing;
+            CreatorKnight = creatorKnight;
+            CreatorPawn = creatorPawn;
+            CreatorQueen = creatorQueen;
+            CreatorRook = creatorRook;
+
             Board = new Cell[8, 8];
 
             for (var x = 0; x <= 7; x++)
@@ -34,21 +39,18 @@ namespace Chess.Core.Models
             }
         }
 
-        public Chessboard(string board)
-        {
-
-        }
-
         public void SetFigureByPosition(Figure figure, Position position)
         {
-            
+            GetCellByPosition(position).Figure = figure;
         }
 
 
         public void ChangeThePositionOfTheFigure(Position from, Position to)
         {
-         //   GetCellByPosition(from)
-           
+            var cellFrom = GetCellByPosition(from);
+            var cellTo = GetCellByPosition(to);
+            cellTo.Figure = new Figure(cellFrom.Figure);
+            cellFrom.Figure = null;
         }
 
         public void InitNewGame()
@@ -64,7 +66,7 @@ namespace Chess.Core.Models
 
         public Cell GetCellByPosition(Position position)
         {
-            var cell = Board.Cast<Cell>().First(x => x.Position.Equals(position));
+            var cell = Board[ConvertPositionXToInt(position.X), ConvertPositionYToInt(position.Y)];
             return cell;
         }
 
@@ -74,10 +76,20 @@ namespace Chess.Core.Models
             return cell.Figure;
         }
 
+        public int ConvertPositionXToInt(char x)
+        {
+            return Convert.ToInt32(x - 65);
+        }
+
+        public int ConvertPositionYToInt(int y)
+        {
+            return y - 1;
+        }
+
         private Figure GetFigureByStartingPosition(Position position)
         {
-            if (position.Y == 2) return _creatorPawn.FactoryMethod(Color.White);
-            if (position.Y == 7) return _creatorPawn.FactoryMethod(Color.Black);
+            if (position.Y == 2) return CreatorPawn.FactoryMethod(Color.White);
+            if (position.Y == 7) return CreatorPawn.FactoryMethod(Color.Black);
 
             var color = Color.White;
 
@@ -100,21 +112,21 @@ namespace Chess.Core.Models
             switch (position.X)
             {
                 case 'A':
-                    return _creatorRook.FactoryMethod(color);
+                    return CreatorRook.FactoryMethod(color);
                 case 'B':
-                    return _creatorKnight.FactoryMethod(color);
+                    return CreatorKnight.FactoryMethod(color);
                 case 'C':
-                    return _creatorBishop.FactoryMethod(color);
+                    return CreatorBishop.FactoryMethod(color);
                 case 'D':
-                    return _creatorQueen.FactoryMethod(color);
+                    return CreatorQueen.FactoryMethod(color);
                 case 'E':
-                    return _creatorKing.FactoryMethod(color);
+                    return CreatorKing.FactoryMethod(color);
                 case 'F':
-                    return _creatorBishop.FactoryMethod(color);
+                    return CreatorBishop.FactoryMethod(color);
                 case 'G':
-                    return _creatorKnight.FactoryMethod(color);
+                    return CreatorKnight.FactoryMethod(color);
                 case 'H':
-                    return _creatorRook.FactoryMethod(color);
+                    return CreatorRook.FactoryMethod(color);
             }
             return null;
         }

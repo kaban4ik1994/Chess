@@ -1,5 +1,9 @@
 using System;
 using System.Linq;
+using System.Web.UI;
+using Chess.Core.FactoryFigures;
+using Chess.Core.Mediator;
+using Chess.Core.Models;
 using Chess.Entities;
 using Chess.Entities.Models;
 using Chess.Services;
@@ -45,14 +49,28 @@ namespace Chess.WebAPI.App_Start
         {
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
-            
+
             container
                 .RegisterType<IDataContextAsync, ChessContext>(new PerResolveLifetimeManager())
                 .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerResolveLifetimeManager())
                 .RegisterType<IRepositoryAsync<User>, Repository<User>>()
                 .RegisterType<IRepositoryAsync<Invitation>, Repository<Invitation>>()
                 .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager())
-                .RegisterType<IInvitationService, InvitationService>(new PerThreadLifetimeManager());
+                .RegisterType<IInvitationService, InvitationService>(new PerThreadLifetimeManager())
+                .RegisterType<IChessboard, Chessboard>()
+                .RegisterType<ICreatorBishop, CreatorBishop>(new PerThreadLifetimeManager())
+                .RegisterType<ICreatorKing, CreatorKing>(new PerThreadLifetimeManager())
+                .RegisterType<ICreatorKnight, CreatorKnight>(new PerThreadLifetimeManager())
+                .RegisterType<ICreatorPawn, CreatorPawn>(new PerThreadLifetimeManager())
+                .RegisterType<ICreatorQueen, CreatorQueen>(new PerThreadLifetimeManager())
+                .RegisterType<ICreatorRook, CreatorRook>(new PerThreadLifetimeManager())
+                .RegisterType<IMoveMediator, MoveMediator>(new PerThreadLifetimeManager())
+                .RegisterType<IBishopColleague, BishopColleague>(new PerThreadLifetimeManager())
+                .RegisterType<IKingColleague, KingColleague>(new PerThreadLifetimeManager())
+                .RegisterType<IKnightColleague, KnightColleague>(new PerThreadLifetimeManager())
+                .RegisterType<IPawnColleague, PawnColleague>(new PerThreadLifetimeManager())
+                .RegisterType<IQueenColleague, QueenColleague>(new PerThreadLifetimeManager())
+                .RegisterType<IRookColleague, RookColleague>(new PerThreadLifetimeManager());
         }
     }
 }

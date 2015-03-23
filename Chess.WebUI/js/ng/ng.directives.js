@@ -1396,4 +1396,17 @@ angular.module('app.smartui', [])
         };
     })
 
-    
+    .directive('ngInitBoard', function () {
+        return {
+            link: function (scope, element, attrs) {
+                $(function () {
+                    element = {
+                        width: element.width(),
+                        height: element.height()
+                    };
+
+                })
+            }
+        }
+    })
+

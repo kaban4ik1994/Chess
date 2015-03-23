@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Chess.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Chess.WebAPI\Bin\Chess.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,19 +45,29 @@
   <ItemGroup>
     <Compile Include="Enums\Color.cs" />
     <Compile Include="Enums\FigureType.cs" />
-    <Compile Include="FactoryFigures\Creator.cs" />
     <Compile Include="FactoryFigures\CreatorBishop.cs" />
     <Compile Include="FactoryFigures\CreatorKing.cs" />
     <Compile Include="FactoryFigures\CreatorKnight.cs" />
     <Compile Include="FactoryFigures\CreatorPawn.cs" />
     <Compile Include="FactoryFigures\CreatorQueen.cs" />
     <Compile Include="FactoryFigures\CreatorRook.cs" />
+    <Compile Include="FactoryFigures\ICreatorBishop.cs" />
+    <Compile Include="FactoryFigures\ICreatorKing.cs" />
+    <Compile Include="FactoryFigures\ICreatorKnight.cs" />
+    <Compile Include="FactoryFigures\ICreatorPawn.cs" />
+    <Compile Include="FactoryFigures\ICreatorQueen.cs" />
+    <Compile Include="FactoryFigures\ICreatorRook.cs" />
     <Compile Include="Mediator\BishopColleague.cs" />
     <Compile Include="Mediator\FigureColleague.cs" />
+    <Compile Include="Mediator\IBishopColleague.cs" />
+    <Compile Include="Mediator\IKingColleague.cs" />
+    <Compile Include="Mediator\IKnightColleague.cs" />
     <Compile Include="Mediator\IMoveMediator.cs" />
+    <Compile Include="Mediator\IPawnColleague.cs" />
+    <Compile Include="Mediator\IQueenColleague.cs" />
+    <Compile Include="Mediator\IRookColleague.cs" />
     <Compile Include="Mediator\KingColleague.cs" />
     <Compile Include="Mediator\KnightColleague.cs" />
-    <Compile Include="Mediator\Mediator.cs" />
     <Compile Include="Mediator\MoveMediator.cs" />
     <Compile Include="Mediator\PawnColleague.cs" />
     <Compile Include="Mediator\QueenColleague.cs" />
@@ -61,6 +75,7 @@
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\Chessboard.cs" />
     <Compile Include="Models\Figure.cs" />
+    <Compile Include="Models\IChessboard.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

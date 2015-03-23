@@ -268,70 +268,18 @@ var contr = angular.module('app.controllers', [])
 
     //Path /game/Id
     .controller('GameController', [
-        '$scope', '$interval', 'NywtonChessGameService', function ($scope, $interval, chessGameService) {
+        '$scope', '$interval', 'gameApi', function ($scope, $interval, gameApi) {
 
-            console.log($scope)
-            
-            function makeRandomMove() {
-                if ($scope.game.turn() == 'b') {
-                    chessGameService.makeRandomMove($scope.game, $scope.board);
-                }
-            }
+            $scope.chessBoard = gameApi.query();
 
-            $interval(makeRandomMove, 100);
-            
+            $scope.selectedItem = function (item) {
+                angular.forEach($scope.chessBoard, function (row) {
+                    angular.forEach(row, function (column) {
+                        column.active = false;
+                    });
+                });
 
-            $scope.getMoveDataByEntryAndColor = function (entry, color) { //color: true- white, false- black
-                var result = {
-                    Name: '',
-                    Symbol: '',
-                    Position: '',
-                    isGameOver: angular.copy($scope.game.game_over()),
-                    isCheck: angular.copy($scope.game.in_check()),
-                    isCheckMate: angular.copy($scope.game.in_checkmate()),
-                    isStalemate: angular.copy($scope.game.in_stalemate()),
-                    isDraw: angular.copy($scope.game.in_draw()),
-                    isKnockDown: entry.indexOf('x') >= 0
-                };
-
-                entry = entry.replace('+', '');
-                entry = entry.replace('#', '');
-                entry = entry.replace('=', '');
-                switch (entry.charAt(0)) {
-                    case 'N':
-                        result.Name = 'Конь';
-                        result.Symbol = color ? '♘' : '♞';
-                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
-                        break;
-
-                    case 'B':
-                        result.Name = 'Слон';
-                        result.Symbol = color ? '♗' : '♝';
-                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
-                        break;
-                    case 'R':
-                        result.Name = 'Ладья';
-                        result.Symbol = color ? '♖' : '♜';
-                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
-                        break;
-                    case 'Q':
-                        result.Name = 'Ферзь';
-                        result.Symbol = color ? '♕' : '♛';
-                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
-                        break;
-                    case 'K':
-                        result.Name = 'Король';
-                        result.Symbol = color ? '♔' : '♚';
-                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
-                        break;
-                    default:
-                        result.Name = 'Пешка';
-                        result.Symbol = color ? '♙' : '♟';
-                        result.Position = entry.charAt(entry.length - 2) + entry.charAt(entry.length - 1);
-
-                        break;
-                }
-                return result;
+                item.active = true;
             };
         }
     ])

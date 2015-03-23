@@ -20,13 +20,18 @@ angular.module('app.services', ['ngResource'])
             });
         }
     ])
-
     .factory('invitationApi', [
         '$resource', function ($resource) {
             return $resource(urlApiInvitation, {}, {
                 add: {
                     method: 'PUT'
                 }
+            });
+        }
+    ])
+    .factory('gameApi', [
+        '$resource', function ($resource) {
+            return $resource(urlApiGame, {}, {
             });
         }
     ])

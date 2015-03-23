@@ -2,17 +2,8 @@
 
 namespace Chess.Core.Mediator
 {
-    public class QueenColleague : FigureColleague
+    public class QueenColleague : FigureColleague, IQueenColleague
     {
-        public QueenColleague(Mediator mediator) : base(mediator)
-        {
-        }
-
-        public bool Send(Position from, Position to, Chessboard chessboard)
-        {
-            return Mediator.Send(from, to, chessboard, this);
-        }
-
         public override bool Move(Position from, Position to, Chessboard chessboard)
         {
             //TODO logic

@@ -130,6 +130,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AvailableInvitationController.cs" />
+    <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\InvitationController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Filters\AuthorizationFilters\CheckRoleAttribute.cs" />
@@ -158,6 +159,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Chess.Core\Chess.Core.csproj">
+      <Project>{94557e92-4e20-4014-91a1-47ada7b87896}</Project>
+      <Name>Chess.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chess.Entities\Chess.Entities\Chess.Entities.csproj">
       <Project>{a4e11b99-ed80-4021-b491-841eaa44a474}</Project>
       <Name>Chess.Entities</Name>
