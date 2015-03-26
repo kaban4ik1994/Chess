@@ -1,4 +1,5 @@
-﻿using Chess.Core.Models;
+﻿using System.Collections.Generic;
+using Chess.Core.Models;
 
 namespace Chess.Core.Mediator
 {
@@ -8,6 +9,11 @@ namespace Chess.Core.Mediator
         {
             //TODO logic
             return true;
+        }
+
+        public override IEnumerable<Position> GetPossibleMoves(Position figurePosition, Chessboard chessboard)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using Chess.Core.Enums;
 using Chess.Core.FactoryFigures;
 
@@ -33,7 +34,7 @@ namespace Chess.Core.Models
                 {
                     Board[x, y] = new Cell
                     {
-                        Position = new Position { X = Convert.ToChar(x + 65), Y = y + 1 },
+                        Position = new Position { X = ConvertIntToPositionX(x), Y = ConvertIntToPositionY(y) },
                     };
                 }
             }
@@ -81,9 +82,47 @@ namespace Chess.Core.Models
             return Convert.ToInt32(x - 65);
         }
 
+        public char IncrementX(char x)
+        {
+            var intX = ConvertPositionXToInt(x);
+            intX++;
+            return ConvertIntToPositionX(intX);
+        }
+
+        public char DecrementX(char x)
+        {
+            var intX = ConvertPositionXToInt(x);
+            intX--;
+            return ConvertIntToPositionX(intX);
+        }
+
+        public int IncrementY(int y)
+        {
+            var intY = ConvertPositionYToInt(y);
+            intY++;
+            return ConvertIntToPositionY(intY);
+        }
+
+        public int DecrementY(int y)
+        {
+            var intY = ConvertPositionYToInt(y);
+            intY--;
+            return ConvertIntToPositionY(intY);
+        }
+
+        public char ConvertIntToPositionX(int x)
+        {
+            return Convert.ToChar(x + 65);
+        }
+
         public int ConvertPositionYToInt(int y)
         {
             return y - 1;
+        }
+
+        public int ConvertIntToPositionY(int y)
+        {
+            return y + 1;
         }
 
         private Figure GetFigureByStartingPosition(Position position)

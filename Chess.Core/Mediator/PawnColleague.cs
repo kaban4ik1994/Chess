@@ -1,88 +1,98 @@
-﻿using Chess.Core.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Chess.Core.Enums;
 using Chess.Core.Models;
 
 namespace Chess.Core.Mediator
 {
     public class PawnColleague : FigureColleague, IPawnColleague
     {
+
         public override bool Move(Position from, Position to, Chessboard chessboard)
         {
-            var figureTo = chessboard.GetFigureByPosition(to);
-            var figureFrom = chessboard.GetFigureByPosition(from);
 
-            if (figureTo == null)
+            var possibleMoves = GetPossibleMoves(from, chessboard);
+
+            if (possibleMoves.Any(x => x.Equals(to)))
             {
-                if (from.X == to.X)
-                {
-                    if (figureFrom.Color == Color.Black)
-                    {
-                        if (to.Y - from.Y == -1)
-                        {
-                            chessboard.ChangeThePositionOfTheFigure(from, to);
-                            return true;
-                        }
-
-                        if (to.Y - from.Y == -2 && from.Y == 7)
-                        {
-                            chessboard.ChangeThePositionOfTheFigure(from, to);
-                            return true;
-                        }
-
-                        return false;
-                    }
-
-                    if (figureFrom.Color == Color.White)
-                    {
-                        if (to.Y - from.Y == 1)
-                        {
-                            chessboard.ChangeThePositionOfTheFigure(from, to);
-                            return true;
-                        }
-
-                        if (to.Y - from.Y == 2 && from.Y == 2)
-                        {
-                            chessboard.ChangeThePositionOfTheFigure(from, to);
-                            return true;
-                        }
-
-                        return false;
-                    }
-                }
-            }
-
-            else
-            {
-                if (figureTo.Color == figureFrom.Color) return false;
-
-                var fromPositionX = chessboard.ConvertPositionXToInt(from.X);
-                var fromPositionY = chessboard.ConvertPositionYToInt(from.Y);
-                var toPositionX = chessboard.ConvertPositionXToInt(to.X);
-                var toPositionY = chessboard.ConvertPositionYToInt(to.Y);
-
-                if (figureFrom.Color == Color.Black)
-                {
-                    if (fromPositionX + 1 == toPositionX
-                        || fromPositionX - 1 == toPositionX
-                        && fromPositionY - 1 == toPositionY)
-                    {
-                        chessboard.ChangeThePositionOfTheFigure(from, to);
-                        return true;
-                    }
-                }
-
-                if (figureFrom.Color == Color.White)
-                {
-                    if (fromPositionX + 1 == toPositionX
-                        || fromPositionX - 1 == toPositionX
-                        && fromPositionY + 1 == toPositionY)
-                    {
-                        chessboard.ChangeThePositionOfTheFigure(from, to);
-                        return true;
-                    }
-                }
+                chessboard.ChangeThePositionOfTheFigure(from, to);
+                return true;
             }
 
             return false;
+        }
+
+        public override IEnumerable<Position> GetPossibleMoves(Position figurePosition, Chessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var testPosition2 = new Position(figurePosition);
+
+            if (figure.Color == Color.White)
+            {
+                testPosition.Y += 2;
+                testPosition2.Y++;
+
+                if (figurePosition.Y == 2 && chessboard.GetFigureByPosition(testPosition) == null && chessboard.GetFigureByPosition(testPosition2) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+
+                if (testPosition2.Y <= 8 && chessboard.GetFigureByPosition(testPosition2) == null)
+                {
+                    result.Add(new Position(testPosition2));
+                }
+
+                testPosition2.X = chessboard.IncrementX(testPosition2.X);
+
+                if (chessboard.ConvertPositionXToInt(testPosition2.X) <= chessboard.ConvertPositionXToInt('H') && chessboard.GetFigureByPosition(testPosition2) != null)
+                {
+                    result.Add(new Position(testPosition2));
+                }
+
+                testPosition2.X = chessboard.DecrementX(testPosition2.X);
+                testPosition2.X = chessboard.DecrementX(testPosition2.X);
+
+                if (chessboard.ConvertPositionXToInt(testPosition2.X) >= chessboard.ConvertPositionXToInt('A') && chessboard.GetFigureByPosition(testPosition2) != null)
+                {
+                    result.Add(new Position(testPosition2));
+                }
+
+            }
+
+            else if (figure.Color == Color.Black)
+            {
+                testPosition.Y -= 2;
+                testPosition2.Y--;
+
+                if (figurePosition.Y == 7 && chessboard.GetFigureByPosition(testPosition) == null && chessboard.GetFigureByPosition(testPosition2) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+
+                if (testPosition2.Y >= 1 && chessboard.GetFigureByPosition(testPosition2) == null)
+                {
+                    result.Add(new Position(testPosition2));
+                }
+
+                testPosition2.X = chessboard.IncrementX(testPosition2.X);
+
+                if (chessboard.ConvertPositionXToInt(testPosition2.X) <= chessboard.ConvertPositionXToInt('H') && chessboard.GetFigureByPosition(testPosition2) != null)
+                {
+                    result.Add(new Position(testPosition2));
+                }
+
+                testPosition2.X = chessboard.DecrementX(testPosition2.X);
+                testPosition2.X = chessboard.DecrementX(testPosition2.X);
+
+                if (chessboard.ConvertPositionXToInt(testPosition2.X) >= chessboard.ConvertPositionXToInt('A') && chessboard.GetFigureByPosition(testPosition2) != null)
+                {
+                    result.Add(new Position(testPosition2));
+                }
+            }
+
+            return result;
         }
     }
 }

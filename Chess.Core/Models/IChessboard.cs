@@ -18,5 +18,12 @@ namespace Chess.Core.Models
         Figure GetFigureByPosition(Position position);
         int ConvertPositionXToInt(char x);
         int ConvertPositionYToInt(int y);
+        char ConvertIntToPositionX(int x);
+        int ConvertIntToPositionY(int y);
+        char IncrementX(char x);
+        char DecrementX(char x);
+        int IncrementY(int y);
+        int DecrementY(int y);
+
     }
 }
