@@ -1,11 +1,14 @@
-﻿using System.Data.Entity.Core.Metadata.Edm;
+﻿using System;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.UI.WebControls;
 using Chess.Services.Interfaces;
 using Chess.WebAPI.Filters.AuthorizationFilters;
+using Chess.WebAPI.Helpers;
 using Repository.Pattern.UnitOfWork;
 
 namespace Chess.WebAPI.Controllers
@@ -30,6 +33,16 @@ namespace Chess.WebAPI.Controllers
                 Items = await _invitationService.GetAvailableInvitationAsync(),
                 Count = await _invitationService.GetAvailableInvitationCountAsync()
             });
+        }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> Post(long invitationId)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var result = await _invitationService.AcceptInvitation(invitationId, TokenHelper.GetCurrentUserToken(HttpContext.Current));
+            if (!result) return BadRequest();
+
+            return Ok();
         }
     }
 }

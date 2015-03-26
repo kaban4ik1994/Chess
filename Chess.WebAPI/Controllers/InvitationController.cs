@@ -7,6 +7,7 @@ using AutoMapper;
 using Chess.Entities.Models;
 using Chess.Services.Interfaces;
 using Chess.WebAPI.Filters.AuthorizationFilters;
+using Chess.WebAPI.Helpers;
 using Chess.WebAPI.Models;
 using Microsoft.Practices.Unity.Utility;
 using Repository.Pattern.UnitOfWork;
@@ -36,9 +37,8 @@ namespace Chess.WebAPI.Controllers
         public async Task<IHttpActionResult> Delete(long invitationId)
         {
             if (!ModelState.IsValid) return BadRequest();
-            var token = HttpContext.Current.Request.Headers.Get("Authorization");
             var result =
-                await _invitationService.DeleteInvitationByInvitationIdAndUserToken(invitationId, Guid.Parse(token));
+                await _invitationService.DeleteInvitationByInvitationIdAndUserToken(invitationId, TokenHelper.GetCurrentUserToken(HttpContext.Current));
             if (result) return Ok();
             return BadRequest();
         }

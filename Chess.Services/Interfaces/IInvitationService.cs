@@ -10,8 +10,11 @@ namespace Chess.Services.Interfaces
     public interface IInvitationService : IService<Invitation>
     {
         Task<IEnumerable<InvitationViewModel>> GetAvailableInvitationAsync();
+        Task<IEnumerable<InvitationViewModel>> GetAcceptInvitationByUserToken(Guid userToken);
         Task<long> GetAvailableInvitationCountAsync();
+        Task<long> GetAcceptInvitationCountByUserToken(Guid userToken);
         Task<InvitationViewModel> AddInvitation(Invitation invitation);
         Task<bool> DeleteInvitationByInvitationIdAndUserToken(long invitationId, Guid userToken);
+        Task<bool> AcceptInvitation(long invitationId, Guid userToken);
     }
 }

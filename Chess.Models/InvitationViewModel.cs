@@ -10,6 +10,7 @@ namespace Chess.Models
         public bool IsDeclined { get; set; }
         public long InvitatorId { get; set; }
         public long? AcceptorId { get; set; }
+        public string AcceptorUserName { get; set; }
         public long? GameId { get; set; }
         public string InvitatorUserName { get; set; }
     }

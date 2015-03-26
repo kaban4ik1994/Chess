@@ -24,7 +24,5 @@ namespace Chess.WebAPI.Controllers
             _chessboard.InitNewGame();
             return Json(_chessboard.Board);
         }
-
-
     }
 }
