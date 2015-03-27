@@ -1,4 +1,6 @@
-﻿namespace Chess.Core.Models
+﻿using Newtonsoft.Json;
+
+namespace Chess.Core.Models
 {
     public class Cell
     {
@@ -13,7 +15,9 @@
             Position = new Position(cell.Position);
         }
 
+        [JsonProperty("Figure")]
         public Figure Figure { get; set; }
+        [JsonProperty("Position")]
         public Position Position { get; set; }
     }
 }

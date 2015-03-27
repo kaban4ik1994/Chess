@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using Chess.Core.Enums;
 using Chess.Core.FactoryFigures;
+using Newtonsoft.Json;
 
 namespace Chess.Core.Models
 {
@@ -25,7 +25,6 @@ namespace Chess.Core.Models
             CreatorPawn = creatorPawn;
             CreatorQueen = creatorQueen;
             CreatorRook = creatorRook;
-
             Board = new Cell[8, 8];
 
             for (var x = 0; x <= 7; x++)
@@ -108,6 +107,16 @@ namespace Chess.Core.Models
             var intY = ConvertPositionYToInt(y);
             intY--;
             return ConvertIntToPositionY(intY);
+        }
+
+        public string SerializedBoard()
+        {
+            return JsonConvert.SerializeObject(Board);
+        }
+
+        public void DeserializeBoard(string value)
+        {
+            Board = JsonConvert.DeserializeObject<Cell[,]>(value);
         }
 
         public char ConvertIntToPositionX(int x)

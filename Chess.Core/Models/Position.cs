@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Chess.Core.Models
 {
@@ -15,7 +16,9 @@ namespace Chess.Core.Models
             Y = position.Y;
         }
 
+        [JsonProperty("X")]
         public char X { get; set; }
+        [JsonProperty("Y")]
         public int Y { get; set; }
 
         public override bool Equals(Object obj)

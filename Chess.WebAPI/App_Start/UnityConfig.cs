@@ -60,8 +60,6 @@ namespace Chess.WebAPI.App_Start
                 .RegisterType<IRepositoryAsync<GameLog>, Repository<GameLog>>()
                 .RegisterType<IRepositoryAsync<Player>, Repository<Player>>()
                 .RegisterType<IRepositoryAsync<PlayerGame>, Repository<PlayerGame>>()
-                .RegisterType<IRepositoryAsync<PlayerGame>, Repository<PlayerGame>>()
-                .RegisterType<IRepositoryAsync<Game>, Repository<Game>>()
                 .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager())
                 .RegisterType<IGameService, GameService>(new PerThreadLifetimeManager())
                 .RegisterType<IInvitationService, InvitationService>(new PerThreadLifetimeManager())

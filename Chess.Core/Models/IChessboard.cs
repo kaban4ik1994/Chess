@@ -24,6 +24,7 @@ namespace Chess.Core.Models
         char DecrementX(char x);
         int IncrementY(int y);
         int DecrementY(int y);
-
+        string SerializedBoard();
+        void DeserializeBoard(string value);
     }
 }

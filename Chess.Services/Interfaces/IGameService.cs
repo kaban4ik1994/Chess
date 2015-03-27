@@ -7,6 +7,6 @@ namespace Chess.Services.Interfaces
 {
     public interface IGameService : IService<Game>
     {
-        Task<Chessboard> InitializeANewGameByInvitationId(long invitationId);
+        Task<Cell[,]> InitializeNewGameByInvitationId(long invitationId);
     }
 }

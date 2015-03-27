@@ -1,5 +1,6 @@
 ﻿using System;
 using Chess.Core.Enums;
+using Newtonsoft.Json;
 
 namespace Chess.Core.Models
 {
@@ -16,7 +17,9 @@ namespace Chess.Core.Models
             Color = figure.Color;
         }
 
+        [JsonProperty("Type")]
         public FigureType Type { get; set; }
+        [JsonProperty("Color")]
         public Color Color { get; set; }
 
         public override bool Equals(Object obj)

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Chess.Entities.Models;
 using Chess.Models;
 using Chess.Services.Interfaces;
+using Repository.Pattern.Infrastructure;
 using Repository.Pattern.Repositories;
 using Repository.Pattern.UnitOfWork;
 using Service.Pattern;
@@ -142,6 +143,7 @@ namespace Chess.Services
 
             invitation.AcceptorId = acceptor.UserId;
             invitation.IsAccepted = true;
+            invitation.ObjectState=ObjectState.Modified;
             Update(invitation);
             await _unitOfWorkAsync.SaveChangesAsync();
             return await Task.FromResult(true);
