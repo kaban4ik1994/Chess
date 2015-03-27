@@ -37,7 +37,8 @@ namespace Chess.Services
 
         public Task<IEnumerable<InvitationViewModel>> GetAcceptInvitationByUserToken(Guid userToken)
         {
-            return Task.FromResult(Query(x => x.IsAccepted && x.IsDeclined == false && x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null)
+            return Task.FromResult(Query(x => x.IsAccepted && x.IsDeclined == false && x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
+               || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null)
                 .Select(invitation =>
                 new InvitationViewModel
                 {
@@ -60,7 +61,8 @@ namespace Chess.Services
                     Query(
                         x =>
                             x.IsAccepted && x.IsDeclined == false &&
-                            x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null)
+                            (x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
+                            || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null))
                         .Select().LongCount());
 
         }
@@ -109,7 +111,7 @@ namespace Chess.Services
             var acceptor = _repositoryAsync.Query(user => user.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null).Select().FirstOrDefault();
             if (acceptor == null) return await Task.FromResult(false);
 
-            var invitation = Query(x => x.InvitatorId == invitationId).SelectAsync().Result.FirstOrDefault();
+            var invitation = Query(x => x.Id == invitationId).SelectAsync().Result.FirstOrDefault();
             if (invitation == null) return await Task.FromResult(false);
 
             invitation.AcceptorId = acceptor.UserId;

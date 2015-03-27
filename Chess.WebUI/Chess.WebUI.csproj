@@ -57,6 +57,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\angular-block-ui.css" />
+    <Content Include="css\angular-block-ui.min.css" />
     <Content Include="css\chessboard-0.3.0.css" />
     <Content Include="css\loading-bar\loading-bar.css" />
     <Content Include="css\ngTable\ng-table.less" />
@@ -76,6 +78,8 @@
     <Content Include="img\jqueryui\index.php" />
     <Content Include="img\pattern\index.php" />
     <Content Include="img\superbox\index.php" />
+    <Content Include="js\libs\angular-block-ui\angular-block-ui.js" />
+    <Content Include="js\libs\angular-block-ui\angular-block-ui.min.js" />
     <Content Include="js\libs\chessComponents\chess.js" />
     <Content Include="js\libs\chessComponents\chessboard.js" />
     <Content Include="js\libs\loading-bar\loading-bar.js" />
@@ -143,6 +147,9 @@
     <Content Include="sound\voice_on.ogg" />
     <Content Include="js\ng\ng.animations.js" />
     <Content Include="js\ng\ng.chess.js" />
+    <Content Include="js\libs\angular-block-ui\angular-block-ui.js.map" />
+    <Content Include="js\libs\angular-block-ui\angular-block-ui.min.js.map" />
+    <Content Include="css\angular-block-ui.css.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

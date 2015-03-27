@@ -32,6 +32,40 @@
                             </span>
                             <span style="padding-left: 0; width: 50px">
                                 <label class="input-lg">
+                                    <a href="#" ng-disabled="currentUserId==item.InvitatorId" ng-click="takeInvitation(item)" class="btn btn-block btn-sm btn-info"><i class="fa fa-check"></i></a>
+                                    <i></i>
+                                </label>
+                            </span>
+                            <p style="padding-left: 25px">
+                                <strong>{{item.InvitatorUserName}}</strong>
+                                <span class="date">{{item.CreateDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+
+                            </p>
+                        </li>
+                    </ul>
+                    
+                    <h5 class="todo-group-title">
+                        <i class="fa fa-check"></i>Принятые приглашения (<small class="num-of-tasks">{{acceptInvitation.Count}}</small>)
+
+                        <small class="pull-right margin-right-5">
+                            <a ng-href="" ng-click="refreshAcceptInvitation()" class="btn btn-block btn-sm btn-info">
+                                <i class="fa fa-refresh"></i>
+                            </a>
+                        </small>
+
+                        <small class="pull-right margin-right-5">
+                            Automatic update after {{refreshAcceptInvitationTime}} seconds
+                        </small>
+   
+                    </h5>
+                    <ul id="sortable2" class="todo">
+                        <li ng-repeat="item in acceptInvitation.Items" class="fa-apple repeat-animation">
+                            <i></i>
+                            <span class="pull-right margin-top-10" ng-if="currentUserId==item.InvitatorId || isAdmin">
+                                <a ng-href="" ng-click="deleteInvitation(item.Id)" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+                            </span>
+                            <span style="padding-left: 0; width: 50px">
+                                <label class="input-lg">
                                     <a href="#" ng-disabled="currentUserId==item.InvitatorId" class="btn btn-block btn-sm btn-info"><i class="fa fa-check"></i></a>
                                     <i></i>
                                 </label>
@@ -43,6 +77,7 @@
                             </p>
                         </li>
                     </ul>
+
                     <!-- end content -->
                 </div>
 

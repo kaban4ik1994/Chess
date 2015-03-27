@@ -15,13 +15,23 @@ var smartApp = angular.module('smartApp', [
   	'app.activity',
   	'app.smartui',
     'LocalStorageModule',
-    'nywton.chess'
+    'blockUI',
 ]);
 
 smartApp.config([
     'cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     }
 ]);
+
+smartApp.config(function(blockUIConfig) {
+
+    // Change the default overlay message
+    blockUIConfig.message = 'Loading...';
+
+    // Change the default delay to 100ms before the blocking is visible
+    blockUIConfig.delay = 20;
+
+});
 
 smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provide) {
     $routeProvider

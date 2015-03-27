@@ -2,12 +2,15 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Chess.Services.Interfaces;
+using Chess.WebAPI.Filters.AuthorizationFilters;
 using Chess.WebAPI.Helpers;
 using Repository.Pattern.UnitOfWork;
 
 namespace Chess.WebAPI.Controllers
 {
+    [CheckRole("Admin,User"), EnableCors("*", "*", "*")]
     public class AcceptInvitationController : ApiController
     {
         private readonly IInvitationService _invitationService;
@@ -22,7 +25,6 @@ namespace Chess.WebAPI.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
-            if (!ModelState.IsValid) return BadRequest();
             return Ok(new
             {
                 Items = await _invitationService.GetAcceptInvitationByUserToken(TokenHelper.GetCurrentUserToken(HttpContext.Current)),

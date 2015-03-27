@@ -20,6 +20,14 @@ angular.module('app.services', ['ngResource'])
             });
         }
     ])
+
+    .factory('acceptInvitation', [
+        '$resource', function ($resource) {
+            return $resource(urlApiAcceptInvitation, {}, {
+
+            });
+        }])
+
     .factory('invitationApi', [
         '$resource', function ($resource) {
             return $resource(urlApiInvitation, {}, {

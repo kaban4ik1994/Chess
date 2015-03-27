@@ -223,16 +223,39 @@ var contr = angular.module('app.controllers', [])
 
     // Path : /Invitation
     .controller('InvitationController', [
-        '$scope', '$rootScope', 'authService', '$location', 'availableInvitationApi', 'invitationApi',
-        function ($scope, $rootScope, authService, $location, availableInvitationApi, invitationApi) {
+        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitation',
+        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitation) {
+
+            function removeInvitationFromListById(list, id) {
+                angular.forEach(list, function (value, index) {
+                    if (value.Id == id) {
+                        list.splice(index, 1);
+                        list.Count--;
+                    }
+                }
+                );
+            }
+
+
             if (authService.authentication.isAuth == false) {
                 $location.path('/Login');
             } else {
-                $scope.isLoading = true;
+
+                $scope.refreshAcceptInvitationTime = 30;
+
+                $interval(function () {
+                    console.log($scope.refreshAcceptInvitationTime)
+                    if ($scope.refreshAcceptInvitationTime == 0) {
+                        $scope.refreshAcceptInvitationTime = 30;
+                        $scope.refreshAcceptInvitation();
+                    } else {
+                        $scope.refreshAcceptInvitationTime--;
+                    }
+                }, 1000);
+
+
                 $scope.availableInvitation = availableInvitationApi.get({}, function () {
-                    $scope.isLoading = false;
                 }, function () {
-                    $scope.isLoading = false;
                 });
 
                 $scope.isAdmin = authService.authentication.IsAdmin;
@@ -248,12 +271,8 @@ var contr = angular.module('app.controllers', [])
 
                 $scope.deleteInvitation = function (id) {
                     invitationApi.delete({ invitationId: id }, function () {
-                        angular.forEach($scope.availableInvitation.Items, function (value, index) {
-                            if (value.Id == id) {
-                                $scope.availableInvitation.Items.splice(index, 1);
-                                $scope.availableInvitation.Count--;
-                            }
-                        });
+                        removeInvitationFromListById($scope.availableInvitation.Items, id);
+                        $scope.availableInvitation.Count--;
                     });
                 };
 
@@ -262,6 +281,26 @@ var contr = angular.module('app.controllers', [])
                     }, function () {
                     });
                 };
+
+                $scope.acceptInvitation = acceptInvitation.get({}, function () {
+                }, function () {
+                });
+
+                $scope.refreshAcceptInvitation = function () {
+                    $scope.acceptInvitation = acceptInvitation.get({}, function () {
+                    }, function () {
+                    });
+                }
+
+                $scope.takeInvitation = function (invitation) {
+                    console.log(invitation);
+                    availableInvitationApi.save({ InvitationId: invitation.Id }, function () {
+                        removeInvitationFromListById($scope.availableInvitation.Items, invitation.Id);
+                        $scope.availableInvitation.Count--;
+                        $scope.acceptInvitation.Items.push(invitation);
+                        $scope.acceptInvitation.Count++;
+                    });
+                }
             }
         }
     ])

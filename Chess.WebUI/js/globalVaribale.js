@@ -7,3 +7,4 @@ var urlApiTestChess = baseUrlApiChess + "Test";
 var urlApiAvailableInvitation = baseUrlApiChess + "AvailableInvitation";
 var urlApiInvitation = baseUrlApiChess + "Invitation";
 var urlApiGame = baseUrlApiChess + "Game";
+var urlApiAcceptInvitation = baseUrlApiChess + "AcceptInvitation";

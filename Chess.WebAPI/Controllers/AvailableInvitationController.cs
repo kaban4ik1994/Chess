@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using Chess.Services.Interfaces;
 using Chess.WebAPI.Filters.AuthorizationFilters;
 using Chess.WebAPI.Helpers;
+using Chess.WebAPI.Models;
 using Repository.Pattern.UnitOfWork;
 
 namespace Chess.WebAPI.Controllers
@@ -36,10 +37,11 @@ namespace Chess.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(long invitationId)
+        public async Task<IHttpActionResult> Post([FromBody]TakeInvitationViewModel model)
         {
+
             if (!ModelState.IsValid) return BadRequest();
-            var result = await _invitationService.AcceptInvitation(invitationId, TokenHelper.GetCurrentUserToken(HttpContext.Current));
+            var result = await _invitationService.AcceptInvitation(model.InvitationId, TokenHelper.GetCurrentUserToken(HttpContext.Current));
             if (!result) return BadRequest();
 
             return Ok();
