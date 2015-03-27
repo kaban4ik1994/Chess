@@ -4,6 +4,7 @@ namespace Chess.Models
 {
     public class GameViewModel
     {
+        public long GameId { get; set; }
         public DateTime FirstPlayerGameTime { get; set; }
         public DateTime SecondPlayerGameTime { get; set; }
         public string FirstPlayerName { get; set; }

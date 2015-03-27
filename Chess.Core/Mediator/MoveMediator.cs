@@ -23,7 +23,7 @@ namespace Chess.Core.Mediator
             _bishopColleague = bishopColleague;
         }
 
-        public bool Send(Position from, Position to, Chessboard chessboard)
+        public bool Send(Position from, Position to, IChessboard chessboard)
         {
             var figureFrom = chessboard.GetFigureByPosition(from);
             if (figureFrom == null) return false;

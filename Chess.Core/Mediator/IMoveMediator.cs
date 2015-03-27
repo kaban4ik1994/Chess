@@ -4,6 +4,6 @@ namespace Chess.Core.Mediator
 {
     public interface IMoveMediator
     {
-        bool Send(Position from, Position to, Chessboard chessboard);
+        bool Send(Position from, Position to, IChessboard chessboard);
     }
 }

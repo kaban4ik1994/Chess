@@ -5,13 +5,13 @@ namespace Chess.Core.Mediator
 {
     public class KingColleague : FigureColleague, IKingColleague
     {
-        public override bool Move(Position from, Position to, Chessboard chessboard)
+        public override bool Move(Position from, Position to, IChessboard chessboard)
         {
             //TODO logic
             return true;
         }
 
-        public override IEnumerable<Position> GetPossibleMoves(Position figurePosition, Chessboard chessboard)
+        public override IEnumerable<Position> GetPossibleMoves(Position figurePosition, IChessboard chessboard)
         {
             throw new System.NotImplementedException();
         }

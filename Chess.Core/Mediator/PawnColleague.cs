@@ -8,7 +8,7 @@ namespace Chess.Core.Mediator
     public class PawnColleague : FigureColleague, IPawnColleague
     {
 
-        public override bool Move(Position from, Position to, Chessboard chessboard)
+        public override bool Move(Position from, Position to, IChessboard chessboard)
         {
 
             var possibleMoves = GetPossibleMoves(from, chessboard);
@@ -22,7 +22,7 @@ namespace Chess.Core.Mediator
             return false;
         }
 
-        public override IEnumerable<Position> GetPossibleMoves(Position figurePosition, Chessboard chessboard)
+        public override IEnumerable<Position> GetPossibleMoves(Position figurePosition, IChessboard chessboard)
         {
             var result = new List<Position>();
             var figure = chessboard.GetFigureByPosition(figurePosition);

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Threading.Tasks;
+using Chess.Core.Mediator;
 using Chess.Core.Models;
 using Chess.Entities.Models;
 using Chess.Models;
@@ -18,13 +20,15 @@ namespace Chess.Services
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly IChessboard _chessboard;
         private readonly IRepositoryAsync<Invitation> _invitationRepository;
+        private readonly IMoveMediator _moveMediator;
 
-        public GameService(IRepositoryAsync<Game> repository, IUnitOfWorkAsync unitOfWorkAsync, IChessboard chessboard, IRepositoryAsync<Invitation> invitationRepository)
+        public GameService(IRepositoryAsync<Game> repository, IUnitOfWorkAsync unitOfWorkAsync, IChessboard chessboard, IRepositoryAsync<Invitation> invitationRepository, IMoveMediator moveMediator)
             : base(repository)
         {
             _unitOfWorkAsync = unitOfWorkAsync;
             _chessboard = chessboard;
             _invitationRepository = invitationRepository;
+            this._moveMediator = moveMediator;
         }
 
         public async Task<GameViewModel> GetGameBoardByInvitationId(long invitationId)
@@ -62,16 +66,17 @@ namespace Chess.Services
                 game.GameLogs.Add(gameLog);
                 invitation.Game = game;
                 invitation.GameId = game.Id;
-               
+
                 _invitationRepository.Update(invitation);
-              
-               
+
+
                 await _unitOfWorkAsync.SaveChangesAsync();
             }
 
 
             var result = _invitationRepository.Query(x => x.Id == invitationId).Select(invitation1 => new GameViewModel
               {
+                  GameId = invitation1.Game.Id,
                   FirstPlayerGameTime = invitation1.Game.FirstPlayerGameTime,
                   SecondPlayerGameTime = invitation1.Game.SecondPlayerGameTime,
                   FirstPlayerName = invitation1.Invitator.User.UserName,
@@ -81,6 +86,29 @@ namespace Chess.Services
               }).FirstOrDefault();
 
             return await Task.FromResult(result);
+        }
+
+        public async Task<GameViewModel> MakeMove(long gameId, Position from, Position to)
+        {
+            var game = Query(x => x.Id == gameId).Include(x => x.GameLogs)
+                .Include(game1 => game1.Invitation)
+                .Select().FirstOrDefault();
+            if (game == null) return null;
+            _chessboard.DeserializeBoard(game.GameLogs.Last().Log);
+            var moveResult = _moveMediator.Send(from, to, _chessboard);
+            if (moveResult == false) return null;
+            game.GameLogs.Add(new GameLog { CreateDate = DateTime.Now, ObjectState = ObjectState.Added, Log = _chessboard.SerializedBoard(), Index = game.GameLogs.Last().Index + 1 });
+            Update(game);
+            await _unitOfWorkAsync.SaveChangesAsync();
+            return
+                await
+                    Task.FromResult(new GameViewModel
+                    {
+                        GameLog = game.GameLogs.Last().Log,
+                        LogIndex = game.GameLogs.Last().Index,
+                        SecondPlayerGameTime = game.SecondPlayerGameTime,
+                        FirstPlayerGameTime = game.FirstPlayerGameTime
+                    });
         }
     }
 }

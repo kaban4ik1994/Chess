@@ -337,7 +337,6 @@ var contr = angular.module('app.controllers', [])
                 var result;
                 angular.forEach($scope.chessBoard.GameLog, function (row) {
                     angular.forEach(row, function (column) {
-                        column.active = false;
                         if (column.active == true) {
                             result = column;
                         }
@@ -347,17 +346,40 @@ var contr = angular.module('app.controllers', [])
             }
 
             $scope.selectedItem = function (item) {
+                var activeFigure = getActiveFigure();
+                console.log(activeFigure)
+                var isMove = false;
+                if (activeFigure != null) {
+                    activeFigure.active = false;
+                    isMove = true;
 
-                var activeFigur = getActiveFigure();
-                if (activeFigur != null) {
-                    activeFigur.active = false;
                 }
-                item.active = true;
+                if (isMove && activeFigure.Figure != null) {
+                    gameApi.save({ GameId: $scope.chessBoard.GameId, FromX: activeFigure.Position.X, FromY: activeFigure.Position.Y, ToX: item.Position.X, ToY: item.Position.Y, }, function (data) {
+                        $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
+                    }, function () {
+
+                    });
+                } else {
+                    item.active = true;
+                }
             };
 
-            gameApi.get({ invitationId: $routeParams.invitationId }, function (data) {
-                $scope.chessBoard = data.GameData;
-                $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
+            var refreshBoardInterval = $interval(function () {
+                refreshBoard();
+            }, 5000);
+
+            function refreshBoard() {
+                gameApi.get({ invitationId: $routeParams.invitationId }, function (data) {
+                    $scope.chessBoard = data.GameData;
+                    $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
+                });
+            }
+
+            refreshBoard();
+
+            $scope.$on('$destroy', function () {
+                $interval.cancel(refreshBoardInterval);
             });
         }
     ])

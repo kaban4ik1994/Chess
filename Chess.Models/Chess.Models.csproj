@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="GameViewModel.cs" />
     <Compile Include="InvitationViewModel.cs" />
+    <Compile Include="MakeMoveViewModel.cs" />
     <Compile Include="UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

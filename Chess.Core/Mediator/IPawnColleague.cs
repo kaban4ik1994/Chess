@@ -5,7 +5,7 @@ namespace Chess.Core.Mediator
 {
     public interface IPawnColleague
     {
-        bool Move(Position from, Position to, Chessboard chessboard);
-        IEnumerable<Position> GetPossibleMoves(Position figurePosition, Chessboard chessboard);
+        bool Move(Position from, Position to, IChessboard chessboard);
+        IEnumerable<Position> GetPossibleMoves(Position figurePosition, IChessboard chessboard);
     }
 }
