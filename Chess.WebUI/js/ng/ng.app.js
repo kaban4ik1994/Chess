@@ -57,7 +57,7 @@ smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provid
             controller: 'RegisterController',
             templateUrl: 'views/register.html'
         })
-        .when('/Game', {
+        .when('/Game/:invitationId', {
             controller: 'GameController',
             templateUrl: 'views/game.html'
         })

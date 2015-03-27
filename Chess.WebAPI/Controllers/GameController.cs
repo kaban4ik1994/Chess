@@ -2,6 +2,8 @@
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Chess.Core.Models;
+using Chess.Entities.Models;
+using Chess.Services.Interfaces;
 using Chess.WebAPI.Filters.AuthorizationFilters;
 
 namespace Chess.WebAPI.Controllers
@@ -9,18 +11,17 @@ namespace Chess.WebAPI.Controllers
     [CheckRole("Admin,User"), EnableCors("*", "*", "*")]
     public class GameController : ApiController
     {
-        private readonly IChessboard _chessboard;
+        private readonly IGameService _gameService;
 
-        public GameController(IChessboard chessboard)
+        public GameController(IGameService gameService)
         {
-            _chessboard = chessboard;
+            _gameService = gameService;
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(long invitationId)
         {
-            _chessboard.InitNewGame();
-            return Json(_chessboard.Board);
+            return Ok(new {GameData = await _gameService.GetGameBoardByInvitationId(invitationId)});
         }
     }
 }

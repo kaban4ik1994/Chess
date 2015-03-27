@@ -236,7 +236,6 @@ var contr = angular.module('app.controllers', [])
                 );
             }
 
-
             if (authService.authentication.isAuth == false) {
                 $location.path('/Login');
             } else {
@@ -245,7 +244,7 @@ var contr = angular.module('app.controllers', [])
                 $scope.currentUserId = authService.authentication.UserId;
 
 
-                $interval(function () {
+                var acceptInvitationsInterval = $interval(function () {
                     if ($scope.refreshAcceptInvitationsTime == 0) {
                         $scope.refreshAcceptInvitations();
                     } else {
@@ -253,7 +252,7 @@ var contr = angular.module('app.controllers', [])
                     }
                 }, 1000);
 
-                $interval(function () {
+                var availableInvitationsInterval = $interval(function () {
                     if ($scope.refreshAvailableInvitationsTime == 0) {
                         $scope.refreshAvailableInvitations();
                     } else {
@@ -261,7 +260,7 @@ var contr = angular.module('app.controllers', [])
                     }
                 }, 1000);
 
-                $interval(function () {
+                var closedInvitationsInterval = $interval(function () {
                     if ($scope.refreshClosedInvitationsTime == 0) {
                         $scope.refreshClosedInvitations();
                     } else {
@@ -321,18 +320,24 @@ var contr = angular.module('app.controllers', [])
                 $scope.refreshAcceptInvitations();
                 $scope.refreshClosedInvitations();
 
+                $scope.$on('$destroy', function () {
+                    $interval.cancel(acceptInvitationsInterval);
+                    $interval.cancel(availableInvitationsInterval);
+                    $interval.cancel(closedInvitationsInterval);
+                });
             }
         }
     ])
 
     //Path /game/Id
     .controller('GameController', [
-        '$scope', '$interval', 'gameApi', function ($scope, $interval, gameApi) {
+        '$scope', '$interval', '$routeParams', 'gameApi', function ($scope, $interval, $routeParams, gameApi) {
 
             function getActiveFigure() {
                 var result;
-                angular.forEach($scope.chessBoard, function (row) {
+                angular.forEach($scope.chessBoard.GameLog, function (row) {
                     angular.forEach(row, function (column) {
+                        column.active = false;
                         if (column.active == true) {
                             result = column;
                         }
@@ -340,8 +345,6 @@ var contr = angular.module('app.controllers', [])
                 });
                 return result;
             }
-
-            $scope.chessBoard = gameApi.query();
 
             $scope.selectedItem = function (item) {
 
@@ -351,6 +354,11 @@ var contr = angular.module('app.controllers', [])
                 }
                 item.active = true;
             };
+
+            gameApi.get({ invitationId: $routeParams.invitationId }, function (data) {
+                $scope.chessBoard = data.GameData;
+                $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
+            });
         }
     ])
 
