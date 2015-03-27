@@ -223,8 +223,8 @@ var contr = angular.module('app.controllers', [])
 
     // Path : /Invitation
     .controller('InvitationController', [
-        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitationApi', 'closedInvitationApi',
-        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitationApi, closedInvitationApi) {
+        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitationApi', 'closedInvitationApi', 'blockUI',
+        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitationApi, closedInvitationApi, blockUI) {
 
             function removeInvitationFromListById(list, id) {
                 angular.forEach(list, function (value, index) {
@@ -269,50 +269,67 @@ var contr = angular.module('app.controllers', [])
                 }, 1000);
 
                 $scope.newInvitation = function () {
+                    blockUI.start();
                     invitationApi.add({ InvitatorId: authService.authentication.UserId }, function (item) {
                         $scope.availableInvitations.Items.push(item);
                         $scope.availableInvitations.Count++;
+                        blockUI.stop();
                     }, function () {
+                        blockUI.stop();
                     });
                 };
 
                 $scope.deleteInvitation = function (id) {
+                    blockUI.start();
                     invitationApi.delete({ invitationId: id }, function () {
                         removeInvitationFromListById($scope.availableInvitations.Items, id);
                         $scope.availableInvitations.Count--;
+                        blockUI.stop();
+                    }, function () {
+                        blockUI.stop();
                     });
                 };
 
                 $scope.refreshAvailableInvitations = function () {
+                    blockUI.start();
                     $scope.refreshAvailableInvitationsTime = 60;
                     $scope.availableInvitations = availableInvitationApi.get({}, function () {
+                        blockUI.stop();
                     }, function () {
+                        blockUI.stop();
                     });
                 };
 
                 $scope.refreshAcceptInvitations = function () {
+                    blockUI.start();
                     $scope.refreshAcceptInvitationsTime = 30;
                     $scope.acceptInvitations = acceptInvitationApi.get({}, function () {
+                        blockUI.stop();
                     }, function () {
+                        blockUI.stop();
                     });
                 }
 
                 $scope.refreshClosedInvitations = function () {
+                    blockUI.start();
                     $scope.refreshClosedInvitationsTime = 100;
                     $scope.closedInvitations = closedInvitationApi.get({}, function () {
-
+                        blockUI.stop();
                     }, function () {
-
+                        blockUI.stop();
                     });
                 }
 
                 $scope.takeInvitation = function (invitation) {
-                    console.log(invitation);
+                    blockUI.start();
                     availableInvitationApi.save({ InvitationId: invitation.Id }, function () {
                         removeInvitationFromListById($scope.availableInvitations.Items, invitation.Id);
                         $scope.availableInvitations.Count--;
                         $scope.acceptInvitations.Items.push(invitation);
                         $scope.acceptInvitations.Count++;
+                        blockUI.stop();
+                    }, function () {
+                        blockUI.stop();
                     });
                 }
 
@@ -339,6 +356,7 @@ var contr = angular.module('app.controllers', [])
                     angular.forEach(row, function (column) {
                         if (column.active == true) {
                             result = column;
+                            $scope.activeColumn = column;
                         }
                     });
                 });
@@ -370,9 +388,21 @@ var contr = angular.module('app.controllers', [])
             }, 5000);
 
             function refreshBoard() {
+                var activeColumn = null;
+                if ($scope.chessBoard != undefined) {
+                    activeColumn = getActiveFigure();
+                }
                 gameApi.get({ invitationId: $routeParams.invitationId }, function (data) {
                     $scope.chessBoard = data.GameData;
                     $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
+                    if(activeColumn!=null)
+                    angular.forEach($scope.chessBoard.GameLog, function(value) {
+                        angular.forEach(value, function(item) {
+                            if (activeColumn.Position.X == item.Position.X && activeColumn.Position.Y == item.Position.Y) {
+                                item.active = true;
+                            }
+                        });
+                    });
                 });
             }
 
