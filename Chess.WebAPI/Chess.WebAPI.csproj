@@ -131,6 +131,7 @@
     <Compile Include="Controllers\AcceptInvitationController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AvailableInvitationController.cs" />
+    <Compile Include="Controllers\ClosedInvitationController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\InvitationController.cs" />
     <Compile Include="Controllers\TestController.cs" />

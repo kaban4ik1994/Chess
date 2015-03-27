@@ -223,8 +223,8 @@ var contr = angular.module('app.controllers', [])
 
     // Path : /Invitation
     .controller('InvitationController', [
-        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitation',
-        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitation) {
+        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitationApi', 'closedInvitationApi',
+        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitationApi, closedInvitationApi) {
 
             function removeInvitationFromListById(list, id) {
                 angular.forEach(list, function (value, index) {
@@ -241,66 +241,86 @@ var contr = angular.module('app.controllers', [])
                 $location.path('/Login');
             } else {
 
-                $scope.refreshAcceptInvitationTime = 30;
-
-                $interval(function () {
-                    console.log($scope.refreshAcceptInvitationTime)
-                    if ($scope.refreshAcceptInvitationTime == 0) {
-                        $scope.refreshAcceptInvitationTime = 30;
-                        $scope.refreshAcceptInvitation();
-                    } else {
-                        $scope.refreshAcceptInvitationTime--;
-                    }
-                }, 1000);
-
-
-                $scope.availableInvitation = availableInvitationApi.get({}, function () {
-                }, function () {
-                });
-
                 $scope.isAdmin = authService.authentication.IsAdmin;
                 $scope.currentUserId = authService.authentication.UserId;
 
+
+                $interval(function () {
+                    if ($scope.refreshAcceptInvitationsTime == 0) {
+                        $scope.refreshAcceptInvitations();
+                    } else {
+                        $scope.refreshAcceptInvitationsTime--;
+                    }
+                }, 1000);
+
+                $interval(function () {
+                    if ($scope.refreshAvailableInvitationsTime == 0) {
+                        $scope.refreshAvailableInvitations();
+                    } else {
+                        $scope.refreshAvailableInvitationsTime--;
+                    }
+                }, 1000);
+
+                $interval(function () {
+                    if ($scope.refreshClosedInvitationsTime == 0) {
+                        $scope.refreshClosedInvitations();
+                    } else {
+                        $scope.refreshClosedInvitationsTime--;
+                    }
+                }, 1000);
+
                 $scope.newInvitation = function () {
                     invitationApi.add({ InvitatorId: authService.authentication.UserId }, function (item) {
-                        $scope.availableInvitation.Items.push(item);
-                        $scope.availableInvitation.Count++;
+                        $scope.availableInvitations.Items.push(item);
+                        $scope.availableInvitations.Count++;
                     }, function () {
                     });
                 };
 
                 $scope.deleteInvitation = function (id) {
                     invitationApi.delete({ invitationId: id }, function () {
-                        removeInvitationFromListById($scope.availableInvitation.Items, id);
-                        $scope.availableInvitation.Count--;
+                        removeInvitationFromListById($scope.availableInvitations.Items, id);
+                        $scope.availableInvitations.Count--;
                     });
                 };
 
-                $scope.refreshInvitation = function () {
-                    $scope.availableInvitation = availableInvitationApi.get({}, function () {
+                $scope.refreshAvailableInvitations = function () {
+                    $scope.refreshAvailableInvitationsTime = 60;
+                    $scope.availableInvitations = availableInvitationApi.get({}, function () {
                     }, function () {
                     });
                 };
 
-                $scope.acceptInvitation = acceptInvitation.get({}, function () {
-                }, function () {
-                });
-
-                $scope.refreshAcceptInvitation = function () {
-                    $scope.acceptInvitation = acceptInvitation.get({}, function () {
+                $scope.refreshAcceptInvitations = function () {
+                    $scope.refreshAcceptInvitationsTime = 30;
+                    $scope.acceptInvitations = acceptInvitationApi.get({}, function () {
                     }, function () {
+                    });
+                }
+
+                $scope.refreshClosedInvitations = function () {
+                    $scope.refreshClosedInvitationsTime = 100;
+                    $scope.closedInvitations = closedInvitationApi.get({}, function () {
+
+                    }, function () {
+
                     });
                 }
 
                 $scope.takeInvitation = function (invitation) {
                     console.log(invitation);
                     availableInvitationApi.save({ InvitationId: invitation.Id }, function () {
-                        removeInvitationFromListById($scope.availableInvitation.Items, invitation.Id);
-                        $scope.availableInvitation.Count--;
-                        $scope.acceptInvitation.Items.push(invitation);
-                        $scope.acceptInvitation.Count++;
+                        removeInvitationFromListById($scope.availableInvitations.Items, invitation.Id);
+                        $scope.availableInvitations.Count--;
+                        $scope.acceptInvitations.Items.push(invitation);
+                        $scope.acceptInvitations.Count++;
                     });
                 }
+
+                $scope.refreshAvailableInvitations();
+                $scope.refreshAcceptInvitations();
+                $scope.refreshClosedInvitations();
+
             }
         }
     ])

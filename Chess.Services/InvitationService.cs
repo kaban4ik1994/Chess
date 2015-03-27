@@ -23,7 +23,7 @@ namespace Chess.Services
             _repositoryAsync = repositoryAsync;
         }
 
-        public Task<IEnumerable<InvitationViewModel>> GetAvailableInvitationAsync()
+        public Task<IEnumerable<InvitationViewModel>> GetAvailableInvitationsAsync()
         {
             return Task.FromResult(Query(x => x.IsAccepted == false && x.IsDeclined == false).Select(invitation =>
                 new InvitationViewModel
@@ -35,7 +35,7 @@ namespace Chess.Services
                 }));
         }
 
-        public Task<IEnumerable<InvitationViewModel>> GetAcceptInvitationByUserToken(Guid userToken)
+        public Task<IEnumerable<InvitationViewModel>> GetAcceptInvitationsByUserTokenAsync(Guid userToken)
         {
             return Task.FromResult(Query(x => x.IsAccepted && x.IsDeclined == false && x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
                || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null)
@@ -49,12 +49,26 @@ namespace Chess.Services
                 }));
         }
 
-        public Task<long> GetAvailableInvitationCountAsync()
+        public Task<IEnumerable<InvitationViewModel>> GetClosedInvitationsByUserTokenAsync(Guid userToken)
+        {
+            return Task.FromResult(Query(x => x.IsAccepted && x.Game.IsEnded && (x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
+             || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null))
+              .Select(invitation =>
+              new InvitationViewModel
+              {
+                  CreateDate = invitation.CreateDate,
+                  Id = invitation.Id,
+                  InvitatorId = invitation.InvitatorId,
+                  InvitatorUserName = invitation.Invitator.User.UserName
+              }));
+        }
+
+        public Task<long> GetAvailableInvitationsCountAsync()
         {
             return Task.FromResult(Query(x => x.IsAccepted == false && x.IsDeclined == false).Select().LongCount());
         }
 
-        public Task<long> GetAcceptInvitationCountByUserToken(Guid userToken)
+        public Task<long> GetAcceptInvitationsCountByUserTokenAsync(Guid userToken)
         {
             return
                 Task.FromResult(
@@ -65,6 +79,18 @@ namespace Chess.Services
                             || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null))
                         .Select().LongCount());
 
+        }
+
+        public Task<long> GetClosedInvitationsCountByUserTokenAsync(Guid userToken)
+        {
+            return
+            Task.FromResult(
+                Query(
+                    x =>
+                        x.IsAccepted && x.Game.IsEnded &&
+                        (x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
+                        || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null))
+                    .Select().LongCount());
         }
 
         public async Task<InvitationViewModel> AddInvitation(Invitation invitation)

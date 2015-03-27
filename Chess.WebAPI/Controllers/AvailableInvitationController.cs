@@ -31,8 +31,8 @@ namespace Chess.WebAPI.Controllers
         {
             return Ok(new
             {
-                Items = await _invitationService.GetAvailableInvitationAsync(),
-                Count = await _invitationService.GetAvailableInvitationCountAsync()
+                Items = await _invitationService.GetAvailableInvitationsAsync(),
+                Count = await _invitationService.GetAvailableInvitationsCountAsync()
             });
         }
 

@@ -1,10 +1,8 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using Chess.Core.FactoryFigures;
 using Chess.Core.Models;
 using Chess.WebAPI.Filters.AuthorizationFilters;
-using Newtonsoft.Json;
 
 namespace Chess.WebAPI.Controllers
 {

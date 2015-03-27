@@ -83,7 +83,7 @@ smartApp.config(function ($httpProvider) {
 });
 
 smartApp.run(['$rootScope', 'settings', 'authService', function ($rootScope, settings, authService) {
-    settings.currentLang = settings.languages[1]; // ru
+    settings.currentLang = settings.languages[0]; // en
     $rootScope.isLoading = false;
     $rootScope.isShowHeader = true;
     $rootScope.isShowLeftPanel = true;
