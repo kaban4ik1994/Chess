@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Chess.Core.Enums;
 using Chess.Core.Models;
 
@@ -12,8 +14,9 @@ namespace Chess.Core.Mediator
         {
 
             var possibleMoves = GetPossibleMoves(from, chessboard);
+            var attackMoves = GetAttackMoves(from, chessboard);
 
-            if (possibleMoves.Any(x => x.Equals(to)))
+            if (possibleMoves.Any(x => x.Equals(to)) || attackMoves.Any(x => x.Equals(to)))
             {
                 chessboard.ChangeThePositionOfTheFigure(from, to);
                 return true;
@@ -43,22 +46,6 @@ namespace Chess.Core.Mediator
                 {
                     result.Add(new Position(testPosition2));
                 }
-
-                testPosition2.X = chessboard.IncrementX(testPosition2.X);
-
-                if (chessboard.ConvertPositionXToInt(testPosition2.X) <= chessboard.ConvertPositionXToInt('H') && chessboard.GetFigureByPosition(testPosition2) != null)
-                {
-                    result.Add(new Position(testPosition2));
-                }
-
-                testPosition2.X = chessboard.DecrementX(testPosition2.X);
-                testPosition2.X = chessboard.DecrementX(testPosition2.X);
-
-                if (chessboard.ConvertPositionXToInt(testPosition2.X) >= chessboard.ConvertPositionXToInt('A') && chessboard.GetFigureByPosition(testPosition2) != null)
-                {
-                    result.Add(new Position(testPosition2));
-                }
-
             }
 
             else if (figure.Color == Color.Black)
@@ -76,9 +63,28 @@ namespace Chess.Core.Mediator
                     result.Add(new Position(testPosition2));
                 }
 
+            }
+
+            return result;
+        }
+
+        public override IEnumerable<Position> GetAttackMoves(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var testPosition2 = new Position(figurePosition);
+
+            if (figure.Color == Color.White)
+            {
+                testPosition.Y += 2;
+                testPosition2.Y++;
+
                 testPosition2.X = chessboard.IncrementX(testPosition2.X);
 
-                if (chessboard.ConvertPositionXToInt(testPosition2.X) <= chessboard.ConvertPositionXToInt('H') && chessboard.GetFigureByPosition(testPosition2) != null)
+                if (chessboard.ConvertPositionXToInt(testPosition2.X) <= chessboard.ConvertPositionXToInt('H')
+                    && chessboard.GetFigureByPosition(testPosition2) != null
+                    && chessboard.GetFigureByPosition(testPosition2).Color != figure.Color)
                 {
                     result.Add(new Position(testPosition2));
                 }
@@ -86,13 +92,50 @@ namespace Chess.Core.Mediator
                 testPosition2.X = chessboard.DecrementX(testPosition2.X);
                 testPosition2.X = chessboard.DecrementX(testPosition2.X);
 
-                if (chessboard.ConvertPositionXToInt(testPosition2.X) >= chessboard.ConvertPositionXToInt('A') && chessboard.GetFigureByPosition(testPosition2) != null)
+                if (chessboard.ConvertPositionXToInt(testPosition2.X) >= chessboard.ConvertPositionXToInt('A')
+                    && chessboard.GetFigureByPosition(testPosition2) != null
+                    && chessboard.GetFigureByPosition(testPosition2).Color != figure.Color)
                 {
                     result.Add(new Position(testPosition2));
                 }
             }
 
+            else if (figure.Color == Color.Black)
+            {
+                testPosition.Y -= 2;
+                testPosition2.Y--;
+
+                testPosition2.X = chessboard.IncrementX(testPosition2.X);
+
+                if (chessboard.ConvertPositionXToInt(testPosition2.X) <= chessboard.ConvertPositionXToInt('H')
+                    && chessboard.GetFigureByPosition(testPosition2) != null
+                    && chessboard.GetFigureByPosition(testPosition2).Color != figure.Color)
+                {
+                    result.Add(new Position(testPosition2));
+                }
+
+                testPosition2.X = chessboard.DecrementX(testPosition2.X);
+                testPosition2.X = chessboard.DecrementX(testPosition2.X);
+
+                if (chessboard.ConvertPositionXToInt(testPosition2.X) >= chessboard.ConvertPositionXToInt('A')
+                    && chessboard.GetFigureByPosition(testPosition2) != null
+                    && chessboard.GetFigureByPosition(testPosition2).Color != figure.Color)
+                {
+                    result.Add(new Position(testPosition2));
+                }
+            }
             return result;
+        }
+
+        public override Task<IEnumerable<Position>> GetPossibleMovesAsync(Position figurePosition, IChessboard chessboard)
+        {
+            throw new NotImplementedException();
+
+        }
+
+        public override Task<IEnumerable<Position>> GetAttackMovesAsync(Position figurePosition, IChessboard chessboard)
+        {
+            throw new NotImplementedException();
         }
     }
 }
