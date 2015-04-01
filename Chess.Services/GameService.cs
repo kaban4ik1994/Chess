@@ -80,7 +80,9 @@ namespace Chess.Services
                   FirstPlayerGameTime = invitation1.Game.FirstPlayerGameTime,
                   SecondPlayerGameTime = invitation1.Game.SecondPlayerGameTime,
                   FirstPlayerName = invitation1.Invitator.User.UserName,
+                  FirstPlayerId = invitation1.Invitator.User.UserId,
                   SecondPlayerName = invitation1.Acceptor.User.UserName,
+                  SecondPlayerId = invitation1.Acceptor.User.UserId,
                   GameLog = invitation1.Game.GameLogs.OrderByDescending(log => log.Index).FirstOrDefault().Log,
                   LogIndex = invitation1.Game.GameLogs.OrderByDescending(log => log.Index).FirstOrDefault().Index,
               }).FirstOrDefault();
@@ -107,7 +109,7 @@ namespace Chess.Services
                         GameLog = game.GameLogs.Last().Log,
                         LogIndex = game.GameLogs.Last().Index,
                         SecondPlayerGameTime = game.SecondPlayerGameTime,
-                        FirstPlayerGameTime = game.FirstPlayerGameTime
+                        FirstPlayerGameTime = game.FirstPlayerGameTime,
                     });
         }
     }

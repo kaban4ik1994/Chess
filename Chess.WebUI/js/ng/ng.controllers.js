@@ -348,7 +348,7 @@ var contr = angular.module('app.controllers', [])
 
     //Path /game/Id
     .controller('GameController', [
-        '$scope', '$interval', '$routeParams', 'gameApi', function ($scope, $interval, $routeParams, gameApi) {
+        '$scope', '$interval', '$routeParams', 'gameApi', 'authService', function ($scope, $interval, $routeParams, gameApi, authService) {
 
             function getActiveFigure() {
                 var result;
@@ -365,7 +365,6 @@ var contr = angular.module('app.controllers', [])
 
             $scope.selectedItem = function (item) {
                 var activeFigure = getActiveFigure();
-                console.log(activeFigure)
                 var isMove = false;
                 if (activeFigure != null) {
                     activeFigure.active = false;
@@ -395,6 +394,7 @@ var contr = angular.module('app.controllers', [])
                 gameApi.get({ invitationId: $routeParams.invitationId }, function (data) {
                     $scope.chessBoard = data.GameData;
                     $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
+                    $scope.isCurrentUserHasBlackColor = authService.authentication.UserId === data.GameData.SecondPlayerId;
                     if(activeColumn!=null)
                     angular.forEach($scope.chessBoard.GameLog, function(value) {
                         angular.forEach(value, function(item) {

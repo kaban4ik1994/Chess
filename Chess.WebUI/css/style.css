@@ -32,7 +32,6 @@
 
 #chess_board {
     border: 5px solid #333;
-
 }
 
     #chess_board td {
@@ -58,13 +57,23 @@
         -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,.4);
     }
 
-    #chess_board td.active { background:#f00 !important;
+    #chess_board td.active {
+        background: #f00 !important;
     }
 
-    .select-figure {
-        border: 1px solid red;
-    }
+.select-figure {
+    border: 1px solid red;
+}
 
 .font-size-30 {
     font-size: 30px;
 }
+
+.rotate-180 {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+

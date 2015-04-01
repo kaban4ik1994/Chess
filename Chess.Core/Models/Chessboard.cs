@@ -180,19 +180,5 @@ namespace Chess.Core.Models
             }
             return null;
         }
-
-        public static Cell[,] RotateBoard(Cell[,] board, int n)
-        {
-            var ret = new Cell[n, n];
-
-            for (var i = 0; i < n; ++i)
-            {
-                for (var j = 0; j < n; ++j)
-                {
-                    ret[i, j] = board[n - j - 1, i];
-                }
-            }
-            return ret;
-        }
     }
 }

@@ -82,55 +82,58 @@ namespace Chess.Core.Mediator
             var result = new List<Position>();
             var figure = chessboard.GetFigureByPosition(figurePosition);
             var testPosition = new Position(figurePosition);
-            var testPosition2 = new Position(figurePosition);
 
             if (figure.Color == Color.White)
             {
-                testPosition.Y += 2;
-                testPosition2.Y++;
 
-                testPosition2.X = chessboard.IncrementX(testPosition2.X);
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                testPosition.X = chessboard.IncrementX(testPosition.X);
 
-                if (chessboard.ConvertPositionXToInt(testPosition2.X) <= chessboard.ConvertPositionXToInt('H')
-                    && chessboard.GetFigureByPosition(testPosition2) != null
-                    && chessboard.GetFigureByPosition(testPosition2).Color != figure.Color)
+                if (testPosition.Y != -1
+                    && testPosition.X != ' '
+                    && chessboard.GetFigureByPosition(testPosition) != null
+                    && chessboard.GetFigureByPosition(testPosition).Color != figure.Color)
                 {
-                    result.Add(new Position(testPosition2));
+                    result.Add(new Position(testPosition));
                 }
 
-                testPosition2.X = chessboard.DecrementX(testPosition2.X);
-                testPosition2.X = chessboard.DecrementX(testPosition2.X);
+                testPosition = new Position(figurePosition);
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                testPosition.X = chessboard.DecrementX(testPosition.X);
 
-                if (chessboard.ConvertPositionXToInt(testPosition2.X) >= chessboard.ConvertPositionXToInt('A')
-                    && chessboard.GetFigureByPosition(testPosition2) != null
-                    && chessboard.GetFigureByPosition(testPosition2).Color != figure.Color)
+                if (testPosition.Y != -1
+                    && testPosition.X != ' '
+                    && chessboard.GetFigureByPosition(testPosition) != null
+                    && chessboard.GetFigureByPosition(testPosition).Color != figure.Color)
                 {
-                    result.Add(new Position(testPosition2));
+                    result.Add(new Position(testPosition));
                 }
             }
 
             else if (figure.Color == Color.Black)
             {
-                testPosition.Y -= 2;
-                testPosition2.Y--;
+                testPosition = new Position(figurePosition);
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                testPosition.X = chessboard.IncrementX(testPosition.X);
 
-                testPosition2.X = chessboard.IncrementX(testPosition2.X);
-
-                if (chessboard.ConvertPositionXToInt(testPosition2.X) <= chessboard.ConvertPositionXToInt('H')
-                    && chessboard.GetFigureByPosition(testPosition2) != null
-                    && chessboard.GetFigureByPosition(testPosition2).Color != figure.Color)
+                if (testPosition.Y != -1
+                    && testPosition.X != ' '
+                    && chessboard.GetFigureByPosition(testPosition) != null
+                    && chessboard.GetFigureByPosition(testPosition).Color != figure.Color)
                 {
-                    result.Add(new Position(testPosition2));
+                    result.Add(new Position(testPosition));
                 }
 
-                testPosition2.X = chessboard.DecrementX(testPosition2.X);
-                testPosition2.X = chessboard.DecrementX(testPosition2.X);
+                testPosition = new Position(figurePosition);
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                testPosition.X = chessboard.DecrementX(testPosition.X);
 
-                if (chessboard.ConvertPositionXToInt(testPosition2.X) >= chessboard.ConvertPositionXToInt('A')
-                    && chessboard.GetFigureByPosition(testPosition2) != null
-                    && chessboard.GetFigureByPosition(testPosition2).Color != figure.Color)
+                if (testPosition.Y != -1
+                    && testPosition.X != ' '
+                    && chessboard.GetFigureByPosition(testPosition) != null
+                    && chessboard.GetFigureByPosition(testPosition).Color != figure.Color)
                 {
-                    result.Add(new Position(testPosition2));
+                    result.Add(new Position(testPosition));
                 }
             }
             return result;
