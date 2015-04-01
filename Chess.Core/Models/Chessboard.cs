@@ -121,6 +121,7 @@ namespace Chess.Core.Models
 
         public char ConvertIntToPositionX(int x)
         {
+            if (x > 7 || x < 0) return ' ';
             return Convert.ToChar(x + 65);
         }
 
@@ -131,6 +132,7 @@ namespace Chess.Core.Models
 
         public int ConvertIntToPositionY(int y)
         {
+            if (y > 7 || y < 0) return -1;
             return y + 1;
         }
 
