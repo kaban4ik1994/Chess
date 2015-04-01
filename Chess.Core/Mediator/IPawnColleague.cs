@@ -7,6 +7,7 @@ namespace Chess.Core.Mediator
     public interface IPawnColleague
     {
         bool Move(Position from, Position to, IChessboard chessboard);
+        void ChangeToQueen(Position figurePosition, IChessboard chessboard);
         IEnumerable<Position> GetPossibleMoves(Position figurePosition, IChessboard chessboard);
         IEnumerable<Position> GetAttackMoves(Position figurePosition, IChessboard chessboard);
         Task<IEnumerable<Position>> GetPossibleMovesAsync(Position figurePosition, IChessboard chessboard);

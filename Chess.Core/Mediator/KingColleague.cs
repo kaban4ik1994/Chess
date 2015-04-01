@@ -21,15 +21,5 @@ namespace Chess.Core.Mediator
         {
             throw new System.NotImplementedException();
         }
-
-        public override Task<IEnumerable<Position>> GetPossibleMovesAsync(Position figurePosition, IChessboard chessboard)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override Task<IEnumerable<Position>> GetAttackMovesAsync(Position figurePosition, IChessboard chessboard)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

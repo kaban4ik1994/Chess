@@ -13,17 +13,26 @@ namespace Chess.Core.Mediator
         public override bool Move(Position from, Position to, IChessboard chessboard)
         {
 
-            var possibleMoves = GetPossibleMoves(from, chessboard);
-            var attackMoves = GetAttackMoves(from, chessboard);
+            var possibleMoves = GetPossibleMovesAsync(from, chessboard);
+            var attackMoves = GetAttackMovesAsync(from, chessboard);
 
-            if (possibleMoves.Any(x => x.Equals(to)) || attackMoves.Any(x => x.Equals(to)))
+
+            if (possibleMoves.Result.Any(x => x.Equals(to)) || attackMoves.Result.Any(x => x.Equals(to)))
             {
                 chessboard.ChangeThePositionOfTheFigure(from, to);
+                if (to.Y == 8 || to.Y == 1) ChangeToQueen(to, chessboard);
                 return true;
             }
 
             return false;
         }
+
+        public void ChangeToQueen(Position figurePosition, IChessboard chessboard)
+        {
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            chessboard.SetFigureByPosition(new Figure { Color = figure.Color, Type = FigureType.Queen }, figurePosition);
+        }
+
 
         public override IEnumerable<Position> GetPossibleMoves(Position figurePosition, IChessboard chessboard)
         {
@@ -125,17 +134,6 @@ namespace Chess.Core.Mediator
                 }
             }
             return result;
-        }
-
-        public override Task<IEnumerable<Position>> GetPossibleMovesAsync(Position figurePosition, IChessboard chessboard)
-        {
-            throw new NotImplementedException();
-
-        }
-
-        public override Task<IEnumerable<Position>> GetAttackMovesAsync(Position figurePosition, IChessboard chessboard)
-        {
-            throw new NotImplementedException();
         }
     }
 }
