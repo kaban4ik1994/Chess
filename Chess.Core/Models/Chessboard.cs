@@ -29,11 +29,11 @@ namespace Chess.Core.Models
 
             for (var x = 0; x <= 7; x++)
             {
-                for (var y = 0; y <= 7; y++)
+                for (var y = 7; y >= 0; y--)
                 {
                     Board[x, y] = new Cell
                     {
-                        Position = new Position { X = ConvertIntToPositionX(x), Y = ConvertIntToPositionY(y) },
+                        Position = new Position { X = ConvertIntToPositionX(y), Y = ConvertIntToPositionY(Math.Abs(x - 7)) },
                     };
                 }
             }
@@ -66,7 +66,7 @@ namespace Chess.Core.Models
 
         public Cell GetCellByPosition(Position position)
         {
-            var cell = Board[ConvertPositionXToInt(position.X), ConvertPositionYToInt(position.Y)];
+            var cell = Board.Cast<Cell>().First(x => x.Position.Equals(position));
             return cell;
         }
 
@@ -179,6 +179,20 @@ namespace Chess.Core.Models
                     return CreatorRook.FactoryMethod(color);
             }
             return null;
+        }
+
+        public static Cell[,] RotateBoard(Cell[,] board, int n)
+        {
+            var ret = new Cell[n, n];
+
+            for (var i = 0; i < n; ++i)
+            {
+                for (var j = 0; j < n; ++j)
+                {
+                    ret[i, j] = board[n - j - 1, i];
+                }
+            }
+            return ret;
         }
     }
 }
