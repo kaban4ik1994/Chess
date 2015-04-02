@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using Chess.Services;
 using Chess.Services.Interfaces;
-using Chess.WebAPI.App_Start;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.WebApi;
 
 namespace Chess.WebAPI.Filters.AuthorizationFilters
 {
@@ -15,13 +11,11 @@ namespace Chess.WebAPI.Filters.AuthorizationFilters
     {
         private readonly List<string> _roles;
 
-        [Dependency]
         public IUserService UserService { get; set; }
 
         public CheckRoleAttribute(string roles)
         {
-
-            UserService = (UserService)new UnityDependencyResolver(UnityConfig.GetConfiguredContainer()).GetService(typeof(IUserService));
+            UserService = (IUserService)GlobalConfiguration.Configuration.DependencyResolver.GetService(typeof(IUserService));
 
             _roles = roles.Split(',').ToList();
         }
