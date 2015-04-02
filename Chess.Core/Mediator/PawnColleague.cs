@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Chess.Core.Enums;
 using Chess.Core.Models;
 
@@ -9,10 +7,8 @@ namespace Chess.Core.Mediator
 {
     public class PawnColleague : FigureColleague, IPawnColleague
     {
-
         public override bool Move(Position from, Position to, IChessboard chessboard)
         {
-
             var possibleMoves = GetPossibleMovesAsync(from, chessboard);
             var attackMoves = GetAttackMovesAsync(from, chessboard);
 

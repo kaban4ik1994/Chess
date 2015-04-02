@@ -369,11 +369,11 @@ var contr = angular.module('app.controllers', [])
                 if (($scope.chessBoard.LogIndex % 2 != 0
                     && authService.authentication.UserId == $scope.chessBoard.FirstPlayerId
                     && (item.Figure == null || item.Figure.Color == 2
-                    || (item.Figure != null && activeFigure.Figure != null && activeFigure.Figure.Color == 2 && item.Figure.Color == 1)))
+                    || (item.Figure != null && activeFigure!= null && activeFigure.Figure != null && activeFigure.Figure.Color == 2 && item.Figure.Color == 1)))
                     || ($scope.chessBoard.LogIndex % 2 == 0
                     && authService.authentication.UserId == $scope.chessBoard.SecondPlayerId
                     && (item.Figure == null || item.Figure.Color == 1
-                    || (item.Figure != null && activeFigure.Figure != null && activeFigure.Figure.Color == 1 && item.Figure.Color == 2)))) {
+                    || (item.Figure != null && activeFigure!= null && activeFigure.Figure != null && activeFigure.Figure.Color == 1 && item.Figure.Color == 2)))) {
 
                     var isMove = false;
                     if (activeFigure != null) {
