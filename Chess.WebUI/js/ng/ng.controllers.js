@@ -365,23 +365,35 @@ var contr = angular.module('app.controllers', [])
 
             $scope.selectedItem = function (item) {
                 var activeFigure = getActiveFigure();
-                var isMove = false;
-                if (activeFigure != null) {
-                    activeFigure.active = false;
-                    isMove = true;
 
-                }
-                if (isMove && activeFigure.Figure != null) {
-                    gameApi.save({ GameId: $scope.chessBoard.GameId, FromX: activeFigure.Position.X, FromY: activeFigure.Position.Y, ToX: item.Position.X, ToY: item.Position.Y, }, function (data) {
-                        $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
-                    }, function () {
+                if (($scope.chessBoard.LogIndex % 2 != 0
+                    && authService.authentication.UserId == $scope.chessBoard.FirstPlayerId
+                    && (item.Figure == null || item.Figure.Color == 2
+                    || (item.Figure != null && activeFigure.Figure != null && activeFigure.Figure.Color == 2 && item.Figure.Color == 1)))
+                    || ($scope.chessBoard.LogIndex % 2 == 0
+                    && authService.authentication.UserId == $scope.chessBoard.SecondPlayerId
+                    && (item.Figure == null || item.Figure.Color == 1
+                    || (item.Figure != null && activeFigure.Figure != null && activeFigure.Figure.Color == 1 && item.Figure.Color == 2)))) {
 
-                    });
-                } else {
-                    item.active = true;
-                }
-            };
+                    var isMove = false;
+                    if (activeFigure != null) {
+                        activeFigure.active = false;
+                        isMove = true;
 
+                    }
+
+                    if (isMove && activeFigure.Figure != null && (item.Figure == null || item.Figure.Color != activeFigure.Figure.Color)) {
+                        gameApi.save({ GameId: $scope.chessBoard.GameId, FromX: activeFigure.Position.X, FromY: activeFigure.Position.Y, ToX: item.Position.X, ToY: item.Position.Y, }, function (data) {
+                            $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
+                            $scope.chessBoard.LogIndex = data.GameData.LogIndex;
+                        }, function () {
+
+                        });
+                    } else {
+                        item.active = true;
+                    }
+                };
+            }
             var refreshBoardInterval = $interval(function () {
                 refreshBoard();
             }, 5000);
@@ -395,14 +407,14 @@ var contr = angular.module('app.controllers', [])
                     $scope.chessBoard = data.GameData;
                     $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
                     $scope.isCurrentUserHasBlackColor = authService.authentication.UserId === data.GameData.SecondPlayerId;
-                    if(activeColumn!=null)
-                    angular.forEach($scope.chessBoard.GameLog, function(value) {
-                        angular.forEach(value, function(item) {
-                            if (activeColumn.Position.X == item.Position.X && activeColumn.Position.Y == item.Position.Y) {
-                                item.active = true;
-                            }
+                    if (activeColumn != null)
+                        angular.forEach($scope.chessBoard.GameLog, function (value) {
+                            angular.forEach(value, function (item) {
+                                if (activeColumn.Position.X == item.Position.X && activeColumn.Position.Y == item.Position.Y) {
+                                    item.active = true;
+                                }
+                            });
                         });
-                    });
                 });
             }
 
@@ -411,6 +423,7 @@ var contr = angular.module('app.controllers', [])
             $scope.$on('$destroy', function () {
                 $interval.cancel(refreshBoardInterval);
             });
+
         }
     ])
 

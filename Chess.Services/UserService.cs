@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Chess.Entities.Models;
@@ -14,8 +16,8 @@ namespace Chess.Services
 {
     public class UserService : Service<User>, IUserService
     {
-        private readonly IUnitOfWorkAsync _unitOfWorkAsync; 
-        
+        private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+
         public UserService(IRepositoryAsync<User> repository, IUnitOfWorkAsync unitOfWorkAsync)
             : base(repository)
         {
@@ -40,13 +42,13 @@ namespace Chess.Services
                 }).FirstOrDefault());
         }
 
-        public Task<bool> GetUserAccessByTokenQuery(Guid token, List<string> roles)
+        public bool GetUserAccessByTokenQuery(Guid token, List<string> roles)
         {
-            var result = Task.FromResult(Query(user1 => user1.Tokens.Any(token1 => token1.TokenData == token) && user1.Active)
-              .Include(user1 => user1.UserRoles)
-              .Include(user1 => user1.UserRoles.Select(role => role.Role))
-              .Select()
-              .Any(user1 => user1.UserRoles.Any(role => roles.Any(s => s == role.Role.Name))));
+            var result = Query(user1 => user1.Tokens.Any(token1 => token1.TokenData == token) && user1.Active)
+                .Include(user1 => user1.UserRoles)
+                .Include(user1 => user1.UserRoles.Select(role => role.Role))
+                .Select()
+                .Any(user1 => user1.UserRoles.Any(role => roles.Any(s => s == role.Role.Name)));
             return result;
         }
 

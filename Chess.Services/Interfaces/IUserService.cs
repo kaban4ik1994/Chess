@@ -10,7 +10,7 @@ namespace Chess.Services.Interfaces
     public interface IUserService : IService<User>
     {
         Task<UserModel> GetUserByEmailAndPasswordAsync(string email, string password);
-        Task<bool> GetUserAccessByTokenQuery(Guid token, List<string> roles);
+        bool GetUserAccessByTokenQuery(Guid token, List<string> roles);
         Task<long> AddUser(User user);
     }
 }
