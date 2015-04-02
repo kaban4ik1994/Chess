@@ -51,8 +51,8 @@ namespace Chess.WebAPI.App_Start
             // container.LoadConfiguration();
 
             container
-                .RegisterType<IDataContextAsync, ChessContext>(new PerResolveLifetimeManager())
-                .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerResolveLifetimeManager())
+                .RegisterType<IDataContextAsync, ChessContext>(new PerThreadLifetimeManager())
+                .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerThreadLifetimeManager())
                 .RegisterType<IRepositoryAsync<User>, Repository<User>>()
                 .RegisterType<IRepositoryAsync<Invitation>, Repository<Invitation>>()
                 .RegisterType<IRepositoryAsync<Game>, Repository<Game>>()

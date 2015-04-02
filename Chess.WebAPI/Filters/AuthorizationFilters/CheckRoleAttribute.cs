@@ -31,7 +31,7 @@ namespace Chess.WebAPI.Filters.AuthorizationFilters
                 return false;
             }
 
-            return UserService.GetUserAccessByTokenQuery(guid, _roles);
+            return UserService.GetUserAccessByTokenQuery(guid, _roles).Result;
         }
     }
 }
