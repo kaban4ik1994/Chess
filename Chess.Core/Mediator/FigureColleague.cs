@@ -22,6 +22,423 @@ namespace Chess.Core.Mediator
             return false;
         }
 
+        protected IEnumerable<Position> GetPossibleMovesOnTheLineXAtUp(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.IncrementX(testPosition.X);
+                if (testPosition.X != ' ' && chessboard.GetFigureByPosition(testPosition) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+                else isEndLine = true;
+            }
+            return result;
+        }
+
+        protected IEnumerable<Position> GetPossibleMovesOnTheLineYAtUp(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+            while (!isEndLine)
+            {
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                if (testPosition.Y != -1 && chessboard.GetFigureByPosition(testPosition) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+                else isEndLine = true;
+            }
+            return result;
+        }
+
+        protected IEnumerable<Position> GetPossibleMovesOnTheLineXAtDown(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.DecrementX(testPosition.X);
+                if (testPosition.X != ' ' && chessboard.GetFigureByPosition(testPosition) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+                else isEndLine = true;
+            }
+            return result;
+        }
+
+        protected IEnumerable<Position> GetPossibleMovesOnTheLineYAtDown(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+            while (!isEndLine)
+            {
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                if (testPosition.Y != -1 && chessboard.GetFigureByPosition(testPosition) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+                else isEndLine = true;
+            }
+            return result;
+        }
+
+        protected IEnumerable<Position> GetPossibleMovesOnTheLineXAtUpAndYAtUp(Position figurePosition,
+            IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.IncrementX(testPosition.X);
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                if (testPosition.X != ' '
+                    && testPosition.Y != -1
+                    && chessboard.GetFigureByPosition(testPosition) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+                else isEndLine = true;
+            }
+
+            return result;
+        }
+
+        protected IEnumerable<Position> GetPossibleMovesOnTheLineXAtUpAndYAtDown(Position figurePosition,
+            IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.IncrementX(testPosition.X);
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                if (testPosition.X != ' '
+                    && testPosition.Y != -1
+                    && chessboard.GetFigureByPosition(testPosition) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+                else isEndLine = true;
+            }
+
+            return result;
+        }
+
+        protected IEnumerable<Position> GetPossibleMovesOnTheLineXAtDownAndYAtDown(Position figurePosition,
+            IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.DecrementX(testPosition.X);
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                if (testPosition.X != ' '
+                    && testPosition.Y != -1
+                    && chessboard.GetFigureByPosition(testPosition) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+                else isEndLine = true;
+            }
+
+            return result;
+        }
+
+        protected IEnumerable<Position> GetPossibleMovesOnTheLineXAtDownAndYAtUp(Position figurePosition,
+            IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.DecrementX(testPosition.X);
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                if (testPosition.X != ' '
+                    && testPosition.Y != -1
+                    && chessboard.GetFigureByPosition(testPosition) == null)
+                {
+                    result.Add(new Position(testPosition));
+                }
+                else isEndLine = true;
+            }
+
+            return result;
+        }
+
+        protected IEnumerable<Position> GetAttackMovesOnTheLineXAtUp(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.IncrementX(testPosition.X);
+                if (testPosition.X != ' ')
+                {
+                    var testFigure = chessboard.GetFigureByPosition(testPosition);
+                    if (testFigure != null)
+                    {
+                        if (testFigure.Color != figure.Color)
+                        {
+                            result.Add(new Position(testPosition));
+                            isEndLine = true;
+                        }
+                        else
+                        {
+                            isEndLine = true;
+                        }
+                    }
+                }
+                else isEndLine = true;
+            }
+            return result;
+        }
+
+        protected IEnumerable<Position> GetAttackMovesOnTheLineYAtUp(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+            while (!isEndLine)
+            {
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                if (testPosition.Y != -1)
+                {
+                    var testFigure = chessboard.GetFigureByPosition(testPosition);
+                    if (testFigure != null)
+                    {
+                        if (testFigure.Color != figure.Color)
+                        {
+                            result.Add(new Position(testPosition));
+                            isEndLine = true;
+                        }
+                        else
+                        {
+                            isEndLine = true;
+                        }
+                    }
+                }
+                else isEndLine = true;
+            }
+            return result;
+        }
+
+        protected IEnumerable<Position> GetAttackMovesOnTheLineXAtDown(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.DecrementX(testPosition.X);
+                if (testPosition.X != ' ')
+                {
+                    var testFigure = chessboard.GetFigureByPosition(testPosition);
+                    if (testFigure != null)
+                    {
+                        if (testFigure.Color != figure.Color)
+                        {
+                            result.Add(new Position(testPosition));
+                            isEndLine = true;
+                        }
+                        else
+                        {
+                            isEndLine = true;
+                        }
+                    }
+                }
+                else isEndLine = true;
+            }
+            return result;
+        }
+
+        protected IEnumerable<Position> GetAttackMovesOnTheLineYAtDown(Position figurePosition, IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+            while (!isEndLine)
+            {
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                if (testPosition.Y != -1)
+                {
+                    var testFigure = chessboard.GetFigureByPosition(testPosition);
+                    if (testFigure != null)
+                    {
+                        if (testFigure.Color != figure.Color)
+                        {
+                            result.Add(new Position(testPosition));
+                            isEndLine = true;
+                        }
+                        else
+                        {
+                            isEndLine = true;
+                        }
+                    }
+                }
+                else isEndLine = true;
+            }
+            return result;
+        }
+
+        protected IEnumerable<Position> GetAttackMovesOnTheLineXAtUpAndYAtUp(Position figurePosition,
+            IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.IncrementX(testPosition.X);
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                if (testPosition.X != ' ' && testPosition.Y != -1)
+                {
+                    var testFigure = chessboard.GetFigureByPosition(testPosition);
+                    if (testFigure != null)
+                    {
+                        if (testFigure.Color != figure.Color)
+                        {
+                            result.Add(new Position(testPosition));
+                            isEndLine = true;
+                        }
+                        else
+                        {
+                            isEndLine = true;
+                        }
+                    }
+                }
+                else isEndLine = true;
+            }
+
+            return result;
+        }
+
+        protected IEnumerable<Position> GetAttackMovesOnTheLineXAtUpAndYAtDown(Position figurePosition,
+            IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.IncrementX(testPosition.X);
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                if (testPosition.X != ' ' && testPosition.Y != -1)
+                {
+                    var testFigure = chessboard.GetFigureByPosition(testPosition);
+                    if (testFigure != null)
+                    {
+                        if (testFigure.Color != figure.Color)
+                        {
+                            result.Add(new Position(testPosition));
+                            isEndLine = true;
+                        }
+                        else
+                        {
+                            isEndLine = true;
+                        }
+                    }
+                }
+                else isEndLine = true;
+            }
+
+            return result;
+        }
+
+        protected IEnumerable<Position> GetAttackMovesOnTheLineXAtDownAndYAtDown(Position figurePosition,
+            IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+
+            while (!isEndLine)
+            {
+                testPosition.X = chessboard.DecrementX(testPosition.X);
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                if (testPosition.X != ' ' && testPosition.Y != -1)
+                {
+                    var testFigure = chessboard.GetFigureByPosition(testPosition);
+                    if (testFigure != null)
+                    {
+                        if (testFigure.Color != figure.Color)
+                        {
+                            result.Add(new Position(testPosition));
+                            isEndLine = true;
+                        }
+                        else
+                        {
+                            isEndLine = true;
+                        }
+                    }
+                }
+                else isEndLine = true;
+            }
+
+            return result;
+        }
+
+        protected IEnumerable<Position> GetAttackMovesOnTheLineXAtDownAndYAtUp(Position figurePosition,
+            IChessboard chessboard)
+        {
+            var result = new List<Position>();
+            var figure = chessboard.GetFigureByPosition(figurePosition);
+            var testPosition = new Position(figurePosition);
+            var isEndLine = false;
+
+            while (!isEndLine) //x down, y up
+            {
+                testPosition.X = chessboard.DecrementX(testPosition.X);
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                if (testPosition.X != ' '
+                    && testPosition.Y != -1)
+                {
+                    var testFigure = chessboard.GetFigureByPosition(testPosition);
+                    if (testFigure != null)
+                    {
+                        if (testFigure.Color != figure.Color)
+                        {
+                            result.Add(new Position(testPosition));
+                            isEndLine = true;
+                        }
+                        else
+                        {
+                            isEndLine = true;
+                        }
+                    }
+                }
+                else isEndLine = true;
+            }
+
+            return result;
+        }
+
         public abstract IEnumerable<Position> GetPossibleMoves(Position figurePosition, IChessboard chessboard);
         public abstract IEnumerable<Position> GetAttackMoves(Position figurePosition, IChessboard chessboard);
 

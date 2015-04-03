@@ -1,5 +1,5 @@
 ﻿//urls
-var baseUrlApiChess = "http://localhost:13525/api/";
+var baseUrlApiChess = "http://chessapi.dev/api/";
 
 var urlApiAccountChess = baseUrlApiChess + "Account";
 
