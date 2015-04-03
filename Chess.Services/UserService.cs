@@ -45,14 +45,11 @@ namespace Chess.Services
 
         public Task<bool> GetUserAccessByTokenQuery(Guid token, List<string> roles)
         {
-            var a = new IsolationLevel();
-            _unitOfWorkAsync.BeginTransaction();
             var result = Task.FromResult(Query(user1 => user1.Tokens.Any(token1 => token1.TokenData == token) && user1.Active)
                 .Include(user1 => user1.UserRoles)
                 .Include(user1 => user1.UserRoles.Select(role => role.Role))
                 .Select()
                 .Any(user1 => user1.UserRoles.Any(role => roles.Any(s => s == role.Role.Name))));
-            _unitOfWorkAsync.Commit();
             return result;
         }
 

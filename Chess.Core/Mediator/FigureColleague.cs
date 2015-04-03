@@ -7,6 +7,7 @@ namespace Chess.Core.Mediator
 {
     public abstract class FigureColleague
     {
+
         public virtual bool Move(Position from, Position to, IChessboard chessboard)
         {
             var possibleMoves = GetPossibleMovesAsync(from, chessboard);
@@ -22,6 +23,7 @@ namespace Chess.Core.Mediator
             return false;
         }
 
+
         protected IEnumerable<Position> GetPossibleMovesOnTheLineXAtUp(Position figurePosition, IChessboard chessboard)
         {
             var result = new List<Position>();
@@ -30,10 +32,8 @@ namespace Chess.Core.Mediator
             while (!isEndLine)
             {
                 testPosition.X = chessboard.IncrementX(testPosition.X);
-                if (testPosition.X != ' ' && chessboard.GetFigureByPosition(testPosition) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition))
                     result.Add(new Position(testPosition));
-                }
                 else isEndLine = true;
             }
             return result;
@@ -47,10 +47,8 @@ namespace Chess.Core.Mediator
             while (!isEndLine)
             {
                 testPosition.Y = chessboard.IncrementY(testPosition.Y);
-                if (testPosition.Y != -1 && chessboard.GetFigureByPosition(testPosition) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition))
                     result.Add(new Position(testPosition));
-                }
                 else isEndLine = true;
             }
             return result;
@@ -64,10 +62,8 @@ namespace Chess.Core.Mediator
             while (!isEndLine)
             {
                 testPosition.X = chessboard.DecrementX(testPosition.X);
-                if (testPosition.X != ' ' && chessboard.GetFigureByPosition(testPosition) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition))
                     result.Add(new Position(testPosition));
-                }
                 else isEndLine = true;
             }
             return result;
@@ -81,10 +77,8 @@ namespace Chess.Core.Mediator
             while (!isEndLine)
             {
                 testPosition.Y = chessboard.DecrementY(testPosition.Y);
-                if (testPosition.Y != -1 && chessboard.GetFigureByPosition(testPosition) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition))
                     result.Add(new Position(testPosition));
-                }
                 else isEndLine = true;
             }
             return result;
@@ -101,12 +95,8 @@ namespace Chess.Core.Mediator
             {
                 testPosition.X = chessboard.IncrementX(testPosition.X);
                 testPosition.Y = chessboard.IncrementY(testPosition.Y);
-                if (testPosition.X != ' '
-                    && testPosition.Y != -1
-                    && chessboard.GetFigureByPosition(testPosition) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition))
                     result.Add(new Position(testPosition));
-                }
                 else isEndLine = true;
             }
 
@@ -124,12 +114,8 @@ namespace Chess.Core.Mediator
             {
                 testPosition.X = chessboard.IncrementX(testPosition.X);
                 testPosition.Y = chessboard.DecrementY(testPosition.Y);
-                if (testPosition.X != ' '
-                    && testPosition.Y != -1
-                    && chessboard.GetFigureByPosition(testPosition) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition))
                     result.Add(new Position(testPosition));
-                }
                 else isEndLine = true;
             }
 
@@ -147,12 +133,8 @@ namespace Chess.Core.Mediator
             {
                 testPosition.X = chessboard.DecrementX(testPosition.X);
                 testPosition.Y = chessboard.DecrementY(testPosition.Y);
-                if (testPosition.X != ' '
-                    && testPosition.Y != -1
-                    && chessboard.GetFigureByPosition(testPosition) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition))
                     result.Add(new Position(testPosition));
-                }
                 else isEndLine = true;
             }
 
@@ -170,12 +152,8 @@ namespace Chess.Core.Mediator
             {
                 testPosition.X = chessboard.DecrementX(testPosition.X);
                 testPosition.Y = chessboard.IncrementY(testPosition.Y);
-                if (testPosition.X != ' '
-                    && testPosition.Y != -1
-                    && chessboard.GetFigureByPosition(testPosition) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition))
                     result.Add(new Position(testPosition));
-                }
                 else isEndLine = true;
             }
 
@@ -191,7 +169,7 @@ namespace Chess.Core.Mediator
             while (!isEndLine)
             {
                 testPosition.X = chessboard.IncrementX(testPosition.X);
-                if (testPosition.X != ' ')
+                if (chessboard.IsValidPosition(testPosition))
                 {
                     var testFigure = chessboard.GetFigureByPosition(testPosition);
                     if (testFigure != null)
@@ -221,7 +199,7 @@ namespace Chess.Core.Mediator
             while (!isEndLine)
             {
                 testPosition.Y = chessboard.IncrementY(testPosition.Y);
-                if (testPosition.Y != -1)
+                if (chessboard.IsValidPosition(testPosition))
                 {
                     var testFigure = chessboard.GetFigureByPosition(testPosition);
                     if (testFigure != null)
@@ -251,7 +229,7 @@ namespace Chess.Core.Mediator
             while (!isEndLine)
             {
                 testPosition.X = chessboard.DecrementX(testPosition.X);
-                if (testPosition.X != ' ')
+                if (chessboard.IsValidPosition(testPosition))
                 {
                     var testFigure = chessboard.GetFigureByPosition(testPosition);
                     if (testFigure != null)
@@ -281,7 +259,7 @@ namespace Chess.Core.Mediator
             while (!isEndLine)
             {
                 testPosition.Y = chessboard.DecrementY(testPosition.Y);
-                if (testPosition.Y != -1)
+                if (chessboard.IsValidPosition(testPosition))
                 {
                     var testFigure = chessboard.GetFigureByPosition(testPosition);
                     if (testFigure != null)
@@ -314,7 +292,7 @@ namespace Chess.Core.Mediator
             {
                 testPosition.X = chessboard.IncrementX(testPosition.X);
                 testPosition.Y = chessboard.IncrementY(testPosition.Y);
-                if (testPosition.X != ' ' && testPosition.Y != -1)
+                if (chessboard.IsValidPosition(testPosition))
                 {
                     var testFigure = chessboard.GetFigureByPosition(testPosition);
                     if (testFigure != null)
@@ -348,7 +326,7 @@ namespace Chess.Core.Mediator
             {
                 testPosition.X = chessboard.IncrementX(testPosition.X);
                 testPosition.Y = chessboard.DecrementY(testPosition.Y);
-                if (testPosition.X != ' ' && testPosition.Y != -1)
+                if (chessboard.IsValidPosition(testPosition))
                 {
                     var testFigure = chessboard.GetFigureByPosition(testPosition);
                     if (testFigure != null)
@@ -382,7 +360,7 @@ namespace Chess.Core.Mediator
             {
                 testPosition.X = chessboard.DecrementX(testPosition.X);
                 testPosition.Y = chessboard.DecrementY(testPosition.Y);
-                if (testPosition.X != ' ' && testPosition.Y != -1)
+                if (chessboard.IsValidPosition(testPosition))
                 {
                     var testFigure = chessboard.GetFigureByPosition(testPosition);
                     if (testFigure != null)
@@ -416,8 +394,7 @@ namespace Chess.Core.Mediator
             {
                 testPosition.X = chessboard.DecrementX(testPosition.X);
                 testPosition.Y = chessboard.IncrementY(testPosition.Y);
-                if (testPosition.X != ' '
-                    && testPosition.Y != -1)
+                if (chessboard.IsValidPosition(testPosition))
                 {
                     var testFigure = chessboard.GetFigureByPosition(testPosition);
                     if (testFigure != null)

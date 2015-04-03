@@ -180,5 +180,15 @@ namespace Chess.Core.Models
             }
             return null;
         }
+
+        public bool IsValidPositionAndEmptyCell(Position position)
+        {
+            return position.X != ' ' && position.Y != -1 && GetFigureByPosition(position) == null;
+        }
+
+        public bool IsValidPosition(Position position)
+        {
+            return position.X != ' ' && position.Y != -1;
+        }
     }
 }

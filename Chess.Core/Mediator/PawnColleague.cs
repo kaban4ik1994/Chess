@@ -12,7 +12,6 @@ namespace Chess.Core.Mediator
             var possibleMoves = GetPossibleMovesAsync(from, chessboard);
             var attackMoves = GetAttackMovesAsync(from, chessboard);
 
-
             if (possibleMoves.Result.Any(x => x.Equals(to)) || attackMoves.Result.Any(x => x.Equals(to)))
             {
                 chessboard.ChangeThePositionOfTheFigure(from, to);
@@ -39,34 +38,32 @@ namespace Chess.Core.Mediator
 
             if (figure.Color == Color.White)
             {
-                testPosition.Y += 2;
-                testPosition2.Y++;
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                testPosition.Y = chessboard.IncrementY(testPosition.Y);
+                testPosition2.Y = chessboard.IncrementY(testPosition2.Y);
 
-                if (figurePosition.Y == 2 && chessboard.GetFigureByPosition(testPosition) == null && chessboard.GetFigureByPosition(testPosition2) == null)
-                {
+                if (figurePosition.Y == 2
+                    && chessboard.IsValidPositionAndEmptyCell(testPosition)
+                    && chessboard.IsValidPositionAndEmptyCell(testPosition2))
                     result.Add(new Position(testPosition));
-                }
 
-                if (testPosition2.Y <= 8 && chessboard.GetFigureByPosition(testPosition2) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition2))
                     result.Add(new Position(testPosition2));
-                }
             }
 
             else if (figure.Color == Color.Black)
             {
-                testPosition.Y -= 2;
-                testPosition2.Y--;
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                testPosition.Y = chessboard.DecrementY(testPosition.Y);
+                testPosition2.Y = chessboard.DecrementY(testPosition2.Y);
 
-                if (figurePosition.Y == 7 && chessboard.GetFigureByPosition(testPosition) == null && chessboard.GetFigureByPosition(testPosition2) == null)
-                {
+                if (figurePosition.Y == 7
+                    && chessboard.IsValidPositionAndEmptyCell(testPosition)
+                    && chessboard.IsValidPositionAndEmptyCell(testPosition2))
                     result.Add(new Position(testPosition));
-                }
 
-                if (testPosition2.Y >= 1 && chessboard.GetFigureByPosition(testPosition2) == null)
-                {
+                if (chessboard.IsValidPositionAndEmptyCell(testPosition2))
                     result.Add(new Position(testPosition2));
-                }
 
             }
 
@@ -85,8 +82,7 @@ namespace Chess.Core.Mediator
                 testPosition.Y = chessboard.IncrementY(testPosition.Y);
                 testPosition.X = chessboard.IncrementX(testPosition.X);
 
-                if (testPosition.Y != -1
-                    && testPosition.X != ' '
+                if (chessboard.IsValidPosition(testPosition)
                     && chessboard.GetFigureByPosition(testPosition) != null
                     && chessboard.GetFigureByPosition(testPosition).Color != figure.Color)
                 {
@@ -97,8 +93,7 @@ namespace Chess.Core.Mediator
                 testPosition.Y = chessboard.IncrementY(testPosition.Y);
                 testPosition.X = chessboard.DecrementX(testPosition.X);
 
-                if (testPosition.Y != -1
-                    && testPosition.X != ' '
+                if (chessboard.IsValidPosition(testPosition)
                     && chessboard.GetFigureByPosition(testPosition) != null
                     && chessboard.GetFigureByPosition(testPosition).Color != figure.Color)
                 {
@@ -112,8 +107,7 @@ namespace Chess.Core.Mediator
                 testPosition.Y = chessboard.DecrementY(testPosition.Y);
                 testPosition.X = chessboard.IncrementX(testPosition.X);
 
-                if (testPosition.Y != -1
-                    && testPosition.X != ' '
+                if (chessboard.IsValidPosition(testPosition)
                     && chessboard.GetFigureByPosition(testPosition) != null
                     && chessboard.GetFigureByPosition(testPosition).Color != figure.Color)
                 {
@@ -124,8 +118,7 @@ namespace Chess.Core.Mediator
                 testPosition.Y = chessboard.DecrementY(testPosition.Y);
                 testPosition.X = chessboard.DecrementX(testPosition.X);
 
-                if (testPosition.Y != -1
-                    && testPosition.X != ' '
+                if (chessboard.IsValidPosition(testPosition)
                     && chessboard.GetFigureByPosition(testPosition) != null
                     && chessboard.GetFigureByPosition(testPosition).Color != figure.Color)
                 {

@@ -26,5 +26,7 @@ namespace Chess.Core.Models
         int DecrementY(int y);
         string SerializedBoard();
         void DeserializeBoard(string value);
+        bool IsValidPositionAndEmptyCell(Position position);
+        bool IsValidPosition(Position position);
     }
 }
