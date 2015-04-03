@@ -25,7 +25,7 @@ namespace Chess.Core.Mediator
         public void ChangeToQueen(Position figurePosition, IChessboard chessboard)
         {
             var figure = chessboard.GetFigureByPosition(figurePosition);
-            chessboard.SetFigureByPosition(new Figure { Color = figure.Color, Type = FigureType.Queen }, figurePosition);
+            chessboard.SetFigureByPosition(new Figure { Color = figure.Color, Type = FigureType.Queen, IsMakeFirstMove = true }, figurePosition);
         }
 
 

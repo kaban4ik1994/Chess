@@ -44,11 +44,11 @@ namespace Chess.Core.Models
             GetCellByPosition(position).Figure = figure;
         }
 
-
         public void ChangeThePositionOfTheFigure(Position from, Position to)
         {
             var cellFrom = GetCellByPosition(from);
             var cellTo = GetCellByPosition(to);
+            cellFrom.Figure.IsMakeFirstMove = true;
             cellTo.Figure = new Figure(cellFrom.Figure);
             cellFrom.Figure = null;
         }

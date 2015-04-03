@@ -8,19 +8,22 @@ namespace Chess.Core.Models
     {
         public Figure()
         {
-            
+
         }
 
         public Figure(Figure figure)
         {
             Type = figure.Type;
             Color = figure.Color;
+            IsMakeFirstMove = figure.IsMakeFirstMove;
         }
 
         [JsonProperty("Type")]
         public FigureType Type { get; set; }
         [JsonProperty("Color")]
         public Color Color { get; set; }
+        [JsonProperty("IsMakeFirstMove")]
+        public bool IsMakeFirstMove { get; set; }
 
         public override bool Equals(Object obj)
         {
@@ -32,7 +35,7 @@ namespace Chess.Core.Models
 
         protected bool Equals(Figure other)
         {
-            return Type == other.Type && Color == other.Color;
+            return Type == other.Type && Color == other.Color && IsMakeFirstMove == other.IsMakeFirstMove;
         }
 
         public override int GetHashCode()

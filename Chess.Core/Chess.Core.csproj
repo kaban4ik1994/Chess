@@ -66,6 +66,7 @@
     <Compile Include="Mediator\BishopColleague.cs" />
     <Compile Include="Mediator\FigureColleague.cs" />
     <Compile Include="Mediator\IBishopColleague.cs" />
+    <Compile Include="Mediator\ICastling.cs" />
     <Compile Include="Mediator\IKingColleague.cs" />
     <Compile Include="Mediator\IKnightColleague.cs" />
     <Compile Include="Mediator\IMoveMediator.cs" />

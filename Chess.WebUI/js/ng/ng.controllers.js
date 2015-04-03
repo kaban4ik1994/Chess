@@ -369,11 +369,13 @@ var contr = angular.module('app.controllers', [])
                 if (($scope.chessBoard.LogIndex % 2 != 0
                     && authService.authentication.UserId == $scope.chessBoard.FirstPlayerId
                     && (item.Figure == null || item.Figure.Color == 2
-                    || (item.Figure != null && activeFigure!= null && activeFigure.Figure != null && activeFigure.Figure.Color == 2 && item.Figure.Color == 1)))
+                    || (item.Figure != null && activeFigure != null && activeFigure.Figure != null && activeFigure.Figure.Color == 2 && item.Figure.Color == 1)
+                    || (item.Figure != null && activeFigure != null && activeFigure.Figure != null && activeFigure.Figure.Color == 2 && item.Figure.Color == 2 && activeFigure.Figure.Type == 1 && item.Figure.Type == 4)))
                     || ($scope.chessBoard.LogIndex % 2 == 0
                     && authService.authentication.UserId == $scope.chessBoard.SecondPlayerId
                     && (item.Figure == null || item.Figure.Color == 1
-                    || (item.Figure != null && activeFigure!= null && activeFigure.Figure != null && activeFigure.Figure.Color == 1 && item.Figure.Color == 2)))) {
+                    || (item.Figure != null && activeFigure != null && activeFigure.Figure != null && activeFigure.Figure.Color == 1 && item.Figure.Color == 2)
+                    || (item.Figure != null && activeFigure != null && activeFigure.Figure != null && activeFigure.Figure.Color == 1 && item.Figure.Color == 1 && activeFigure.Figure.Type == 1 && item.Figure.Type == 4)))) {
 
                     var isMove = false;
                     if (activeFigure != null) {
@@ -381,8 +383,9 @@ var contr = angular.module('app.controllers', [])
                         isMove = true;
 
                     }
-
-                    if (isMove && activeFigure.Figure != null && (item.Figure == null || item.Figure.Color != activeFigure.Figure.Color)) {
+                    console.log(1);
+                    if (isMove && activeFigure.Figure != null
+                        && (item.Figure == null || item.Figure.Color != activeFigure.Figure.Color || (item.Figure.Color == activeFigure.Figure.Color && activeFigure.Figure.Type == 1 && item.Figure.Type == 4))) {
                         gameApi.save({ GameId: $scope.chessBoard.GameId, FromX: activeFigure.Position.X, FromY: activeFigure.Position.Y, ToX: item.Position.X, ToY: item.Position.Y, }, function (data) {
                             $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
                             $scope.chessBoard.LogIndex = data.GameData.LogIndex;
