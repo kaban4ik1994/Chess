@@ -97,7 +97,7 @@ namespace Chess.Services
                 .Select().FirstOrDefault();
             if (game == null) return null;
             _chessboard.DeserializeBoard(game.GameLogs.Last().Log);
-            var moveResult = _moveMediator.Send(from, to, _chessboard);
+            var moveResult = _moveMediator.Send(from, to, _chessboard, game.GameLogs.Last().Index % 2 != 0 ? Color.White : Color.Black);
             if (moveResult != MoveStatus.Success)
                 return await Task.FromResult(new GameViewModel { MoveStatus = moveResult });
             game.GameLogs.Add(new GameLog { CreateDate = DateTime.Now, ObjectState = ObjectState.Added, Log = _chessboard.SerializedBoard(), Index = game.GameLogs.Last().Index + 1 });

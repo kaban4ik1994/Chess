@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using Chess.Core.Helpers;
 using Chess.Core.Models;
 using Chess.Enums;
@@ -26,11 +27,12 @@ namespace Chess.Core.Mediator
             _bishopColleague = bishopColleague;
         }
 
-        public MoveStatus Send(Position from, Position to, IChessboard chessboard)
+        public MoveStatus Send(Position from, Position to, IChessboard chessboard, Color color)
         {
             var figureFrom = chessboard.GetFigureByPosition(from);
             var result = false;
             if (figureFrom == null) return MoveStatus.Error;
+            if (figureFrom.Color != color) return MoveStatus.Error;
 
             if (figureFrom.Type == FigureType.Pawn)
             {
