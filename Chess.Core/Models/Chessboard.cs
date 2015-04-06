@@ -9,6 +9,7 @@ namespace Chess.Core.Models
     public class Chessboard : IChessboard
     {
         public Cell[,] Board { get; set; }
+        private string _oldBoard = string.Empty;
 
         public ICreatorBishop CreatorBishop { get; private set; }
         public ICreatorKing CreatorKing { get; private set; }
@@ -39,13 +40,23 @@ namespace Chess.Core.Models
             }
         }
 
+        public void UndoLastMove()
+        {
+            if (!string.IsNullOrEmpty(_oldBoard))
+            {
+                DeserializeBoard(_oldBoard);
+            }
+        }
+
         public void SetFigureByPosition(Figure figure, Position position)
         {
+            _oldBoard = SerializedBoard();
             GetCellByPosition(position).Figure = figure;
         }
 
         public void ChangeThePositionOfTheFigure(Position from, Position to)
         {
+            _oldBoard = SerializedBoard();
             var cellFrom = GetCellByPosition(from);
             var cellTo = GetCellByPosition(to);
             cellFrom.Figure.IsMakeFirstMove = true;

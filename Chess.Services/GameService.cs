@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
 using System.Threading.Tasks;
 using Chess.Core.Mediator;
@@ -28,7 +27,7 @@ namespace Chess.Services
             _unitOfWorkAsync = unitOfWorkAsync;
             _chessboard = chessboard;
             _invitationRepository = invitationRepository;
-            this._moveMediator = moveMediator;
+            _moveMediator = moveMediator;
         }
 
         public async Task<GameViewModel> GetGameBoardByInvitationId(long invitationId)

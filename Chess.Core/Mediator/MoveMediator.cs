@@ -1,4 +1,8 @@
-﻿using Chess.Core.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Chess.Core.Enums;
+using Chess.Core.Helpers;
 using Chess.Core.Models;
 
 namespace Chess.Core.Mediator
@@ -26,38 +30,89 @@ namespace Chess.Core.Mediator
         public bool Send(Position from, Position to, IChessboard chessboard)
         {
             var figureFrom = chessboard.GetFigureByPosition(from);
+            var result = false;
             if (figureFrom == null) return false;
+
             if (figureFrom.Type == FigureType.Pawn)
             {
-                return _pawnColleague.Move(from, to, chessboard);
+                result = _pawnColleague.Move(from, to, chessboard);
             }
 
-            if (figureFrom.Type == FigureType.Queen)
+            else if (figureFrom.Type == FigureType.Queen)
             {
-                return _queenColleague.Move(from, to, chessboard);
+                result = _queenColleague.Move(@from, to, chessboard);
             }
 
-            if (figureFrom.Type == FigureType.Rook)
+            else if (figureFrom.Type == FigureType.Rook)
             {
-                return _rookColleague.Move(from, to, chessboard);
+                result = _rookColleague.Move(@from, to, chessboard);
             }
 
-            if (figureFrom.Type == FigureType.King)
+            else if (figureFrom.Type == FigureType.King)
             {
-                return _kingColleague.Move(from, to, chessboard);
+                result = _kingColleague.Move(from, to, chessboard);
             }
 
-            if (figureFrom.Type == FigureType.Knight)
+            else if (figureFrom.Type == FigureType.Knight)
             {
-                return _knightColleague.Move(from, to, chessboard);
+                result = _knightColleague.Move(from, to, chessboard);
             }
 
-            if (figureFrom.Type == FigureType.Bishop)
+            else if (figureFrom.Type == FigureType.Bishop)
             {
-                return _bishopColleague.Move(from, to, chessboard);
+                result = _bishopColleague.Move(from, to, chessboard);
             }
-            return false;
+            var a = GetAttackMovesByColor(figureFrom.Color == Color.Black ? Color.White : Color.Black, chessboard);
+            var isShah = CheckerGameHelper.IsShahKing(figureFrom.Color,
+                GetAttackMovesByColor(figureFrom.Color == Color.Black ? Color.White : Color.Black, chessboard), chessboard);
+
+            if (isShah)
+            {
+                chessboard.UndoLastMove();
+                result = false;
+            }
+
+            return result;
         }
 
+        public IEnumerable<Position> GetAttackMovesByColor(Color color, IChessboard chessboard)
+        {
+            var cells = chessboard.Board.Cast<Cell>();
+            var result = new List<Position>();
+            foreach (var cell in cells.Where(cell => cell.Figure != null && cell.Figure.Color == color))
+            {
+                if (cell.Figure.Type == FigureType.Pawn)
+                {
+                    result.AddRange(_pawnColleague.GetAttackMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.Queen)
+                {
+                    result.AddRange(_queenColleague.GetAttackMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.Rook)
+                {
+                    result.AddRange(_rookColleague.GetAttackMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.King)
+                {
+                    result.AddRange(_kingColleague.GetAttackMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.Knight)
+                {
+                    result.AddRange(_knightColleague.GetAttackMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.Bishop)
+                {
+                    result.AddRange(_bishopColleague.GetAttackMoves(cell.Position, chessboard));
+                }
+            }
+
+            return result;
+        }
     }
 }

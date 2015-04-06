@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CheckerGameHelper.cs" />
     <Compile Include="Enums\Color.cs" />
     <Compile Include="Enums\FigureType.cs" />
     <Compile Include="FactoryFigures\CreatorBishop.cs" />

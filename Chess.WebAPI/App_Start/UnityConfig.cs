@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
 using System.Web.UI;
+using Chess.Core;
 using Chess.Core.FactoryFigures;
+using Chess.Core.Helpers;
 using Chess.Core.Mediator;
 using Chess.Core.Models;
 using Chess.Entities;

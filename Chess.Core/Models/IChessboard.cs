@@ -28,5 +28,6 @@ namespace Chess.Core.Models
         void DeserializeBoard(string value);
         bool IsValidPositionAndEmptyCell(Position position);
         bool IsValidPosition(Position position);
+        void UndoLastMove();
     }
 }
