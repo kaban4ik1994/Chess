@@ -1,8 +1,6 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Chess.Core.Enums;
-using Chess.Core.FactoryFigures;
+﻿using Chess.Core.FactoryFigures;
 using Chess.Core.Models;
+using Chess.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Chess.CoreTests

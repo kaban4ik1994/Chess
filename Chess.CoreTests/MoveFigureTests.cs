@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Chess.Core.Enums;
 using Chess.Core.FactoryFigures;
 using Chess.Core.Mediator;
 using Chess.Core.Models;

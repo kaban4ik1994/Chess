@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Chess.Core.Mediator;
 using Chess.Core.Models;
 using Chess.Entities.Models;
+using Chess.Enums;
 using Chess.Models;
 using Chess.Services.Interfaces;
 using Repository.Pattern.Infrastructure;
@@ -97,7 +98,7 @@ namespace Chess.Services
             if (game == null) return null;
             _chessboard.DeserializeBoard(game.GameLogs.Last().Log);
             var moveResult = _moveMediator.Send(from, to, _chessboard);
-            if (moveResult == false) return null;
+            if (moveResult == MoveStatus.Error || moveResult == MoveStatus.Shah) return null;
             game.GameLogs.Add(new GameLog { CreateDate = DateTime.Now, ObjectState = ObjectState.Added, Log = _chessboard.SerializedBoard(), Index = game.GameLogs.Last().Index + 1 });
             Update(game);
             await _unitOfWorkAsync.SaveChangesAsync();

@@ -14,5 +14,6 @@ namespace Chess.Models
         public string GameLog { get; set; }
         public int LogIndex { get; set; }
         public bool IsWhiteMove { get; set; }
+
     }
 }

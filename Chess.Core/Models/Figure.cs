@@ -1,5 +1,5 @@
 ﻿using System;
-using Chess.Core.Enums;
+using Chess.Enums;
 using Newtonsoft.Json;
 
 namespace Chess.Core.Models

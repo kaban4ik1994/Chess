@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using Chess.Core.Enums;
 using Chess.Core.Models;
+using Chess.Enums;
 
 namespace Chess.Core.Mediator
 {
     public interface IMoveMediator
     {
-        bool Send(Position from, Position to, IChessboard chessboard);
+        MoveStatus Send(Position from, Position to, IChessboard chessboard);
         IEnumerable<Position> GetAttackMovesByColor(Color color, IChessboard chessboard);
     }
 }

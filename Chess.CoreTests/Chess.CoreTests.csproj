@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Chess.CoreTests</RootNamespace>
     <AssemblyName>Chess.CoreTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\Chess.Core\Chess.Core.csproj">
       <Project>{94557e92-4e20-4014-91a1-47ada7b87896}</Project>
       <Name>Chess.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chess.Enums\Chess.Enums.csproj">
+      <Project>{032d62f3-1999-42a6-b9cb-417f459d818d}</Project>
+      <Name>Chess.Enums</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

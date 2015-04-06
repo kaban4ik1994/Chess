@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Chess.Core.Enums;
 using Chess.Core.Helpers;
 using Chess.Core.Models;
+using Chess.Enums;
 
 namespace Chess.Core.Mediator
 {
@@ -27,11 +26,11 @@ namespace Chess.Core.Mediator
             _bishopColleague = bishopColleague;
         }
 
-        public bool Send(Position from, Position to, IChessboard chessboard)
+        public MoveStatus Send(Position from, Position to, IChessboard chessboard)
         {
             var figureFrom = chessboard.GetFigureByPosition(from);
             var result = false;
-            if (figureFrom == null) return false;
+            if (figureFrom == null) return MoveStatus.Error;
 
             if (figureFrom.Type == FigureType.Pawn)
             {
@@ -68,10 +67,10 @@ namespace Chess.Core.Mediator
             if (isShah)
             {
                 chessboard.UndoLastMove();
-                result = false;
+                return MoveStatus.Shah;
             }
 
-            return result;
+            return result ? MoveStatus.Success : MoveStatus.Error;
         }
 
         public IEnumerable<Position> GetAttackMovesByColor(Color color, IChessboard chessboard)

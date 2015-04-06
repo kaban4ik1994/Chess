@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Chess.Core.Enums;
 using Chess.Core.FactoryFigures;
+using Chess.Enums;
 using Newtonsoft.Json;
 
 namespace Chess.Core.Models

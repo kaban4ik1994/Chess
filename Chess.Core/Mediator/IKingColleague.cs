@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Chess.Core.Enums;
 using Chess.Core.Models;
 
 namespace Chess.Core.Mediator

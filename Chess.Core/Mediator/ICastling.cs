@@ -1,5 +1,5 @@
-﻿using Chess.Core.Enums;
-using Chess.Core.Models;
+﻿using Chess.Core.Models;
+using Chess.Enums;
 
 namespace Chess.Core.Mediator
 {
