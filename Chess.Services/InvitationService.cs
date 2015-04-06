@@ -117,6 +117,8 @@ namespace Chess.Services
 
             if (isAdmin)
             {
+                var invitation = Query(x => x.Id == invitationId && !x.IsAccepted).Select().FirstOrDefault();
+                if (invitation == null) return await Task.FromResult(false);
                 Delete(invitationId);
             }
 
@@ -124,7 +126,7 @@ namespace Chess.Services
             {
                 var invitation = Query(x =>
                     x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
-                    && x.Id == invitationId).Select().FirstOrDefault();
+                    && x.Id == invitationId && !x.IsAccepted).Select().FirstOrDefault();
                 if (invitation == null) return await Task.FromResult(false);
                 Delete(invitation.Id);
             }
@@ -143,7 +145,7 @@ namespace Chess.Services
 
             invitation.AcceptorId = acceptor.UserId;
             invitation.IsAccepted = true;
-            invitation.ObjectState=ObjectState.Modified;
+            invitation.ObjectState = ObjectState.Modified;
             Update(invitation);
             await _unitOfWorkAsync.SaveChangesAsync();
             return await Task.FromResult(true);
