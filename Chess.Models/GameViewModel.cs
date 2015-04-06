@@ -1,4 +1,5 @@
 ﻿using System;
+using Chess.Enums;
 
 namespace Chess.Models
 {
@@ -14,6 +15,6 @@ namespace Chess.Models
         public string GameLog { get; set; }
         public int LogIndex { get; set; }
         public bool IsWhiteMove { get; set; }
-
+        public MoveStatus MoveStatus { get; set; }
     }
 }

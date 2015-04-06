@@ -98,7 +98,8 @@ namespace Chess.Services
             if (game == null) return null;
             _chessboard.DeserializeBoard(game.GameLogs.Last().Log);
             var moveResult = _moveMediator.Send(from, to, _chessboard);
-            if (moveResult == MoveStatus.Error || moveResult == MoveStatus.Shah) return null;
+            if (moveResult != MoveStatus.Success)
+                return await Task.FromResult(new GameViewModel { MoveStatus = moveResult });
             game.GameLogs.Add(new GameLog { CreateDate = DateTime.Now, ObjectState = ObjectState.Added, Log = _chessboard.SerializedBoard(), Index = game.GameLogs.Last().Index + 1 });
             Update(game);
             await _unitOfWorkAsync.SaveChangesAsync();
@@ -110,6 +111,7 @@ namespace Chess.Services
                         LogIndex = game.GameLogs.Last().Index,
                         SecondPlayerGameTime = game.SecondPlayerGameTime,
                         FirstPlayerGameTime = game.FirstPlayerGameTime,
+                        MoveStatus = moveResult
                     });
         }
     }

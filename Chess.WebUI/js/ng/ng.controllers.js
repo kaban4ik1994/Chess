@@ -349,6 +349,7 @@ var contr = angular.module('app.controllers', [])
     //Path /game/Id
     .controller('GameController', [
         '$scope', '$interval', '$routeParams', 'gameApi', 'authService', function ($scope, $interval, $routeParams, gameApi, authService) {
+            $scope.prompt = '';
 
             function getActiveFigure() {
                 var result;
@@ -365,7 +366,7 @@ var contr = angular.module('app.controllers', [])
 
             $scope.selectedItem = function (item) {
                 var activeFigure = getActiveFigure();
-
+                $scope.prompt = undefined;
                 if (($scope.chessBoard.LogIndex % 2 != 0
                     && authService.authentication.UserId == $scope.chessBoard.FirstPlayerId
                     && (item.Figure == null || item.Figure.Color == 2
@@ -383,14 +384,15 @@ var contr = angular.module('app.controllers', [])
                         isMove = true;
 
                     }
-                    console.log(1);
                     if (isMove && activeFigure.Figure != null
                         && (item.Figure == null || item.Figure.Color != activeFigure.Figure.Color || (item.Figure.Color == activeFigure.Figure.Color && activeFigure.Figure.Type == 1 && item.Figure.Type == 4))) {
                         gameApi.save({ GameId: $scope.chessBoard.GameId, FromX: activeFigure.Position.X, FromY: activeFigure.Position.Y, ToX: item.Position.X, ToY: item.Position.Y, }, function (data) {
                             $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
                             $scope.chessBoard.LogIndex = data.GameData.LogIndex;
-                        }, function () {
-
+                           
+                        }, function (error) {
+                            console.log(error);
+                            $scope.prompt = error.data.Message;
                         });
                     } else {
                         item.active = true;

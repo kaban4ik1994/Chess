@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Chess.Core.Models;
+using Chess.Enums;
 using Chess.Models;
 using Chess.Services.Interfaces;
 using Chess.WebAPI.Filters.AuthorizationFilters;
@@ -33,7 +34,14 @@ namespace Chess.WebAPI.Controllers
                 await
                     _gameService.MakeMove(model.GameId, new Position { X = model.FromX, Y = model.FromY },
                         new Position { X = model.ToX, Y = model.ToY });
-            if (result == null) return BadRequest();
+            if (result.MoveStatus != MoveStatus.Success)
+            {
+                var message = string.Empty;
+                if (result.MoveStatus == MoveStatus.Error) message = "Wrong move.";
+                else if (result.MoveStatus == MoveStatus.Shah) message = "You to shah.";
+                else if (result.MoveStatus == MoveStatus.Checkmate) message = "You to checkmate";
+                return BadRequest(message);
+            }
             return Ok(new { GameData = result });
         }
     }

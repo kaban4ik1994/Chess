@@ -171,6 +171,10 @@
       <Project>{a4e11b99-ed80-4021-b491-841eaa44a474}</Project>
       <Name>Chess.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chess.Enums\Chess.Enums.csproj">
+      <Project>{032d62f3-1999-42a6-b9cb-417f459d818d}</Project>
+      <Name>Chess.Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Chess.Helpers\Chess.Helpers.csproj">
       <Project>{c04e9281-4bf2-4607-b748-fddd06f76906}</Project>
       <Name>Chess.Helpers</Name>

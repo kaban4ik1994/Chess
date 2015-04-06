@@ -22,8 +22,8 @@ namespace Chess.Entities
             var tokenFiller = new TokenSeedFiller(context);
             tokenFiller.Fill();
 
-            var invitationFiller = new InvitationSeedFiller(context);
-            invitationFiller.Fill();
+           // var invitationFiller = new InvitationSeedFiller(context);
+           // invitationFiller.Fill();
 
             base.Seed(context);
         }
