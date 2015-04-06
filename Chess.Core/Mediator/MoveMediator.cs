@@ -62,7 +62,6 @@ namespace Chess.Core.Mediator
             {
                 result = _bishopColleague.Move(from, to, chessboard);
             }
-            var a = GetAttackMovesByColor(figureFrom.Color == Color.Black ? Color.White : Color.Black, chessboard);
             var isShah = CheckerGameHelper.IsShahKing(figureFrom.Color,
                 GetAttackMovesByColor(figureFrom.Color == Color.Black ? Color.White : Color.Black, chessboard), chessboard);
 
