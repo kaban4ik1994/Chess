@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Chess.Core.FactoryFigures;
+using Chess.Enums;
 
 namespace Chess.Core.Models
 {
@@ -11,6 +13,7 @@ namespace Chess.Core.Models
         ICreatorPawn CreatorPawn { get; }
         ICreatorQueen CreatorQueen { get; }
         ICreatorRook CreatorRook { get; }
+        IEnumerable<Cell> GetCellOfFiguresByColor(Color color);
         void SetFigureByPosition(Figure figure, Position position);
         void ChangeThePositionOfTheFigure(Position from, Position to);
         void InitNewGame();

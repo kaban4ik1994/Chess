@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Chess.Core.Models;
@@ -10,6 +11,7 @@ namespace Chess.Core.Mediator
 
         public virtual bool Move(Position from, Position to, IChessboard chessboard)
         {
+
             var possibleMoves = GetPossibleMovesAsync(from, chessboard);
             var attackMoves = GetAttackMovesAsync(from, chessboard);
 
@@ -22,7 +24,6 @@ namespace Chess.Core.Mediator
 
             return false;
         }
-
 
         protected IEnumerable<Position> GetPossibleMovesOnTheLineXAtUp(Position figurePosition, IChessboard chessboard)
         {
@@ -184,6 +185,7 @@ namespace Chess.Core.Mediator
                             isEndLine = true;
                         }
                     }
+
                 }
                 else isEndLine = true;
             }

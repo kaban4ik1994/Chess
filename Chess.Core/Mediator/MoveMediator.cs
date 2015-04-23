@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ExceptionServices;
 using Chess.Core.Helpers;
 using Chess.Core.Models;
 using Chess.Enums;
@@ -9,7 +8,6 @@ namespace Chess.Core.Mediator
 {
     public class MoveMediator : IMoveMediator
     {
-
         private readonly IPawnColleague _pawnColleague;
         private readonly IQueenColleague _queenColleague;
         private readonly IRookColleague _rookColleague;
@@ -27,49 +25,58 @@ namespace Chess.Core.Mediator
             _bishopColleague = bishopColleague;
         }
 
+        private FigureColleague GetColleagueByType(FigureType figureType)
+        {
+            if (figureType == FigureType.Pawn)
+            {
+                return (PawnColleague)_pawnColleague;
+            }
+
+            if (figureType == FigureType.Queen)
+            {
+                return (QueenColleague)_queenColleague;
+            }
+
+            if (figureType == FigureType.Rook)
+            {
+                return (RookColleague)_rookColleague;
+            }
+
+            if (figureType == FigureType.King)
+            {
+                return (KingColleague)_kingColleague;
+            }
+
+            if (figureType == FigureType.Knight)
+            {
+                return (KnightColleague)_knightColleague;
+            }
+
+            if (figureType == FigureType.Bishop)
+            {
+                return (BishopColleague)_bishopColleague;
+            }
+            return null;
+        }
+
         public MoveStatus Send(Position from, Position to, IChessboard chessboard, Color color)
         {
             var figureFrom = chessboard.GetFigureByPosition(from);
-            var result = false;
             if (figureFrom == null) return MoveStatus.Error;
             if (figureFrom.Color != color) return MoveStatus.Error;
 
-            if (figureFrom.Type == FigureType.Pawn)
-            {
-                result = _pawnColleague.Move(from, to, chessboard);
-            }
+            var result = GetColleagueByType(figureFrom.Type).Move(from, to, chessboard);
 
-            else if (figureFrom.Type == FigureType.Queen)
-            {
-                result = _queenColleague.Move(@from, to, chessboard);
-            }
+            var oppositeColor = figureFrom.Color == Color.Black ? Color.White : Color.Black;
 
-            else if (figureFrom.Type == FigureType.Rook)
-            {
-                result = _rookColleague.Move(@from, to, chessboard);
-            }
-
-            else if (figureFrom.Type == FigureType.King)
-            {
-                result = _kingColleague.Move(from, to, chessboard);
-            }
-
-            else if (figureFrom.Type == FigureType.Knight)
-            {
-                result = _knightColleague.Move(from, to, chessboard);
-            }
-
-            else if (figureFrom.Type == FigureType.Bishop)
-            {
-                result = _bishopColleague.Move(from, to, chessboard);
-            }
             var isShah = CheckerGameHelper.IsShahKing(figureFrom.Color,
-                GetAttackMovesByColor(figureFrom.Color == Color.Black ? Color.White : Color.Black, chessboard), chessboard);
+                GetAttackMovesByColor(oppositeColor, chessboard), chessboard);
 
             if (isShah)
             {
                 chessboard.UndoLastMove();
-                return MoveStatus.Shah;
+                var isCheckmate = CheckerGameHelper.IsCheckmate(figureFrom.Color, chessboard, this, GetColleagueByType);
+                return isCheckmate ? MoveStatus.Checkmate : MoveStatus.Shah;
             }
 
             return result ? MoveStatus.Success : MoveStatus.Error;
@@ -109,6 +116,46 @@ namespace Chess.Core.Mediator
                 else if (cell.Figure.Type == FigureType.Bishop)
                 {
                     result.AddRange(_bishopColleague.GetAttackMoves(cell.Position, chessboard));
+                }
+            }
+
+            return result;
+        }
+
+        public IEnumerable<Position> GetPossibleMovesByColor(Color color, IChessboard chessboard)
+        {
+            var cells = chessboard.Board.Cast<Cell>();
+            var result = new List<Position>();
+            foreach (var cell in cells.Where(cell => cell.Figure != null && cell.Figure.Color == color))
+            {
+                if (cell.Figure.Type == FigureType.Pawn)
+                {
+                    result.AddRange(_pawnColleague.GetPossibleMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.Queen)
+                {
+                    result.AddRange(_queenColleague.GetPossibleMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.Rook)
+                {
+                    result.AddRange(_rookColleague.GetPossibleMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.King)
+                {
+                    result.AddRange(_kingColleague.GetPossibleMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.Knight)
+                {
+                    result.AddRange(_knightColleague.GetPossibleMoves(cell.Position, chessboard));
+                }
+
+                else if (cell.Figure.Type == FigureType.Bishop)
+                {
+                    result.AddRange(_bishopColleague.GetPossibleMoves(cell.Position, chessboard));
                 }
             }
 

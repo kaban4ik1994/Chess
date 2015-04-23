@@ -39,7 +39,7 @@ namespace Chess.Services
                 .Include(x => x.Game.GameLogs)
                 .Select().FirstOrDefault();
             if (invitation == null) return null;
-
+            
             if (invitation.Game == null)
             {
                 _chessboard.InitNewGame();

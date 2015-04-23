@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Chess.Core.FactoryFigures;
 using Chess.Enums;
@@ -46,6 +47,12 @@ namespace Chess.Core.Models
             {
                 DeserializeBoard(_oldBoard);
             }
+        }
+
+        public IEnumerable<Cell> GetCellOfFiguresByColor(Color color)
+        {
+            return Board.Cast<Cell>().AsEnumerable().
+                Where(cell => cell.Figure != null && cell.Figure.Color == color).ToList();
         }
 
         public void SetFigureByPosition(Figure figure, Position position)

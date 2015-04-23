@@ -8,5 +8,6 @@ namespace Chess.Core.Mediator
     {
         MoveStatus Send(Position from, Position to, IChessboard chessboard, Color color);
         IEnumerable<Position> GetAttackMovesByColor(Color color, IChessboard chessboard);
+        IEnumerable<Position> GetPossibleMovesByColor(Color color, IChessboard chessboard);
     }
 }
