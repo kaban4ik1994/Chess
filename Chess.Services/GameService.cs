@@ -39,7 +39,7 @@ namespace Chess.Services
                 .Include(x => x.Game.GameLogs)
                 .Select().FirstOrDefault();
             if (invitation == null) return null;
-            
+
             if (invitation.Game == null)
             {
                 _chessboard.InitNewGame();
@@ -69,7 +69,6 @@ namespace Chess.Services
 
                 _invitationRepository.Update(invitation);
 
-
                 await _unitOfWorkAsync.SaveChangesAsync();
             }
 
@@ -85,6 +84,7 @@ namespace Chess.Services
                   SecondPlayerId = invitation1.Acceptor.User.UserId,
                   GameLog = invitation1.Game.GameLogs.OrderByDescending(log => log.Index).FirstOrDefault().Log,
                   LogIndex = invitation1.Game.GameLogs.OrderByDescending(log => log.Index).FirstOrDefault().Index,
+                  IsEnded = invitation1.Game.IsEnded
               }).FirstOrDefault();
 
             return await Task.FromResult(result);
@@ -98,6 +98,13 @@ namespace Chess.Services
             if (game == null) return null;
             _chessboard.DeserializeBoard(game.GameLogs.Last().Log);
             var moveResult = _moveMediator.Send(from, to, _chessboard, game.GameLogs.Last().Index % 2 != 0 ? Color.White : Color.Black);
+            if (moveResult == MoveStatus.Checkmate && !game.IsEnded)
+            {
+                game.IsEnded = true;
+                Update(game);
+                await _unitOfWorkAsync.SaveChangesAsync();
+            }
+
             if (moveResult != MoveStatus.Success)
                 return await Task.FromResult(new GameViewModel { MoveStatus = moveResult });
             game.GameLogs.Add(new GameLog { CreateDate = DateTime.Now, ObjectState = ObjectState.Added, Log = _chessboard.SerializedBoard(), Index = game.GameLogs.Last().Index + 1 });

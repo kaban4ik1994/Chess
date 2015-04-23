@@ -11,7 +11,8 @@
             </span>
             <br>
             <span class="txt-color-green font-size-20">
-                <span class="txt-color-red" ng-show="prompt">{{prompt}}</span>
+                <span class="txt-color-red" ng-show="prompt && !chessBoard.IsEnded">{{prompt}}</span>
+                <span class="txt-color-red" ng-show="chessBoard.IsEnded">Game over!</span>
             </span>
 
         </section>

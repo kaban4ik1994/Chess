@@ -15,6 +15,7 @@ namespace Chess.Models
         public string GameLog { get; set; }
         public int LogIndex { get; set; }
         public bool IsWhiteMove { get; set; }
+        public bool IsEnded { get; set; }
         public MoveStatus MoveStatus { get; set; }
     }
 }

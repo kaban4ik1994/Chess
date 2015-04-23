@@ -232,8 +232,7 @@ var contr = angular.module('app.controllers', [])
                         list.splice(index, 1);
                         list.Count--;
                     }
-                }
-                );
+                });
             }
 
             if (authService.authentication.isAuth == false) {

@@ -24,6 +24,7 @@ namespace Chess.WebAPI.Controllers
         {
             var result = await _gameService.GetGameBoardByInvitationId(invitationId);
             if (result == null) return BadRequest();
+            
             return Ok(new { GameData = result });
         }
 
