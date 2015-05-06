@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using Chess.Core.Helpers;
 using Chess.Core.Models;
 using Chess.Enums;
@@ -88,37 +89,13 @@ namespace Chess.Core.Mediator
             var result = new List<Position>();
             foreach (var cell in cells.Where(cell => cell.Figure != null && cell.Figure.Color == color))
             {
-                if (cell.Figure.Type == FigureType.Pawn)
-                {
-                    result.AddRange(_pawnColleague.GetAttackMoves(cell.Position, chessboard));
-                }
+                var colleague = GetColleagueByType(cell.Figure.Type);
 
-                else if (cell.Figure.Type == FigureType.Queen)
+                if (colleague != null)
                 {
-                    result.AddRange(_queenColleague.GetAttackMoves(cell.Position, chessboard));
-                }
-
-                else if (cell.Figure.Type == FigureType.Rook)
-                {
-                    result.AddRange(_rookColleague.GetAttackMoves(cell.Position, chessboard));
-                }
-
-                else if (cell.Figure.Type == FigureType.King)
-                {
-                    result.AddRange(_kingColleague.GetAttackMoves(cell.Position, chessboard));
-                }
-
-                else if (cell.Figure.Type == FigureType.Knight)
-                {
-                    result.AddRange(_knightColleague.GetAttackMoves(cell.Position, chessboard));
-                }
-
-                else if (cell.Figure.Type == FigureType.Bishop)
-                {
-                    result.AddRange(_bishopColleague.GetAttackMoves(cell.Position, chessboard));
+                    result.AddRange(colleague.GetAttackMoves(cell.Position, chessboard));
                 }
             }
-
             return result;
         }
 
@@ -128,37 +105,13 @@ namespace Chess.Core.Mediator
             var result = new List<Position>();
             foreach (var cell in cells.Where(cell => cell.Figure != null && cell.Figure.Color == color))
             {
-                if (cell.Figure.Type == FigureType.Pawn)
-                {
-                    result.AddRange(_pawnColleague.GetPossibleMoves(cell.Position, chessboard));
-                }
+                var colleague = GetColleagueByType(cell.Figure.Type);
 
-                else if (cell.Figure.Type == FigureType.Queen)
+                if (colleague != null)
                 {
-                    result.AddRange(_queenColleague.GetPossibleMoves(cell.Position, chessboard));
-                }
-
-                else if (cell.Figure.Type == FigureType.Rook)
-                {
-                    result.AddRange(_rookColleague.GetPossibleMoves(cell.Position, chessboard));
-                }
-
-                else if (cell.Figure.Type == FigureType.King)
-                {
-                    result.AddRange(_kingColleague.GetPossibleMoves(cell.Position, chessboard));
-                }
-
-                else if (cell.Figure.Type == FigureType.Knight)
-                {
-                    result.AddRange(_knightColleague.GetPossibleMoves(cell.Position, chessboard));
-                }
-
-                else if (cell.Figure.Type == FigureType.Bishop)
-                {
-                    result.AddRange(_bishopColleague.GetPossibleMoves(cell.Position, chessboard));
+                    result.AddRange(colleague.GetPossibleMoves(cell.Position, chessboard));
                 }
             }
-
             return result;
         }
     }
