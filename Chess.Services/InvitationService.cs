@@ -38,7 +38,9 @@ namespace Chess.Services
 
         public Task<IEnumerable<InvitationViewModel>> GetAcceptInvitationsByUserTokenAsync(Guid userToken)
         {
-            return Task.FromResult(Query(x => x.IsAccepted && x.IsDeclined == false && x.Game.IsEnded == false
+            var aaa = Query(x => x.IsAccepted && x.IsDeclined == false && ((x.Game == null) || (x.Game != null && x.Game.IsEnded == false)))
+                .Select();
+            return Task.FromResult(Query(x => x.IsAccepted && x.IsDeclined == false && ((x.Game == null) || (x.Game != null && x.Game.IsEnded == false))
                && (x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
                || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null))
                 .Select(invitation =>
@@ -76,7 +78,7 @@ namespace Chess.Services
                 Task.FromResult(
                     Query(
                         x =>
-                            x.IsAccepted && x.IsDeclined == false && x.Game.IsEnded == false &&
+                            x.IsAccepted && x.IsDeclined == false && ((x.Game == null) || (x.Game != null && x.Game.IsEnded == false)) &&
                             (x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
                             || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null))
                         .Select().LongCount());
