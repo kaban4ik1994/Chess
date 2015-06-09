@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using Chess.Core.Helpers;
 using Chess.Core.Models;
 using Chess.Enums;
@@ -9,56 +8,21 @@ namespace Chess.Core.Mediator
 {
     public class MoveMediator : IMoveMediator
     {
-        private readonly IPawnColleague _pawnColleague;
-        private readonly IQueenColleague _queenColleague;
-        private readonly IRookColleague _rookColleague;
-        private readonly IKingColleague _kingColleague;
-        private readonly IKnightColleague _knightColleague;
-        private readonly IBishopColleague _bishopColleague;
+        private readonly IDictionary<FigureType, IFigureColleague> _figureColleagues;
 
-        public MoveMediator(IPawnColleague pawnColleague, IQueenColleague queenColleague, IRookColleague rookColleague, IKingColleague kingColleague, IKnightColleague knightColleague, IBishopColleague bishopColleague)
+        public MoveMediator(IBishopColleague bishopColleague, IKingColleague kingColleague, IKnightColleague knightColleague, IPawnColleague pawnColleague, IQueenColleague queenColleague, IRookColleague rookColleague)
         {
-            _pawnColleague = pawnColleague;
-            _queenColleague = queenColleague;
-            _rookColleague = rookColleague;
-            _kingColleague = kingColleague;
-            _knightColleague = knightColleague;
-            _bishopColleague = bishopColleague;
+            _figureColleagues = new Dictionary<FigureType, IFigureColleague>
+            {
+                {bishopColleague.GetColleagueType(), bishopColleague},
+                {kingColleague.GetColleagueType(), kingColleague},
+                {knightColleague.GetColleagueType(), knightColleague},
+                {pawnColleague.GetColleagueType(), pawnColleague},
+                {queenColleague.GetColleagueType(), queenColleague},
+                {rookColleague.GetColleagueType(), rookColleague}
+            };
         }
 
-        private FigureColleague GetColleagueByType(FigureType figureType)
-        {
-            if (figureType == FigureType.Pawn)
-            {
-                return (PawnColleague)_pawnColleague;
-            }
-
-            if (figureType == FigureType.Queen)
-            {
-                return (QueenColleague)_queenColleague;
-            }
-
-            if (figureType == FigureType.Rook)
-            {
-                return (RookColleague)_rookColleague;
-            }
-
-            if (figureType == FigureType.King)
-            {
-                return (KingColleague)_kingColleague;
-            }
-
-            if (figureType == FigureType.Knight)
-            {
-                return (KnightColleague)_knightColleague;
-            }
-
-            if (figureType == FigureType.Bishop)
-            {
-                return (BishopColleague)_bishopColleague;
-            }
-            return null;
-        }
 
         public MoveStatus Send(Position from, Position to, IChessboard chessboard, Color color)
         {
@@ -66,7 +30,7 @@ namespace Chess.Core.Mediator
             if (figureFrom == null) return MoveStatus.Error;
             if (figureFrom.Color != color) return MoveStatus.Error;
 
-            var result = GetColleagueByType(figureFrom.Type).Move(from, to, chessboard);
+            var result = _figureColleagues[figureFrom.Type].Move(from, to, chessboard);
 
             var oppositeColor = figureFrom.Color == Color.Black ? Color.White : Color.Black;
 
@@ -76,7 +40,7 @@ namespace Chess.Core.Mediator
             if (isShah)
             {
                 chessboard.UndoLastMove();
-                var isCheckmate = CheckerGameHelper.IsCheckmate(figureFrom.Color, chessboard, this, GetColleagueByType);
+                var isCheckmate = CheckerGameHelper.IsCheckmate(figureFrom.Color, chessboard, this, _figureColleagues);
                 return isCheckmate ? MoveStatus.Checkmate : MoveStatus.Shah;
             }
 
@@ -89,7 +53,7 @@ namespace Chess.Core.Mediator
             var result = new List<Position>();
             foreach (var cell in cells.Where(cell => cell.Figure != null && cell.Figure.Color == color))
             {
-                var colleague = GetColleagueByType(cell.Figure.Type);
+                var colleague = _figureColleagues[cell.Figure.Type];
 
                 if (colleague != null)
                 {
@@ -105,7 +69,7 @@ namespace Chess.Core.Mediator
             var result = new List<Position>();
             foreach (var cell in cells.Where(cell => cell.Figure != null && cell.Figure.Color == color))
             {
-                var colleague = GetColleagueByType(cell.Figure.Type);
+                var colleague = _figureColleagues[cell.Figure.Type];
 
                 if (colleague != null)
                 {

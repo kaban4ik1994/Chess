@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
 using Chess.Core.Models;
+using Chess.Enums;
 
 namespace Chess.Core.Mediator
 {
     public class QueenColleague : FigureColleague, IQueenColleague
     {
+        public FigureType GetColleagueType()
+        {
+            return FigureType.Queen;
+        }
 
         public override IEnumerable<Position> GetPossibleMoves(Position figurePosition, IChessboard chessboard)
         {

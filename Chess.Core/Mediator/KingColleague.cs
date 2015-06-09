@@ -7,6 +7,11 @@ namespace Chess.Core.Mediator
 {
     public class KingColleague : FigureColleague, IKingColleague, ICastling
     {
+        public FigureType GetColleagueType()
+        {
+            return FigureType.King;
+        }
+
         public override bool Move(Position from, Position to, IChessboard chessboard)
         {
             var possibleMoves = GetPossibleMovesAsync(from, chessboard);

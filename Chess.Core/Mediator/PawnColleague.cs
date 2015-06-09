@@ -7,6 +7,11 @@ namespace Chess.Core.Mediator
 {
     public class PawnColleague : FigureColleague, IPawnColleague
     {
+        public FigureType GetColleagueType()
+        {
+            return FigureType.Pawn;
+        }
+
         public override bool Move(Position from, Position to, IChessboard chessboard)
         {
             var possibleMoves = GetPossibleMovesAsync(from, chessboard);

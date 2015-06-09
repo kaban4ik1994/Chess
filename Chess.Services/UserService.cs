@@ -18,11 +18,13 @@ namespace Chess.Services
     public class UserService : Service<User>, IUserService
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+        private readonly IRepositoryAsync<UserRole> _userRoleRepositoryAsync;
 
-        public UserService(IRepositoryAsync<User> repository, IUnitOfWorkAsync unitOfWorkAsync)
+        public UserService(IRepositoryAsync<User> repository, IUnitOfWorkAsync unitOfWorkAsync, IRepositoryAsync<UserRole> userRoleRepositoryAsync)
             : base(repository)
         {
             _unitOfWorkAsync = unitOfWorkAsync;
+            _userRoleRepositoryAsync = userRoleRepositoryAsync;
         }
 
         public Task<UserModel> GetUserByEmailAndPasswordAsync(string email, string password)
@@ -45,12 +47,10 @@ namespace Chess.Services
 
         public Task<bool> GetUserAccessByTokenQuery(Guid token, List<string> roles)
         {
-            var result = Task.FromResult(Query(user1 => user1.Tokens.Any(token1 => token1.TokenData == token) && user1.Active)
-                .Include(user1 => user1.UserRoles)
-                .Include(user1 => user1.UserRoles.Select(role => role.Role))
-                .Select()
-                .Any(user1 => user1.UserRoles.Any(role => roles.Any(s => s == role.Role.Name))));
-            return result;
+            var result = _userRoleRepositoryAsync.Query(
+                role => role.User.Tokens.Where(token1 => token1.TokenData == token).Count() != 0 && role.User.Active)
+                .Select(role => role.Role.Name).ToList();
+            return Task.FromResult(result.Count != 0 && result.Any(s => roles.Any(s1 => s == s1)));
         }
 
         public async Task<long> AddUser(User user)

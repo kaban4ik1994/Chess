@@ -92,6 +92,7 @@
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeedFillers\AbstractSeedFiller.cs" />
+    <Compile Include="SeedFillers\BotSeedFiller.cs" />
     <Compile Include="SeedFillers\InvitationSeedFiller.cs" />
     <Compile Include="SeedFillers\ISeedFiller.cs" />
     <Compile Include="SeedFillers\PlayerSeedFiller.cs" />

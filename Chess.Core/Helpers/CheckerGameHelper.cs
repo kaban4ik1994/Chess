@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Chess.Core.Mediator;
 using Chess.Core.Models;
@@ -17,13 +16,13 @@ namespace Chess.Core.Helpers
         }
 
         public static bool IsCheckmate(Color color, IChessboard chessboard,
-           IMoveMediator moveMediator, Func<FigureType, FigureColleague> getColleagueByType)
+           IMoveMediator moveMediator, IDictionary<FigureType, IFigureColleague> figureColleagues)
         {
             var cellOfFigures = chessboard.GetCellOfFiguresByColor(color);
             var isCheckmate = true;
             foreach (var cellOfFigure in cellOfFigures)
             {
-                var colleague = getColleagueByType(cellOfFigure.Figure.Type);
+                var colleague = figureColleagues[cellOfFigure.Figure.Type];
                 var movesOfFigures = new List<Position>();
 
                 movesOfFigures.AddRange(colleague.GetAttackMoves(cellOfFigure.Position, chessboard));

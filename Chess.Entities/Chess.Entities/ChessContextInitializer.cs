@@ -22,6 +22,9 @@ namespace Chess.Entities
             var tokenFiller = new TokenSeedFiller(context);
             tokenFiller.Fill();
 
+            var botFiller = new BotSeedFiller(context);
+            botFiller.Fill();
+
            // var invitationFiller = new InvitationSeedFiller(context);
            // invitationFiller.Fill();
 

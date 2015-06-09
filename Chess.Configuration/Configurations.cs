@@ -52,5 +52,13 @@ namespace Chess.Configuration
                 return new List<string> { "Admin", "User" };
             }
         }
+
+        public static List<string> BotNames
+        {
+            get
+            {
+                return new List<string> { "Monkey bot" };
+            }
+        }
     }
 }

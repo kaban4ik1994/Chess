@@ -67,6 +67,7 @@
     <Compile Include="Mediator\FigureColleague.cs" />
     <Compile Include="Mediator\IBishopColleague.cs" />
     <Compile Include="Mediator\ICastling.cs" />
+    <Compile Include="Mediator\IFigureColleague.cs" />
     <Compile Include="Mediator\IKingColleague.cs" />
     <Compile Include="Mediator\IKnightColleague.cs" />
     <Compile Include="Mediator\IMoveMediator.cs" />
@@ -94,6 +95,9 @@
       <Project>{032d62f3-1999-42a6-b9cb-417f459d818d}</Project>
       <Name>Chess.Enums</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bot\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

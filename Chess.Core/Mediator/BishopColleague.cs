@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Chess.Core.Models;
+using Chess.Enums;
 
 namespace Chess.Core.Mediator
 {
@@ -27,6 +28,11 @@ namespace Chess.Core.Mediator
             result.AddRange(GetAttackMovesOnTheLineXAtUpAndYAtUp(figurePosition, chessboard));
 
             return result;
+        }
+
+        public FigureType GetColleagueType()
+        {
+            return FigureType.Bishop;
         }
     }
 }

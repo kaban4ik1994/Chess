@@ -38,7 +38,7 @@ namespace Chess.Services
 
         public Task<IEnumerable<InvitationViewModel>> GetAcceptInvitationsByUserTokenAsync(Guid userToken)
         {
-            return Task.FromResult(Query(x => x.IsAccepted && x.IsDeclined == false && x.Game.IsEnded == false 
+            return Task.FromResult(Query(x => x.IsAccepted && x.IsDeclined == false && x.Game.IsEnded == false
                && (x.Invitator.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null
                || x.Acceptor.User.Tokens.FirstOrDefault(token => token.TokenData == userToken) != null))
                 .Select(invitation =>
@@ -147,6 +147,7 @@ namespace Chess.Services
             invitation.AcceptorId = acceptor.UserId;
             invitation.IsAccepted = true;
             invitation.ObjectState = ObjectState.Modified;
+
             Update(invitation);
             await _unitOfWorkAsync.SaveChangesAsync();
             return await Task.FromResult(true);

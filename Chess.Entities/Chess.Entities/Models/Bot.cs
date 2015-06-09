@@ -7,7 +7,6 @@ namespace Chess.Entities.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public int Level { get; set; }
-        public long PlayerId { get; set; }
 
         public Player Player { get; set; }
     }
