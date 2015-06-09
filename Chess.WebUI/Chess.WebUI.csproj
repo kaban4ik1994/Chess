@@ -1438,6 +1438,7 @@
     <Content Include="obj\Release\SunnyHolidays.WebUI.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Release\_WPPLastBuildInfo.txt" />
     <Content Include="views\game.html" />
+    <Content Include="views\gameView.html" />
     <Content Include="views\invitation.html" />
     <Content Include="views\register.html" />
     <Content Include="sound\bigbox.mp3" />

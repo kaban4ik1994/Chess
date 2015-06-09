@@ -10,5 +10,7 @@ namespace Chess.Services.Interfaces
     {
         Task<GameViewModel> GetGameBoardByInvitationId(long invitationId);
         Task<GameViewModel> MakeMove(long gameId, Position from, Position to);
+        Task<GameLogViewModel> GetGameLogByInvitationIdAndLogId(long invitationId, long logId);
+        Task<long> GetQuantityOfMoveByInvitationId(long invitationId);
     }
 }

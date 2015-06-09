@@ -388,7 +388,7 @@ var contr = angular.module('app.controllers', [])
                         gameApi.save({ GameId: $scope.chessBoard.GameId, FromX: activeFigure.Position.X, FromY: activeFigure.Position.Y, ToX: item.Position.X, ToY: item.Position.Y, }, function (data) {
                             $scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
                             $scope.chessBoard.LogIndex = data.GameData.LogIndex;
-                           
+
                         }, function (error) {
                             console.log(error);
                             $scope.prompt = error.data.Message;
@@ -430,6 +430,48 @@ var contr = angular.module('app.controllers', [])
 
         }
     ])
+
+     .controller('GameViewController', [
+        '$scope', '$interval', '$routeParams', 'gameLogApi', 'authService', function ($scope, $interval, $routeParams, gameLogApi, authService) {
+
+            var refreshBoardInterval;
+            $scope.logIndex = 1;
+            $scope.isStop = true;
+            $scope.refreshTime = 100;
+
+            $scope.start = function () {
+                refreshBoardInterval = $interval(function () {
+                    refreshBoard();
+                }, $scope.refreshTime);
+                $scope.isStop = false;
+            }
+
+            $scope.stop = function () {
+                $scope.isStop = true;
+                $interval.cancel(refreshBoardInterval);
+            }
+
+            function refreshBoard() {
+                gameLogApi.get({ invitationId: $routeParams.invitationId, logId: $scope.logIndex }, function (data) {
+                    $scope.moveCount = data.Count;
+                    if (data.Count > $scope.logIndex) {
+                        $scope.logIndex += 1;
+                        $scope.chessBoard = data.GameData;
+                        $scope.chessBoard.GameLog = angular.fromJson(data.GameData.Log);
+                    } else {
+                        $scope.chessBoard = data.GameData;
+                        $scope.chessBoard.GameLog = angular.fromJson(data.GameData.Log);
+                        $interval.cancel(refreshBoardInterval);
+                    }
+                });
+            }
+
+            refreshBoard();
+
+            $scope.$on('$destroy', function () {
+                $interval.cancel(refreshBoardInterval);
+            });
+        }])
 
     //Error 404
     .controller('Error404Controller', ['$scope', '$rootScope', '$location', '$window', 'authService', function ($scope, $rootScope, $location, $window, authService) {

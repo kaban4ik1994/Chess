@@ -9,3 +9,4 @@ var urlApiInvitation = baseUrlApiChess + "Invitation";
 var urlApiGame = baseUrlApiChess + "Game";
 var urlApiAcceptInvitation = baseUrlApiChess + "AcceptInvitation";
 var urlApiClosedInvitation = baseUrlApiChess + "ClosedInvitation";
+var urlApiGameLog = baseUrlApiChess + "GameLog";

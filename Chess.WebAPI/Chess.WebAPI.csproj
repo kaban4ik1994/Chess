@@ -133,6 +133,7 @@
     <Compile Include="Controllers\AvailableInvitationController.cs" />
     <Compile Include="Controllers\ClosedInvitationController.cs" />
     <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\GameLogController.cs" />
     <Compile Include="Controllers\InvitationController.cs" />
     <Compile Include="Filters\AuthorizationFilters\CheckRoleAttribute.cs" />
     <Compile Include="Global.asax.cs">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using Chess.Core.Mediator;
 using Chess.Core.Models;
@@ -21,14 +22,16 @@ namespace Chess.Services
         private readonly IChessboard _chessboard;
         private readonly IRepositoryAsync<Invitation> _invitationRepository;
         private readonly IMoveMediator _moveMediator;
+        private readonly IRepositoryAsync<GameLog> _gameLogRepository;
 
-        public GameService(IRepositoryAsync<Game> repository, IUnitOfWorkAsync unitOfWorkAsync, IChessboard chessboard, IRepositoryAsync<Invitation> invitationRepository, IMoveMediator moveMediator)
+        public GameService(IRepositoryAsync<Game> repository, IUnitOfWorkAsync unitOfWorkAsync, IChessboard chessboard, IRepositoryAsync<Invitation> invitationRepository, IMoveMediator moveMediator, IRepositoryAsync<GameLog> gameLogRepository)
             : base(repository)
         {
             _unitOfWorkAsync = unitOfWorkAsync;
             _chessboard = chessboard;
             _invitationRepository = invitationRepository;
             _moveMediator = moveMediator;
+            _gameLogRepository = gameLogRepository;
         }
 
         public async Task<GameViewModel> GetGameBoardByInvitationId(long invitationId)
@@ -78,10 +81,10 @@ namespace Chess.Services
                   GameId = invitation1.Game.Id,
                   FirstPlayerGameTime = invitation1.Game.FirstPlayerGameTime,
                   SecondPlayerGameTime = invitation1.Game.SecondPlayerGameTime,
-                  FirstPlayerName = invitation1.Invitator.User.UserName,
-                  FirstPlayerId = invitation1.Invitator.User.UserId,
-                  SecondPlayerName = invitation1.Acceptor.User.UserName,
-                  SecondPlayerId = invitation1.Acceptor.User.UserId,
+                  FirstPlayerName = invitation1.Invitator.IsBot ? invitation1.Invitator.Bot.Name : invitation1.Invitator.User.UserName,
+                  FirstPlayerId = invitation1.Invitator.IsBot ? invitation1.Invitator.Bot.Id : invitation1.Invitator.User.UserId,
+                  SecondPlayerName = invitation1.Acceptor.IsBot ? invitation1.Acceptor.Bot.Name : invitation1.Acceptor.User.UserName,
+                  SecondPlayerId = invitation1.Acceptor.IsBot ? invitation1.Acceptor.Bot.Id : invitation1.Acceptor.User.UserId,
                   GameLog = invitation1.Game.GameLogs.OrderByDescending(log => log.Index).FirstOrDefault().Log,
                   LogIndex = invitation1.Game.GameLogs.OrderByDescending(log => log.Index).FirstOrDefault().Index,
                   IsEnded = invitation1.Game.IsEnded
@@ -120,6 +123,26 @@ namespace Chess.Services
                         FirstPlayerGameTime = game.FirstPlayerGameTime,
                         MoveStatus = moveResult
                     });
+        }
+
+        public async Task<GameLogViewModel> GetGameLogByInvitationIdAndLogId(long invitationId, long logId)
+        {
+            var result =
+                _gameLogRepository.Query(log => log.Index == logId && log.Game.Invitation.Id == invitationId && log.Game.IsEnded)
+                    .Select(log => new GameLogViewModel
+                    {
+                        Id = log.Id,
+                        Log = log.Log,
+                        FirstPlayerName = log.Game.Invitation.Invitator.IsBot ? log.Game.Invitation.Invitator.Bot.Name : log.Game.Invitation.Invitator.User.UserName,
+                        SecondPlayerName = log.Game.Invitation.Acceptor.IsBot ? log.Game.Invitation.Acceptor.Bot.Name : log.Game.Invitation.Acceptor.User.UserName,
+                    }).FirstOrDefault();
+
+            return await Task.FromResult(result);
+        }
+
+        public async Task<long> GetQuantityOfMoveByInvitationId(long invitationId)
+        {
+            return await Task.FromResult(_gameLogRepository.Query(log => log.Game.Invitation.Id == invitationId && log.Game.IsEnded).Select().Count());
         }
     }
 }

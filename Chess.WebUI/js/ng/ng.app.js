@@ -67,6 +67,10 @@ smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provid
             controller: 'InvitationController',
             templateUrl: 'views/invitation.html'
         })
+        .when('/GameView/:invitationId', {
+            controller: 'GameViewController',
+            templateUrl: 'views/gameView.html'
+        })
 		.otherwise({
 		    controller: 'Error404Controller',
 		    templateUrl: 'views/404.html'

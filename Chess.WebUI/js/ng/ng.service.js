@@ -3,6 +3,13 @@
 // In this case it is a simple value service.
 angular.module('app.services', ['ngResource'])
 
+    .factory('gameLogApi', [
+        '$resource', function ($resource) {
+            return $resource(urlApiGameLog, {}, {
+            });
+        }
+    ])
+
      .factory('accountApi', [
         '$resource', function ($resource) {
             return $resource(urlApiAccountChess, {}, {
