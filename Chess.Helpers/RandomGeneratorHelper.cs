@@ -16,7 +16,7 @@ namespace Chess.Helpers
 
         public static bool GetRandomBoolValue()
         {
-            return Convert.ToBoolean(Random.Next(0, 1));
+            return Convert.ToBoolean(Random.Next(0, 2));
         }
     }
 }
