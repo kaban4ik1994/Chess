@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
+using Chess.Core.Bot;
+using Chess.Core.Bot.Interfaces;
 using Chess.Core.Mediator;
 using Chess.Core.Models;
 using Chess.Entities.Models;
@@ -22,9 +23,10 @@ namespace Chess.Services
         private readonly IChessboard _chessboard;
         private readonly IRepositoryAsync<Invitation> _invitationRepository;
         private readonly IMoveMediator _moveMediator;
+        private readonly IBotMediator _botMediator;
         private readonly IRepositoryAsync<GameLog> _gameLogRepository;
 
-        public GameService(IRepositoryAsync<Game> repository, IUnitOfWorkAsync unitOfWorkAsync, IChessboard chessboard, IRepositoryAsync<Invitation> invitationRepository, IMoveMediator moveMediator, IRepositoryAsync<GameLog> gameLogRepository)
+        public GameService(IRepositoryAsync<Game> repository, IUnitOfWorkAsync unitOfWorkAsync, IChessboard chessboard, IRepositoryAsync<Invitation> invitationRepository, IMoveMediator moveMediator, IRepositoryAsync<GameLog> gameLogRepository, IBotMediator botMediator)
             : base(repository)
         {
             _unitOfWorkAsync = unitOfWorkAsync;
@@ -32,6 +34,7 @@ namespace Chess.Services
             _invitationRepository = invitationRepository;
             _moveMediator = moveMediator;
             _gameLogRepository = gameLogRepository;
+            _botMediator = botMediator;
         }
 
         public async Task<GameViewModel> GetGameBoardByInvitationId(long invitationId)
@@ -81,9 +84,9 @@ namespace Chess.Services
                   GameId = invitation1.Game.Id,
                   FirstPlayerGameTime = invitation1.Game.FirstPlayerGameTime,
                   SecondPlayerGameTime = invitation1.Game.SecondPlayerGameTime,
-                  FirstPlayerName = invitation1.Invitator.IsBot ? invitation1.Invitator.Bot.Name : invitation1.Invitator.User.UserName,
+                  FirstPlayerName = invitation1.Invitator.IsBot ? invitation1.Invitator.Bot.Type.ToString() : invitation1.Invitator.User.UserName,
                   FirstPlayerId = invitation1.Invitator.IsBot ? invitation1.Invitator.Bot.Id : invitation1.Invitator.User.UserId,
-                  SecondPlayerName = invitation1.Acceptor.IsBot ? invitation1.Acceptor.Bot.Name : invitation1.Acceptor.User.UserName,
+                  SecondPlayerName = invitation1.Acceptor.IsBot ? invitation1.Acceptor.Bot.Type.ToString() : invitation1.Acceptor.User.UserName,
                   SecondPlayerId = invitation1.Acceptor.IsBot ? invitation1.Acceptor.Bot.Id : invitation1.Acceptor.User.UserId,
                   GameLog = invitation1.Game.GameLogs.OrderByDescending(log => log.Index).FirstOrDefault().Log,
                   LogIndex = invitation1.Game.GameLogs.OrderByDescending(log => log.Index).FirstOrDefault().Index,
@@ -93,6 +96,36 @@ namespace Chess.Services
             return await Task.FromResult(result);
         }
 
+        public async Task<ExtendedPosition> GetBotMove(long gameId)
+        {
+            var game = Query(x => x.Id == gameId).Include(x => x.GameLogs)
+                .Include(game1 => game1.Invitation)
+                .Include(game1 => game1.Invitation.Invitator)
+                .Include(game1 => game1.Invitation.Acceptor)
+                .Include(game1 => game1.Invitation.Acceptor.Bot)
+                .Select().FirstOrDefault();
+            if (game == null) return null;
+            _chessboard.DeserializeBoard(game.GameLogs.Last().Log);
+            var color = game.GameLogs.Last().Index % 2 != 0 ? Color.White : Color.Black;
+            if (!game.Invitation.Acceptor.IsBot) return null;
+            var result=await Task.FromResult(_botMediator.Send(_chessboard, color, game.Invitation.Acceptor.Bot.Type));
+            return result;
+        }
+
+        public Task<bool> IsMoveOfBot(long gameId)
+        {
+            var game = Query(x => x.Invitation.Id == gameId).Include(x => x.GameLogs)
+               .Include(game1 => game1.Invitation)
+               .Include(game1 => game1.Invitation.Invitator)
+               .Include(game1 => game1.Invitation.Acceptor)
+               .Select().FirstOrDefault();
+
+            if (game == null) return Task.FromResult(false);
+            if (!game.Invitation.Acceptor.IsBot) return Task.FromResult(false);
+            var color = game.GameLogs.Last().Index % 2 != 0 ? Color.White : Color.Black;
+            return Task.FromResult(color != Color.White);
+        }
+
         public async Task<GameViewModel> MakeMove(long gameId, Position from, Position to)
         {
             var game = Query(x => x.Id == gameId).Include(x => x.GameLogs)
@@ -100,7 +133,8 @@ namespace Chess.Services
                 .Select().FirstOrDefault();
             if (game == null) return null;
             _chessboard.DeserializeBoard(game.GameLogs.Last().Log);
-            var moveResult = _moveMediator.Send(from, to, _chessboard, game.GameLogs.Last().Index % 2 != 0 ? Color.White : Color.Black);
+            var color = game.GameLogs.Last().Index % 2 != 0 ? Color.White : Color.Black;
+            var moveResult = _moveMediator.Send(from, to, _chessboard, color);
             if (moveResult == MoveStatus.Checkmate && !game.IsEnded)
             {
                 game.IsEnded = true;
@@ -133,8 +167,8 @@ namespace Chess.Services
                     {
                         Id = log.Id,
                         Log = log.Log,
-                        FirstPlayerName = log.Game.Invitation.Invitator.IsBot ? log.Game.Invitation.Invitator.Bot.Name : log.Game.Invitation.Invitator.User.UserName,
-                        SecondPlayerName = log.Game.Invitation.Acceptor.IsBot ? log.Game.Invitation.Acceptor.Bot.Name : log.Game.Invitation.Acceptor.User.UserName,
+                        FirstPlayerName = log.Game.Invitation.Invitator.IsBot ? log.Game.Invitation.Invitator.Bot.Type.ToString() : log.Game.Invitation.Invitator.User.UserName,
+                        SecondPlayerName = log.Game.Invitation.Acceptor.IsBot ? log.Game.Invitation.Acceptor.Bot.Type.ToString() : log.Game.Invitation.Acceptor.User.UserName,
                     }).FirstOrDefault();
 
             return await Task.FromResult(result);

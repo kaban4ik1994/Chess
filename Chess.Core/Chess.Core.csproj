@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bot\BotMediator.cs" />
+    <Compile Include="Bot\ExtendedPosition.cs" />
+    <Compile Include="Bot\Interfaces\IBotColleague.cs" />
+    <Compile Include="Bot\Interfaces\IBotMediator.cs" />
+    <Compile Include="Bot\Interfaces\IMonkeyBotColleague.cs" />
+    <Compile Include="Bot\MonkeyBotColleague.cs" />
     <Compile Include="Helpers\CheckerGameHelper.cs" />
     <Compile Include="FactoryFigures\CreatorBishop.cs" />
     <Compile Include="FactoryFigures\CreatorKing.cs" />
@@ -95,10 +101,12 @@
       <Project>{032d62f3-1999-42a6-b9cb-417f459d818d}</Project>
       <Name>Chess.Enums</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Chess.Helpers\Chess.Helpers.csproj">
+      <Project>{c04e9281-4bf2-4607-b748-fddd06f76906}</Project>
+      <Name>Chess.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Bot\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

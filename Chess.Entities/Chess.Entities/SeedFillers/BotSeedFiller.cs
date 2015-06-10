@@ -1,6 +1,8 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using Chess.Configuration;
 using Chess.Entities.Models;
+using Chess.Enums;
 using Repository.Pattern.Infrastructure;
 
 namespace Chess.Entities.SeedFillers
@@ -19,15 +21,14 @@ namespace Chess.Entities.SeedFillers
 
         protected override int GetGenerationCount()
         {
-            return Configurations.BotNames.Count;
+            return Enum.GetNames(typeof(BotType)).Length;
         }
 
         public override Bot GenerateEntity(int index)
         {
             return new Bot
             {
-                Level = index + 1,
-                Name = Configurations.BotNames[index],
+                Type = (BotType)index,
                 ObjectState = ObjectState.Added,
                 Player = new Player
                 {

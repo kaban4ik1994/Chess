@@ -22,9 +22,22 @@ namespace Chess.WebAPI.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> Get(long invitationId)
         {
+            if (await _gameService.IsMoveOfBot(invitationId))
+            {
+                var botMove = await _gameService.GetBotMove(invitationId);
+                var moveResult =await _gameService.MakeMove(invitationId, botMove.From, botMove.To);
+                if (moveResult.MoveStatus != MoveStatus.Success)
+                {
+                    var message = string.Empty;
+                    if (moveResult.MoveStatus == MoveStatus.Error) message = "Wrong move.";
+                    else if (moveResult.MoveStatus == MoveStatus.Shah) message = "You to shah.";
+                    else if (moveResult.MoveStatus == MoveStatus.Checkmate) message = "You to checkmate";
+                    return BadRequest(message);
+                }
+            }
             var result = await _gameService.GetGameBoardByInvitationId(invitationId);
             if (result == null) return BadRequest();
-            
+
             return Ok(new { GameData = result });
         }
 

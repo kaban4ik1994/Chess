@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BotType.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="FigureType.cs" />
     <Compile Include="MoveStatus.cs" />

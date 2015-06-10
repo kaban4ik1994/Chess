@@ -110,6 +110,7 @@ namespace Chess.Services
              }).FirstOrDefault());
         }
 
+
         public async Task<bool> DeleteInvitationByInvitationIdAndUserToken(long invitationId, Guid userToken)
         {
             var isAdmin = await Task.FromResult(_repositoryAsync.Query(user1 => user1.Tokens.Any(token1 => token1.TokenData == userToken) && user1.Active)

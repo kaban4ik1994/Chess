@@ -223,8 +223,8 @@ var contr = angular.module('app.controllers', [])
 
     // Path : /Invitation
     .controller('InvitationController', [
-        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitationApi', 'closedInvitationApi', 'blockUI',
-        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitationApi, closedInvitationApi, blockUI) {
+        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitationApi', 'closedInvitationApi', 'blockUI', 'botInvitationApi',
+        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitationApi, closedInvitationApi, blockUI, botInvitationApi) {
 
             function removeInvitationFromListById(list, id) {
                 angular.forEach(list, function (value, index) {
@@ -242,6 +242,15 @@ var contr = angular.module('app.controllers', [])
                 $scope.isAdmin = authService.authentication.IsAdmin;
                 $scope.currentUserId = authService.authentication.UserId;
 
+                $scope.newInvitationWithBot = function(botType) {
+                    botInvitationApi.add({ InvitatorId: authService.authentication.UserId, BotType: botType }, function (item) {
+                        $scope.acceptInvitations.Items.push(item);
+                        $scope.acceptInvitations.Count++;
+                        blockUI.stop();
+                    }, function () {
+                        blockUI.stop();
+                    });
+                };
 
                 var acceptInvitationsInterval = $interval(function () {
                     if ($scope.refreshAcceptInvitationsTime == 0) {

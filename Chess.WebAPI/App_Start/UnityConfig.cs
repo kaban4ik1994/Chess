@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using System.Web.UI;
 using Chess.Core;
+using Chess.Core.Bot;
+using Chess.Core.Bot.Interfaces;
 using Chess.Core.FactoryFigures;
 using Chess.Core.Helpers;
 using Chess.Core.Mediator;
@@ -61,8 +63,10 @@ namespace Chess.WebAPI.App_Start
                 .RegisterType<IRepositoryAsync<Bot>, Repository<Bot>>()
                 .RegisterType<IRepositoryAsync<GameLog>, Repository<GameLog>>()
                 .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
+                .RegisterType<IRepositoryAsync<Player>, Repository<Player>>()
                 .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager())
                 .RegisterType<IGameService, GameService>(new PerThreadLifetimeManager())
+                .RegisterType<IPlayerService, PlayerService>(new PerThreadLifetimeManager())
                 .RegisterType<IInvitationService, InvitationService>(new PerThreadLifetimeManager())
                 .RegisterType<IChessboard, Chessboard>()
                 .RegisterType<ICreatorBishop, CreatorBishop>(new PerThreadLifetimeManager())
@@ -78,12 +82,8 @@ namespace Chess.WebAPI.App_Start
                 .RegisterType<IPawnColleague, PawnColleague>(new PerThreadLifetimeManager())
                 .RegisterType<IQueenColleague, QueenColleague>(new PerThreadLifetimeManager())
                 .RegisterType<IRookColleague, RookColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IFigureColleague, IBishopColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IFigureColleague, IKingColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IFigureColleague, IKnightColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IFigureColleague, IPawnColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IFigureColleague, IQueenColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IFigureColleague, IRookColleague>(new PerThreadLifetimeManager());
+                .RegisterType<IBotMediator, BotMediator>(new PerThreadLifetimeManager())
+                .RegisterType<IMonkeyBotColleague, MonkeyBotColleague>(new PerThreadLifetimeManager());
         }
     }
 }

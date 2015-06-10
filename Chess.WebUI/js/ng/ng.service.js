@@ -20,6 +20,16 @@ angular.module('app.services', ['ngResource'])
         }
      ])
 
+     .factory('botInvitationApi', [
+        '$resource', function ($resource) {
+            return $resource(urlApiBotInvitation, {}, {
+                add: {
+                    method: 'PUT'
+                }
+            });
+        }
+     ])
+
     .factory('availableInvitationApi', [
         '$resource', function ($resource) {
             return $resource(urlApiAvailableInvitation, {}, {

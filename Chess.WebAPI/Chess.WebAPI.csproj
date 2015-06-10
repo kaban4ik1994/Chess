@@ -131,6 +131,7 @@
     <Compile Include="Controllers\AcceptInvitationController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AvailableInvitationController.cs" />
+    <Compile Include="Controllers\BotInvitationController.cs" />
     <Compile Include="Controllers\ClosedInvitationController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\GameLogController.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Mappings\InvitationModelProfile.cs" />
     <Compile Include="Mappings\UserModelProfile.cs" />
     <Compile Include="Models\AddInvitationViewModel.cs" />
+    <Compile Include="Models\AddInvitationWithBotViewModel.cs" />
     <Compile Include="Models\LogInViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\TakeInvitationViewModel.cs" />

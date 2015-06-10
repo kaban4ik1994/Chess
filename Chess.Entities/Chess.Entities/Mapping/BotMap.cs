@@ -9,8 +9,7 @@ namespace Chess.Entities.Mapping
         {
             HasKey(bot => bot.Id);
             Property(bot => bot.Id);
-            Property(bot => bot.Level).IsRequired();
-            Property(bot => bot.Name).IsRequired();
+            Property(bot => bot.Type).IsRequired();
 
             ToTable("Bots");
 

@@ -112,6 +112,10 @@
       <Project>{c583beb8-1707-4aaf-9e71-78b5cbd7f08e}</Project>
       <Name>Chess.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Chess.Enums\Chess.Enums.csproj">
+      <Project>{032d62f3-1999-42a6-b9cb-417f459d818d}</Project>
+      <Name>Chess.Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Chess.Helpers\Chess.Helpers.csproj">
       <Project>{c04e9281-4bf2-4607-b748-fddd06f76906}</Project>
       <Name>Chess.Helpers</Name>
