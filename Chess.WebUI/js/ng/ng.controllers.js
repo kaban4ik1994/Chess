@@ -399,7 +399,6 @@ var contr = angular.module('app.controllers', [])
                             $scope.chessBoard.LogIndex = data.GameData.LogIndex;
 
                         }, function (error) {
-                            console.log(error);
                             $scope.prompt = error.data.Message;
                         });
                     } else {
@@ -428,6 +427,9 @@ var contr = angular.module('app.controllers', [])
                                 }
                             });
                         });
+                }, function (error) {
+                    $interval.cancel(refreshBoardInterval);
+                    $scope.prompt = "Game over!";
                 });
             }
 

@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using Chess.Core.Bot.Interfaces;
 using Chess.Core.Mediator;
 using Chess.Core.Models;
@@ -23,18 +23,33 @@ namespace Chess.Core.Bot
 
         public ExtendedPosition GetMove(IChessboard chessboard, Color color)
         {
-            var attackMoves = _moveMediator.GetExtendedAttackMovesByColor(color, chessboard);
-            var possibleMoves = _moveMediator.GetExtendedPossibleMovesByColor(color, chessboard);
+            var allMoves = new List<ExtendedPosition>();
+            allMoves.AddRange(_moveMediator.GetExtendedAttackMovesByColor(color, chessboard));
+            allMoves.AddRange(_moveMediator.GetExtendedPossibleMovesByColor(color, chessboard));
 
-            var randomAttackMove = RandomGeneratorHelper.GetRandomValueFromList(attackMoves.ToList());
-            var randomPossibleMove = RandomGeneratorHelper.GetRandomValueFromList(possibleMoves.ToList());
+            var isCorrectMove = false;
+            var randomMove = default(ExtendedPosition);
 
-            if (randomAttackMove == null) return randomPossibleMove;
-            if (randomPossibleMove == null) return randomAttackMove;
+            while (!isCorrectMove)
+            {
+                randomMove = RandomGeneratorHelper.GetRandomValueFromList(allMoves);
+                if (randomMove == null) return null;
+                var moveResult = _moveMediator.Send(randomMove.From, randomMove.To, chessboard, color);
 
-            var isAttackMove = RandomGeneratorHelper.GetRandomBoolValue();
+                switch (moveResult)
+                {
+                    case MoveStatus.Success:
+                        isCorrectMove = true;
+                        chessboard.UndoLastMove(); break;
+                    case MoveStatus.Checkmate:
+                        isCorrectMove = true; break;
+                    default:
+                        allMoves.Remove(randomMove);
+                        break;
+                }
+            }
 
-            return isAttackMove ? randomAttackMove : randomPossibleMove;
+            return randomMove;
         }
     }
 }
