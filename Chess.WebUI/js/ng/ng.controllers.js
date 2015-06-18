@@ -242,7 +242,7 @@ var contr = angular.module('app.controllers', [])
                 $scope.isAdmin = authService.authentication.IsAdmin;
                 $scope.currentUserId = authService.authentication.UserId;
 
-                $scope.newInvitationWithBot = function(botType) {
+                $scope.newInvitationWithBot = function (botType) {
                     botInvitationApi.add({ InvitatorId: authService.authentication.UserId, BotType: botType }, function (item) {
                         $scope.acceptInvitations.Items.push(item);
                         $scope.acceptInvitations.Count++;
@@ -354,11 +354,125 @@ var contr = angular.module('app.controllers', [])
         }
     ])
 
+    .controller('ChatController', [
+        '$scope', '$interval', '$routeParams', 'gameApi', 'authService', function ($scope, $interval, $routeParams, gameApi, authService) {
+            $scope.userName = authService.authentication.UserName;
+            var uri = urlApiChat + '?userName=' + $scope.userName;
+            var websocket = new WebSocket(uri);
+            websocket.onopen = function () {
+                $scope.sendMessage = function () {
+                    websocket.send($scope.message);
+                    $scope.message = "";
+                }
+            }
+
+            $scope.messages = [];
+
+            websocket.onmessage = function (event) {
+                $scope.messages.push(angular.fromJson(event.data));
+            }
+        }])
+
+
     //Path /game/Id
     .controller('GameController', [
         '$scope', '$interval', '$routeParams', 'gameApi', 'authService', function ($scope, $interval, $routeParams, gameApi, authService) {
             $scope.prompt = '';
+            //////////////////////
+            var canvas = document.getElementById('scene');
+            // init Babylon engine
+            var engine = new BABYLON.Engine(canvas, true);
 
+            var createScene = function () {
+
+                // This creates a basic Babylon Scene object (non-mesh)
+                var scene = new BABYLON.Scene(engine);
+                scene.clearColor = new BABYLON.Color3(0, 0, 0);
+                scene.shadowsEnabled = true;
+
+                // This creates and positions a free camera (non-mesh)
+                var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 30, BABYLON.Vector3.Zero(), scene);
+                camera.lowerBetaLimit = 0.1;
+                camera.upperBetaLimit = (Math.PI / 2) * 0.9;
+                camera.lowerRadiusLimit = 30;
+                camera.upperRadiusLimit = 30;
+                camera.attachControl(canvas, true);
+
+                var light0 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(10, 5, -7), scene);
+                var light1 = new BABYLON.PointLight("Omni1", new BABYLON.Vector3(10, 5, 7), scene);
+                var light2 = new BABYLON.PointLight("Omni2", new BABYLON.Vector3(-10, 5, -7), scene);
+                var light3 = new BABYLON.PointLight("Omni3", new BABYLON.Vector3(-10, 5, 7), scene);
+
+                var lightSphere0 = BABYLON.Mesh.CreateSphere("Sphere0", 16, 0.5, scene);
+                var lightSphere1 = BABYLON.Mesh.CreateSphere("Sphere1", 16, 0.5, scene);
+                var lightSphere2 = BABYLON.Mesh.CreateSphere("Sphere2", 16, 0.5, scene);
+                var lightSphere3 = BABYLON.Mesh.CreateSphere("Sphere3", 16, 0.5, scene);
+
+                lightSphere0.material = new BABYLON.StandardMaterial("white", scene);
+                lightSphere0.position = light0.position;
+                lightSphere0.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                lightSphere0.material.specularColor = new BABYLON.Color3(0, 0, 0);
+                lightSphere0.material.emissiveColor = new BABYLON.Color3(1, 1, 0);
+
+                lightSphere1.material = new BABYLON.StandardMaterial("white", scene);
+                lightSphere1.position = light1.position;
+                lightSphere1.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                lightSphere1.material.specularColor = new BABYLON.Color3(0, 0, 0);
+                lightSphere1.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+
+                lightSphere2.material = new BABYLON.StandardMaterial("white", scene);
+                lightSphere2.position = light2.position;
+                lightSphere2.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                lightSphere2.material.specularColor = new BABYLON.Color3(0, 0, 0);
+                lightSphere2.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+
+                lightSphere3.material = new BABYLON.StandardMaterial("white", scene);
+                lightSphere3.position = light3.position;
+                lightSphere3.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                lightSphere3.material.specularColor = new BABYLON.Color3(0, 0, 0);
+                lightSphere3.material.emissiveColor = new BABYLON.Color3(0, 0, 1);
+
+
+                light0.diffuse = lightSphere0.material.emissiveColor;
+                light0.specular = lightSphere0.material.emissiveColor;
+                light0.intensity = 0.7;
+
+                light1.diffuse = lightSphere1.material.emissiveColor;
+                light1.specular = lightSphere1.material.emissiveColor;
+                light1.intensity = 0.7;
+
+                light2.diffuse = lightSphere2.material.emissiveColor;
+                light2.specular = lightSphere2.material.emissiveColor;
+                light2.intensity = 0.7;
+
+                light3.diffuse = lightSphere3.material.emissiveColor;
+                light3.specular = lightSphere3.material.emissiveColor;
+                light3.intensity = 0.7;
+
+                // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
+                var plane = BABYLON.Mesh.CreatePlane("plane", 20, scene);
+                plane.position.y = 0;
+                plane.rotation.x = Math.PI / 2;
+
+                var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
+                materialPlane.diffuseTexture = new BABYLON.Texture("textures/chessboard_texture_by_sveinjo.png", scene);
+                materialPlane.diffuseTexture.uScale = 2.0;//Repeat 5 times on the Vertical Axes
+                materialPlane.diffuseTexture.vScale = 2.0;//Repeat 5 times on the Horizontal Axes
+                materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
+                plane.material = materialPlane;
+                
+
+                return scene;
+
+            };
+
+            var scene = createScene();
+
+            engine.runRenderLoop(function() {
+                scene.render();
+            });
+
+            /////////////////////////////
             function getActiveFigure() {
                 var result;
                 angular.forEach($scope.chessBoard.GameLog, function (row) {

@@ -1,5 +1,6 @@
 ﻿//urls
 var baseUrlApiChess = "http://chessapi.dev/api/";
+var baseUrlApiChessWithWsScheme = "ws://chessapi.dev/api/";
 
 var urlApiAccountChess = baseUrlApiChess + "Account";
 
@@ -11,3 +12,4 @@ var urlApiAcceptInvitation = baseUrlApiChess + "AcceptInvitation";
 var urlApiClosedInvitation = baseUrlApiChess + "ClosedInvitation";
 var urlApiGameLog = baseUrlApiChess + "GameLog";
 var urlApiBotInvitation = baseUrlApiChess + "BotInvitation";
+var urlApiChat = baseUrlApiChessWithWsScheme + "Chat";

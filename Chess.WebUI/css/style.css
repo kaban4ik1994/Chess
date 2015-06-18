@@ -84,3 +84,8 @@
 .margin-top-24 {
     margin-top: 24px;
 }
+
+.scene {
+    height: 100%;
+    width: 100%;
+}
