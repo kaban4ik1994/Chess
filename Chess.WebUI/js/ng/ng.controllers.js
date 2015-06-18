@@ -460,7 +460,14 @@ var contr = angular.module('app.controllers', [])
                 materialPlane.diffuseTexture.vScale = 2.0;//Repeat 5 times on the Horizontal Axes
                 materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
                 plane.material = materialPlane;
-                
+               
+                BABYLON.SceneLoader.ImportMesh("figures", "textures/", "figures.babylon.json", scene, function (newMeshes) {
+                    // Set the target of the camera to the first imported mesh
+                    // camera.target = newMeshes[0];
+                    var m = newMeshes[0];
+                    m.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
+
+                });
 
                 return scene;
 
