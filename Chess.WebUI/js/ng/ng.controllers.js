@@ -379,6 +379,9 @@ var contr = angular.module('app.controllers', [])
         '$scope', '$interval', '$routeParams', 'gameApi', 'authService', function ($scope, $interval, $routeParams, gameApi, authService) {
             $scope.prompt = '';
             //////////////////////
+
+
+
             var canvas = document.getElementById('scene');
             // init Babylon engine
             var engine = new BABYLON.Engine(canvas, true);
@@ -387,6 +390,89 @@ var contr = angular.module('app.controllers', [])
 
                 // This creates a basic Babylon Scene object (non-mesh)
                 var scene = new BABYLON.Scene(engine);
+
+
+                function initLabels() {
+                    var labelA = scene.meshes[getMeshIdByName('a')];
+                    labelA.position = new BABYLON.Vector3(10, 5, -7);
+                    var s = scene.meshes[getMeshIdByName('lightSphere0')];
+
+                    //  labelA.scaling = new BABYLON.Vector3(10, 10, 10);
+                    //labelA.position = new BABYLON.Vector3(0, 0, 0);
+                    //console.log(scene.meshes[getMeshIdByName('a')]);
+                    //console.log(scene.meshes[0]);
+                    labelA.__smartArrayFlags = s.__smartArrayFlags;
+                    labelA.visibility = s.visibility;
+                    labelA.useVertexColors = s.useVertexColors;
+                    labelA.useOctreeForRenderingSelection = s.useOctreeForRenderingSelection;
+                    labelA.useOctreeForPicking = s.useOctreeForPicking;
+                    labelA.useOctreeForCollisions = s.useOctreeForCollisions;
+                    labelA.subMeshes = s.subMeshes;
+                    labelA.state = s.state;
+                    labelA.showSubMeshesBoundingBox = s.showSubMeshesBoundingBox;
+                    labelA.showBoundingBox = s.showBoundingBox;
+                    labelA.scaling = s.scaling;
+                    labelA.rotation = s.rotation;
+                    labelA.position = s.position;
+                    labelA.overlayAlpha = s.overlayAlpha;
+                    labelA.outlineWidth = s.outlineWidth;
+                    labelA.layerMask = s.layerMask;
+                    labelA.instances = s.instances;
+                    labelA.infiniteDistance = s.infiniteDistance;
+                    labelA.hasVertexAlpha = s.hasVertexAlpha;
+                    labelA.ellipsoidOffset = s.ellipsoidOffset;
+                    labelA.ellipsoid = s.ellipsoid;
+                    labelA.delayLoadState = s.delayLoadState;
+                    labelA.definedFacingForward = s.definedFacingForward;
+                    labelA.checkCollisions = s.checkCollisions;
+                    labelA.billboardMode = s.billboardMode;
+                    labelA.applyFog = s.applyFog;
+                    labelA.alwaysSelectAsActiveMesh = s.alwaysSelectAsActiveMesh;
+                    labelA.alphaIndex = s.alphaIndex;
+                    labelA._worldMatrix = s._worldMatrix;
+                    labelA._visibleInstances = s._visibleInstances;
+                    labelA._sideOrientation = s._sideOrientation;
+                    labelA._scene = s._scene;
+                    labelA._rotateYByPI = s._rotateYByPI;
+                    labelA._renderIdForInstances = s._renderIdForInstances;
+                    labelA._positions = s._positions;
+                    labelA._pivotMatrix = s._pivotMatrix;
+                    labelA._physicImpostor = s._physicImpostor;
+                    labelA._onBeforeRenderCallbacks = s._onBeforeRenderCallbacks;
+                    labelA._onAfterWorldMatrixUpdate = s._onAfterWorldMatrixUpdate;
+                    labelA._onAfterRenderCallbacks = s._onAfterRenderCallbacks;
+                    labelA._oldPositionForCollisions = s._oldPositionForCollisions;
+                    labelA._newPositionForCollisions = s._newPositionForCollisions;
+                    labelA._localWorld = s._localWorld;
+                    labelA._localTranslation = s._localTranslation;
+                    labelA._localScaling = s._localScaling;
+                    labelA._localRotation = s._localRotation;
+                    labelA._localPivotScalingRotation = s._localPivotScalingRotation;
+                    labelA._localPivotScaling = s._localPivotScaling;
+                    labelA._localBillboard = s._localBillboard;
+                    labelA._isWorldMatrixFrozen = s._isWorldMatrixFrozen;
+                    labelA._isReady = s._isReady;
+                    labelA._isEnabled = s._isEnabled;
+                    labelA._isDisposed = s._isDisposed;
+                    labelA._isDirty = s._isDirty;
+                    labelA._intersectionsInProgress = s._intersectionsInProgress;
+                    labelA._instancesBufferSize = s._instancesBufferSize;
+                    labelA._geometry = s._geometry;
+                    labelA._diffPositionForCollisions = s._diffPositionForCollisions;
+                    labelA._collisionsTransformMatrix = s._collisionsTransformMatrix;
+                    labelA._collisionsScalingMatrix = s._collisionsScalingMatrix;
+                    labelA._collider = s._collider;
+                    labelA._childrenFlag = s._childrenFlag;
+                    labelA._cache = s._cache;
+                    labelA._boundingInfo = s._boundingInfo;
+                    labelA._batchCache = s._batchCache;
+                    labelA._areNormalsFrozen = s._areNormalsFrozen;
+                    labelA._absolutePosition = s._absolutePosition;
+                    labelA.__smartArrayFlags = s.__smartArrayFlags;
+                    labelA._LODLevels = s._LODLevels;
+
+                }
+
                 scene.clearColor = new BABYLON.Color3(0, 0, 0);
                 scene.shadowsEnabled = true;
 
@@ -435,19 +521,19 @@ var contr = angular.module('app.controllers', [])
 
                 light0.diffuse = lightSphere0.material.emissiveColor;
                 light0.specular = lightSphere0.material.emissiveColor;
-                light0.intensity = 0.7;
+                light0.intensity = 1;
 
                 light1.diffuse = lightSphere1.material.emissiveColor;
                 light1.specular = lightSphere1.material.emissiveColor;
-                light1.intensity = 0.7;
+                light1.intensity = 1;
 
                 light2.diffuse = lightSphere2.material.emissiveColor;
                 light2.specular = lightSphere2.material.emissiveColor;
-                light2.intensity = 0.7;
+                light2.intensity = 1;
 
                 light3.diffuse = lightSphere3.material.emissiveColor;
                 light3.specular = lightSphere3.material.emissiveColor;
-                light3.intensity = 0.7;
+                light3.intensity = 1;
 
                 // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
                 var plane = BABYLON.Mesh.CreatePlane("plane", 20, scene);
@@ -460,14 +546,10 @@ var contr = angular.module('app.controllers', [])
                 materialPlane.diffuseTexture.vScale = 2.0;//Repeat 5 times on the Horizontal Axes
                 materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
                 plane.material = materialPlane;
-               
-                BABYLON.SceneLoader.ImportMesh("figures", "textures/", "figures.babylon.json", scene, function (newMeshes) {
-                    // Set the target of the camera to the first imported mesh
-                    // camera.target = newMeshes[0];
-                    var m = newMeshes[0];
-                    m.scaling = new BABYLON.Vector3(0.5, 0.5, 0.5);
 
+                BABYLON.SceneLoader.ImportMesh("", "textures/figures/", "figures.babylon.json", scene, function () {
                 });
+
 
                 return scene;
 
@@ -475,9 +557,30 @@ var contr = angular.module('app.controllers', [])
 
             var scene = createScene();
 
-            engine.runRenderLoop(function() {
+            window.addEventListener("click", function (evt) {
+                var pickResult = scene.pick(evt.clientX, evt.clientY);
+                console.log(pickResult);
+            });
+
+            function getMeshIdByName(name) {
+                var result = -1;
+                angular.forEach(scene.meshes, function (value, key) {
+                    if (value.name == name) result = key;
+                });
+                return result;
+            };
+
+            engine.runRenderLoop(function () {
                 scene.render();
             });
+
+            var startPositionForBlackQueen = new BABYLON.Vector3(40, 2.5, 0);
+
+            $scope.clickme = function () {
+                console.log(scene);
+                console.log(getMeshIdByName('a'));
+                scene.meshes[getMeshIdByName('a')].position = startPositionForBlackQueen;
+            }
 
             /////////////////////////////
             function getActiveFigure() {
