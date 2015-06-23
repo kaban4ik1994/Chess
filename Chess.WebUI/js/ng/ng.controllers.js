@@ -788,7 +788,7 @@ var contr = angular.module('app.controllers', [])
                 // This creates a basic Babylon Scene object (non-mesh)
                 var scene = new BABYLON.Scene(engine);
 
-                //scene.clearColor = new BABYLON.Color3(0, 0, 0);
+                scene.clearColor = new BABYLON.Color3(0, 0, 0);
                 scene.shadowsEnabled = true;
 
                 // This creates and positions a free camera (non-mesh)
@@ -799,56 +799,14 @@ var contr = angular.module('app.controllers', [])
                 camera.upperRadiusLimit = 30;
                 camera.attachControl(canvas, true);
 
-                var light0 = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(10, 8, -7), scene);
-                var light1 = new BABYLON.PointLight("Omni1", new BABYLON.Vector3(10, 8, 7), scene);
-                var light2 = new BABYLON.PointLight("Omni2", new BABYLON.Vector3(-10, 8, -7), scene);
-                var light3 = new BABYLON.PointLight("Omni3", new BABYLON.Vector3(-10, 8, 7), scene);
+                var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-1, -2, -1), scene);
+                light.position = new BABYLON.Vector3(6, 12, 6);
+                light.intensity = 2;
 
-                var lightSphere0 = BABYLON.Mesh.CreateSphere("Sphere0", 16, 1.5, scene);
-                var lightSphere1 = BABYLON.Mesh.CreateSphere("Sphere1", 16, 1.5, scene);
-                var lightSphere2 = BABYLON.Mesh.CreateSphere("Sphere2", 16, 1.5, scene);
-                var lightSphere3 = BABYLON.Mesh.CreateSphere("Sphere3", 16, 1.5, scene);
-
-                lightSphere0.material = new BABYLON.StandardMaterial("white", scene);
-                lightSphere0.position = light0.position;
-                lightSphere0.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
-                lightSphere0.material.specularColor = new BABYLON.Color3(0, 0, 0);
-                lightSphere0.material.emissiveColor = new BABYLON.Color3(1, 1, 0);
-
-                lightSphere1.material = new BABYLON.StandardMaterial("white", scene);
-                lightSphere1.position = light1.position;
-                lightSphere1.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
-                lightSphere1.material.specularColor = new BABYLON.Color3(0, 0, 0);
-                lightSphere1.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
-
-                lightSphere2.material = new BABYLON.StandardMaterial("white", scene);
-                lightSphere2.position = light2.position;
-                lightSphere2.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
-                lightSphere2.material.specularColor = new BABYLON.Color3(0, 0, 0);
-                lightSphere2.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
-
-                lightSphere3.material = new BABYLON.StandardMaterial("white", scene);
-                lightSphere3.position = light3.position;
-                lightSphere3.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
-                lightSphere3.material.specularColor = new BABYLON.Color3(0, 0, 0);
-                lightSphere3.material.emissiveColor = new BABYLON.Color3(0, 0, 1);
-
-
-                light0.diffuse = lightSphere0.material.emissiveColor;
-                light0.specular = lightSphere0.material.emissiveColor;
-                light0.intensity = 1;
-
-                light1.diffuse = lightSphere1.material.emissiveColor;
-                light1.specular = lightSphere1.material.emissiveColor;
-                light1.intensity = 1;
-
-                light2.diffuse = lightSphere2.material.emissiveColor;
-                light2.specular = lightSphere2.material.emissiveColor;
-                light2.intensity = 1;
-
-                light3.diffuse = lightSphere3.material.emissiveColor;
-                light3.specular = lightSphere3.material.emissiveColor;
-                light3.intensity = 1;
+                var lightSphere = BABYLON.Mesh.CreateSphere("sphere", 10, 2, scene);
+                lightSphere.position = light.position;
+                lightSphere.material = new BABYLON.StandardMaterial("light", scene);
+                lightSphere.material.emissiveColor = new BABYLON.Color3(1, 1, 0);
 
                 // Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
                 var plane = BABYLON.Mesh.CreatePlane("plane", 20, scene);
@@ -863,16 +821,22 @@ var contr = angular.module('app.controllers', [])
                 plane.material = materialPlane;
 
                 BABYLON.SceneLoader.ImportMesh("", "textures/figures/", "figures.babylon.json", scene, function () {
+                    var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
                     for (var i = 5; i < scene.meshes.length; i++) {
                         scene.meshes[i].isVisible = false;
                         scene.meshes[i].isUse = false;
-                        if (scene.meshes[i].name.indexOf("black_knight") > -1) {
+                        if (scene.meshes[i].name.indexOf("black") > -1) {
                             scene.meshes[i].rotation.y = -Math.PI / 2;
                         }
-                        if (scene.meshes[i].name.indexOf("white_knight") > -1) {
+                        if (scene.meshes[i].name.indexOf("white") > -1) {
                             scene.meshes[i].rotation.y = Math.PI / 2;
                         }
+                        shadowGenerator.getShadowMap().renderList.push(scene.meshes[i]);
                     }
+                    //// Shadows
+                    shadowGenerator.useVarianceShadowMap = true;
+                    plane.receiveShadows = true;
+
                     refreshBoard();
                 });
                 return scene;
