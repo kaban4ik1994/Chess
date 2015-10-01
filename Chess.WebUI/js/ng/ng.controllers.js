@@ -432,9 +432,8 @@ var contr = angular.module('app.controllers', [])
         	blockUI.start();
 
         	function refreshBoard() {
-        		var selectedFigureKey = customScene.getActiveFigureKey();
         		gameApi.get({ invitationId: $routeParams.invitationId, logId: $scope.logIndex }, function (data) {
-
+        			var selectedFigureKey = customScene.getActiveFigureKey();
         			customScene.refreshTempProperties();
         			$scope.moveCount = data.Count;
         			$scope.chessBoard = data.GameData;
@@ -576,7 +575,6 @@ var contr = angular.module('app.controllers', [])
         				});
         			});
 
-        			customScene.refreshSelectingMesh();
         			if (selectedFigureKey != -1) {
         				customScene.selectMeshById(selectedFigureKey);
         			}
