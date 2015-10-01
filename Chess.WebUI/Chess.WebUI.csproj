@@ -78,6 +78,7 @@
     <Content Include="img\jqueryui\index.php" />
     <Content Include="img\pattern\index.php" />
     <Content Include="img\superbox\index.php" />
+    <Content Include="js\custom\customScene.js" />
     <Content Include="js\libs\angular-block-ui\angular-block-ui.js" />
     <Content Include="js\libs\angular-block-ui\angular-block-ui.min.js" />
     <Content Include="js\libs\chessComponents\chess.js" />
@@ -150,8 +151,20 @@
     <Content Include="js\libs\angular-block-ui\angular-block-ui.js.map" />
     <Content Include="js\libs\angular-block-ui\angular-block-ui.min.js.map" />
     <Content Include="css\angular-block-ui.css.map" />
-    <Content Include="textures\figures.babylon.json" />
-    <Content Include="textures\figures.log" />
+    <Content Include="textures\figures\wooddar0.bmp" />
+    <Content Include="textures\figures\wooddar1.bmp" />
+    <Content Include="textures\figures\wooddar2.bmp" />
+    <Content Include="textures\figures\wooddar3.bmp" />
+    <Content Include="textures\figures\wooddar4.bmp" />
+    <Content Include="textures\figures\wooddar5.bmp" />
+    <Content Include="textures\figures\woodlig0.bmp" />
+    <Content Include="textures\figures\woodlig1.bmp" />
+    <Content Include="textures\figures\woodlig2.bmp" />
+    <Content Include="textures\figures\woodlig3.bmp" />
+    <Content Include="textures\figures\woodlig4.bmp" />
+    <Content Include="textures\figures\woodlig5.bmp" />
+    <Content Include="textures\labels\labels.babylon.json" />
+    <Content Include="textures\figures\figures.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1440,18 +1453,6 @@
     <Content Include="obj\Release\SunnyHolidays.WebUI.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Release\_WPPLastBuildInfo.txt" />
     <Content Include="textures\chessboard_texture_by_sveinjo.png" />
-    <Content Include="textures\wooddar0.bmp" />
-    <Content Include="textures\wooddar1.bmp" />
-    <Content Include="textures\wooddar2.bmp" />
-    <Content Include="textures\wooddar3.bmp" />
-    <Content Include="textures\wooddar4.bmp" />
-    <Content Include="textures\wooddar5.bmp" />
-    <Content Include="textures\woodlig0.bmp" />
-    <Content Include="textures\woodlig1.bmp" />
-    <Content Include="textures\woodlig2.bmp" />
-    <Content Include="textures\woodlig3.bmp" />
-    <Content Include="textures\woodlig4.bmp" />
-    <Content Include="textures\woodlig5.bmp" />
     <Content Include="views\game.html" />
     <Content Include="views\gameView.html" />
     <Content Include="views\invitation.html" />
