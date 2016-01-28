@@ -9,54 +9,51 @@ using Chess.WebAPI.Filters.AuthorizationFilters;
 
 namespace Chess.WebAPI.Controllers
 {
-    [CheckRole("Admin,User"), EnableCors("*", "*", "*")]
-    public class GameController : ApiController
-    {
-        private readonly IGameService _gameService;
+	[CheckRole("Admin,User"), EnableCors("*", "*", "*")]
+	public class GameController : ApiController
+	{
+		private readonly IGameService _gameService;
 
-        public GameController(IGameService gameService)
-        {
-            _gameService = gameService;
-        }
+		public GameController(IGameService gameService)
+		{
+			_gameService = gameService;
+		}
 
-        [HttpGet]
-        public async Task<IHttpActionResult> Get(long invitationId)
-        {
-            if (await _gameService.IsMoveOfBot(invitationId))
-            {
-                var botMove = await _gameService.GetBotMove(invitationId);
-                var moveResult =await _gameService.MakeMove(invitationId, botMove.From, botMove.To);
-                if (moveResult.MoveStatus != MoveStatus.Success)
-                {
-                    var message = string.Empty;
-                    if (moveResult.MoveStatus == MoveStatus.Error) message = "Wrong move.";
-                    else if (moveResult.MoveStatus == MoveStatus.Shah) message = "You to shah.";
-                    else if (moveResult.MoveStatus == MoveStatus.Checkmate) message = "You to checkmate";
-                    return BadRequest(message);
-                }
-            }
-            var result = await _gameService.GetGameBoardByInvitationId(invitationId);
-            if (result == null) return BadRequest();
+		[HttpGet]
+		public async Task<IHttpActionResult> Get(long invitationId)
+		{
+			if (await _gameService.IsGameEnded(invitationId))
+			{
+				
+			}
 
-            return Ok(new { GameData = result });
-        }
+			else if (await _gameService.IsMoveOfBot(invitationId))
+			{
+				var botMove = await _gameService.GetBotMove(invitationId);
+				await _gameService.MakeMove(invitationId, botMove.From, botMove.To);
+			}
 
-        [HttpPost]
-        public async Task<IHttpActionResult> Post([FromBody]MakeMoveViewModel model)
-        {
-            var result =
-                await
-                    _gameService.MakeMove(model.GameId, new Position { X = model.FromX, Y = model.FromY },
-                        new Position { X = model.ToX, Y = model.ToY });
-            if (result.MoveStatus != MoveStatus.Success)
-            {
-                var message = string.Empty;
-                if (result.MoveStatus == MoveStatus.Error) message = "Wrong move.";
-                else if (result.MoveStatus == MoveStatus.Shah) message = "You to shah.";
-                else if (result.MoveStatus == MoveStatus.Checkmate) message = "You to checkmate";
-                return BadRequest(message);
-            }
-            return Ok(new { GameData = result });
-        }
-    }
+			var result = await _gameService.GetGameBoardByInvitationId(invitationId);
+			if (result == null) return BadRequest();
+			return Ok(new {GameData = result});
+		}
+
+		[HttpPost]
+		public async Task<IHttpActionResult> Post([FromBody]MakeMoveViewModel model)
+		{
+			var result =
+					await
+							_gameService.MakeMove(model.GameId, new Position { X = model.FromX, Y = model.FromY },
+									new Position { X = model.ToX, Y = model.ToY });
+			if (result.MoveStatus != MoveStatus.Success)
+			{
+				var message = string.Empty;
+				if (result.MoveStatus == MoveStatus.Error) message = "Wrong move.";
+				else if (result.MoveStatus == MoveStatus.Shah) message = "You to shah.";
+				else if (result.MoveStatus == MoveStatus.Checkmate) message = "You to checkmate";
+				return BadRequest(message);
+			}
+			return Ok(new { GameData = result });
+		}
+	}
 }

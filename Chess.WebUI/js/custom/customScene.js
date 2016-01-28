@@ -183,9 +183,9 @@ CustomScene.prototype.getMeshIdByName = function (name) {
 
 CustomScene.prototype.getMeshIdByPosition = function (position) {
 	var result = -1;
-	angular.forEach(this._scene.meshes, function (value, key) {
-		if (value.position.x === position.x && value.position.y === position.y && value.position.z === position.z) result = key;
-	})
+	angular.forEach(this._scene.meshes, function(value, key) {
+		if (value.position.x === position.x && value.position.y === position.y && value.position.z === position.z && value.isVisible) result = key;
+	});
 	return result;
 }
 

@@ -8,6 +8,7 @@ using Chess.Core.Mediator;
 using Chess.Core.Models;
 using Chess.Entities.Models;
 using Chess.Enums;
+using Chess.Helpers;
 using Chess.Models;
 using Chess.Services.Interfaces;
 using Repository.Pattern.Infrastructure;
@@ -126,7 +127,39 @@ namespace Chess.Services
             return Task.FromResult(color != Color.White);
         }
 
-        public async Task<GameViewModel> MakeMove(long gameId, Position from, Position to)
+	    public async Task<bool> IsGameEnded(long gameId)
+	    {
+		    var game = Query(x => x.Id == gameId).Include(x => x.GameLogs)
+			    .Include(game1 => game1.Invitation)
+			    .Select().FirstOrDefault();
+		    if (game == null) return false;
+				_chessboard.DeserializeBoard(game.GameLogs.Last().Log);
+				var color = game.GameLogs.Last().Index % 2 != 0 ? Color.White : Color.Black;
+				var allMoves = new List<ExtendedPosition>();
+				allMoves.AddRange(_moveMediator.GetExtendedAttackMovesByColor(color, _chessboard));
+				allMoves.AddRange(_moveMediator.GetExtendedPossibleMovesByColor(color, _chessboard));
+				var randomMove = RandomGeneratorHelper.GetRandomValueFromList(allMoves);
+		    if (randomMove == null) return true;
+				var moveResult = _moveMediator.Send(randomMove.From, randomMove.To, _chessboard, color);
+		    var isEnded = false;
+				switch (moveResult)
+				{
+					case MoveStatus.Success:
+						_chessboard.UndoLastMove();
+						break;
+					case MoveStatus.Checkmate:
+						isEnded = true;
+						break;
+				}
+		    if (!isEnded) return false;
+
+		    game.IsEnded = true;
+		    Update(game);
+		    await _unitOfWorkAsync.SaveChangesAsync();
+		    return  true;
+	    }
+
+	    public async Task<GameViewModel> MakeMove(long gameId, Position from, Position to)
         {
             var game = Query(x => x.Id == gameId).Include(x => x.GameLogs)
                 .Include(game1 => game1.Invitation)
