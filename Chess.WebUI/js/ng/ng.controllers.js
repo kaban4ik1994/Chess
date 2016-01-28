@@ -216,7 +216,7 @@ var contr = angular.module('app.controllers', [])
         	if (authService.authentication.isAuth == false) {
         		$location.path('/Login');
         	} else {
-        		TestApi.get();
+        	
         	}
         }
     ])
@@ -380,6 +380,8 @@ var contr = angular.module('app.controllers', [])
         	$scope.prompt = '';
 
         	$scope.selectedItem = function (pickResult) {
+        		console.log(customScene.getChessPositionByPosition(pickResult.pickedPoint))
+        		if (pickResult.pickedPoint == null) return;
         		var clickingChessPosition = customScene.getChessPositionByPosition(pickResult.pickedPoint);
         		var activeFigureId = customScene.getActiveFigureKey();
         		var activateFigureChessPosition = {};
@@ -389,7 +391,6 @@ var contr = angular.module('app.controllers', [])
         		}
         		if (pickResult.hit) {
         			currentMeshId = customScene.getMeshIdByPosition(customScene.roundPoint(pickResult.pickedPoint));
-
         		}
 
         		$scope.prompt = undefined;
@@ -413,7 +414,7 @@ var contr = angular.module('app.controllers', [])
         			if (isMove && activeFigureId != -1
                         && (currentMeshId == -1 || scene.meshes[currentMeshId].figureColor != scene.meshes[activeFigureId].figureColor || (scene.meshes[currentMeshId].figureColor == scene.meshes[activeFigureId].figureColor && scene.meshes[activeFigureId].figureType == 1 && scene.meshes[currentMeshId].figureType == 4))) {
         				gameApi.save({ GameId: $scope.chessBoard.GameId, FromX: activateFigureChessPosition.X, FromY: activateFigureChessPosition.Y, ToX: clickingChessPosition.X, ToY: clickingChessPosition.Y, }, function (data) {
-					        refreshBoard();
+        					refreshBoard();
         					$scope.chessBoard.GameLog = angular.fromJson(data.GameData.GameLog);
         					$scope.chessBoard.LogIndex = data.GameData.LogIndex;
 
@@ -422,8 +423,8 @@ var contr = angular.module('app.controllers', [])
         				});
         			} else {
         				if (currentMeshId != -1) {
-        					customScene.selectMeshById(currentMeshId);
-        				}
+					        customScene.selectMeshById(currentMeshId);
+				        }
         			}
         		};
         	}
@@ -442,136 +443,138 @@ var contr = angular.module('app.controllers', [])
         			angular.forEach(gameLog, function (row) {
         				angular.forEach(row, function (cell) {
         					if (cell.Figure) {
-        						if (cell.Figure.Color == 1) {
-        							if (cell.Figure.Type == 1) {
-        								scene.meshes[customScene.getMeshIdByName('black_king')].position = customScene.getCenterPointsByPosition(cell.Position);
-        								scene.meshes[customScene.getMeshIdByName('black_king')].isVisible = true;
-        								scene.meshes[customScene.getMeshIdByName('black_king')].position.y = 2.5;
-        								scene.meshes[customScene.getMeshIdByName('black_king')].figureColor = 1;
-        								scene.meshes[customScene.getMeshIdByName('black_king')].figureType = 1;
+						        if (cell.Figure.Color == 1) {
+							        if (cell.Figure.Type == 1) {
+								        scene.meshes[customScene.getMeshIdByName('black_king')].position = customScene.getCenterPointsByPosition(cell.Position);
+								        scene.meshes[customScene.getMeshIdByName('black_king')].isVisible = true;
+								        scene.meshes[customScene.getMeshIdByName('black_king')].position.y = 2.5;
+								        scene.meshes[customScene.getMeshIdByName('black_king')].figureColor = 1;
+								        scene.meshes[customScene.getMeshIdByName('black_king')].figureType = 1;
 
-        							} else if (cell.Figure.Type == 2) {
-        								scene.meshes[customScene.getMeshIdByName('black_queen')].position = customScene.getCenterPointsByPosition(cell.Position);
-        								scene.meshes[customScene.getMeshIdByName('black_queen')].isVisible = true;
-        								scene.meshes[customScene.getMeshIdByName('black_queen')].position.y = 2.5;
-        								scene.meshes[customScene.getMeshIdByName('black_queen')].figureColor = 1;
-        								scene.meshes[customScene.getMeshIdByName('black_king')].figureType = 2;
+							        } else if (cell.Figure.Type == 2) {
+								        scene.meshes[customScene.getMeshIdByName('black_queen')].position = customScene.getCenterPointsByPosition(cell.Position);
+								        scene.meshes[customScene.getMeshIdByName('black_queen')].isVisible = true;
+								        scene.meshes[customScene.getMeshIdByName('black_queen')].position.y = 2.5;
+								        scene.meshes[customScene.getMeshIdByName('black_queen')].figureColor = 1;
+								        scene.meshes[customScene.getMeshIdByName('black_king')].figureType = 2;
 
-        							} else if (cell.Figure.Type == 3) {
-        								var mesh = !scene.meshes[customScene.getMeshIdByName('black_bishop1')].isUse ? scene.meshes[customScene.getMeshIdByName('black_bishop1')] : scene.meshes[customScene.getMeshIdByName('black_bishop2')];
-        								mesh.figureType = 3;
-        								mesh.figureColor = 1;
-        								mesh.isUse = true;
-        								mesh.isVisible = true;
-        								mesh.position = customScene.getCenterPointsByPosition(cell.Position);
-        								mesh.position.y = 1.5;
-        							} else if (cell.Figure.Type == 4) {
-        								var mesh = !scene.meshes[customScene.getMeshIdByName('black_rook1')].isUse ? scene.meshes[customScene.getMeshIdByName('black_rook1')] : scene.meshes[customScene.getMeshIdByName('black_rook2')];
-        								mesh.figureType = 4;
-        								mesh.figureColor = 1;
-        								mesh.isUse = true;
-        								mesh.isVisible = true;
-        								mesh.position = customScene.getCenterPointsByPosition(cell.Position);
-        								mesh.position.y = 1.5;
-        							} else if (cell.Figure.Type == 5) {
-        								var mesh = !scene.meshes[customScene.getMeshIdByName('black_knight1')].isUse ? scene.meshes[customScene.getMeshIdByName('black_knight1')] : scene.meshes[customScene.getMeshIdByName('black_knight2')];
-        								mesh.figureType = 5;
-        								mesh.figureColor = 1;
-        								mesh.isUse = true;
-        								mesh.isVisible = true;
-        								mesh.position = customScene.getCenterPointsByPosition(cell.Position);
-        								mesh.position.y = 1.5;
-        							} else if (cell.Figure.Type == 6) {
-        								var mesh;
-        								if (!scene.meshes[customScene.getMeshIdByName('black_pawn1')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('black_pawn1')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('black_pawn2')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('black_pawn2')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('black_pawn3')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('black_pawn3')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('black_pawn4')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('black_pawn4')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('black_pawn5')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('black_pawn5')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('black_pawn6')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('black_pawn6')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('black_pawn7')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('black_pawn7')];
-        								} else {
-        									mesh = scene.meshes[customScene.getMeshIdByName('black_pawn8')];
-        								}
-        								mesh.figureType = 6;
-        								mesh.figureColor = 1;
-        								mesh.isUse = true;
-        								mesh.isVisible = true;
-        								mesh.position = customScene.getCenterPointsByPosition(cell.Position);
-        								mesh.position.y = 1;
-        							}
-        						} else if (cell.Figure.Color == 2) {
-        							if (cell.Figure.Type == 1) {
-        								scene.meshes[customScene.getMeshIdByName('white_king')].position = customScene.getCenterPointsByPosition(cell.Position);
-        								scene.meshes[customScene.getMeshIdByName('white_king')].isVisible = true;
-        								scene.meshes[customScene.getMeshIdByName('white_king')].position.y = 2.5;
-        								scene.meshes[customScene.getMeshIdByName('white_king')].figureColor = 2;
-        								scene.meshes[customScene.getMeshIdByName('white_king')].figureType = 1;
-        							} else if (cell.Figure.Type == 2) {
-        								scene.meshes[customScene.getMeshIdByName('white_queen')].position = customScene.getCenterPointsByPosition(cell.Position);
-        								scene.meshes[customScene.getMeshIdByName('white_queen')].isVisible = true;
-        								scene.meshes[customScene.getMeshIdByName('white_queen')].position.y = 2.5;
-        								scene.meshes[customScene.getMeshIdByName('white_queen')].figureColor = 2;
-        								scene.meshes[customScene.getMeshIdByName('white_queen')].figureType = 2;
-        							} else if (cell.Figure.Type == 3) {
-        								var mesh = !scene.meshes[customScene.getMeshIdByName('white_bishop1')].isUse ? scene.meshes[customScene.getMeshIdByName('white_bishop1')] : scene.meshes[customScene.getMeshIdByName('white_bishop2')];
-        								mesh.figureType = 3;
-        								mesh.figureColor = 2;
-        								mesh.isUse = true;
-        								mesh.isVisible = true;
-        								mesh.position = customScene.getCenterPointsByPosition(cell.Position);
-        								mesh.position.y = 1.5;
-        							} else if (cell.Figure.Type == 4) {
-        								var mesh = !scene.meshes[customScene.getMeshIdByName('white_rook1')].isUse ? scene.meshes[customScene.getMeshIdByName('white_rook1')] : scene.meshes[customScene.getMeshIdByName('white_rook2')];
-        								mesh.figureType = 4;
-        								mesh.figureColor = 2;
-        								mesh.isUse = true;
-        								mesh.isVisible = true;
-        								mesh.position = customScene.getCenterPointsByPosition(cell.Position);
-        								mesh.position.y = 1.5;
-        							} else if (cell.Figure.Type == 5) {
-        								var mesh = !scene.meshes[customScene.getMeshIdByName('white_knight1')].isUse ? scene.meshes[customScene.getMeshIdByName('white_knight1')] : scene.meshes[customScene.getMeshIdByName('white_knight2')];
-        								mesh.figureType = 5;
-        								mesh.figureColor = 2;
-        								mesh.isUse = true;
-        								mesh.isVisible = true;
-        								mesh.position = customScene.getCenterPointsByPosition(cell.Position);
-        								mesh.position.y = 1.5;
-        							} else if (cell.Figure.Type == 6) {
-        								var mesh;
-        								if (!scene.meshes[customScene.getMeshIdByName('white_pawn1')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('white_pawn1')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('white_pawn2')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('white_pawn2')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('white_pawn3')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('white_pawn3')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('white_pawn4')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('white_pawn4')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('white_pawn5')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('white_pawn5')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('white_pawn6')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('white_pawn6')];
-        								} else if (!scene.meshes[customScene.getMeshIdByName('white_pawn7')].isUse) {
-        									mesh = scene.meshes[customScene.getMeshIdByName('white_pawn7')];
-        								} else {
-        									mesh = scene.meshes[customScene.getMeshIdByName('white_pawn8')];
-        								}
-        								mesh.figureType = 6;
-        								mesh.figureColor = 2;
-        								mesh.isUse = true;
-        								mesh.isVisible = true;
-        								mesh.position = customScene.getCenterPointsByPosition(cell.Position);
-        								mesh.position.y = 1;
-        							}
-        						}
-        					}
+							        } else if (cell.Figure.Type == 3) {
+								        var mesh = !scene.meshes[customScene.getMeshIdByName('black_bishop1')].isUse ? scene.meshes[customScene.getMeshIdByName('black_bishop1')] : scene.meshes[customScene.getMeshIdByName('black_bishop2')];
+								        mesh.figureType = 3;
+								        mesh.figureColor = 1;
+								        mesh.isUse = true;
+								        mesh.isVisible = true;
+								        mesh.position = customScene.getCenterPointsByPosition(cell.Position);
+								        mesh.position.y = 1.5;
+							        } else if (cell.Figure.Type == 4) {
+								        var mesh = !scene.meshes[customScene.getMeshIdByName('black_rook1')].isUse ? scene.meshes[customScene.getMeshIdByName('black_rook1')] : scene.meshes[customScene.getMeshIdByName('black_rook2')];
+								        mesh.figureType = 4;
+								        mesh.figureColor = 1;
+								        mesh.isUse = true;
+								        mesh.isVisible = true;
+								        mesh.position = customScene.getCenterPointsByPosition(cell.Position);
+								        mesh.position.y = 1.5;
+							        } else if (cell.Figure.Type == 5) {
+								        var mesh = !scene.meshes[customScene.getMeshIdByName('black_knight1')].isUse ? scene.meshes[customScene.getMeshIdByName('black_knight1')] : scene.meshes[customScene.getMeshIdByName('black_knight2')];
+								        mesh.figureType = 5;
+								        mesh.figureColor = 1;
+								        mesh.isUse = true;
+								        mesh.isVisible = true;
+								        mesh.position = customScene.getCenterPointsByPosition(cell.Position);
+								        mesh.position.y = 1.5;
+							        } else if (cell.Figure.Type == 6) {
+								        var mesh;
+								        if (!scene.meshes[customScene.getMeshIdByName('black_pawn1')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('black_pawn1')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('black_pawn2')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('black_pawn2')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('black_pawn3')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('black_pawn3')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('black_pawn4')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('black_pawn4')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('black_pawn5')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('black_pawn5')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('black_pawn6')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('black_pawn6')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('black_pawn7')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('black_pawn7')];
+								        } else {
+									        mesh = scene.meshes[customScene.getMeshIdByName('black_pawn8')];
+								        }
+								        mesh.figureType = 6;
+								        mesh.figureColor = 1;
+								        mesh.isUse = true;
+								        mesh.isVisible = true;
+								        mesh.position = customScene.getCenterPointsByPosition(cell.Position);
+								        mesh.position.y = 1;
+							        }
+						        } else if (cell.Figure.Color == 2) {
+							        if (cell.Figure.Type == 1) {
+								        scene.meshes[customScene.getMeshIdByName('white_king')].position = customScene.getCenterPointsByPosition(cell.Position);
+								        scene.meshes[customScene.getMeshIdByName('white_king')].isVisible = true;
+								        scene.meshes[customScene.getMeshIdByName('white_king')].position.y = 2.5;
+								        scene.meshes[customScene.getMeshIdByName('white_king')].figureColor = 2;
+								        scene.meshes[customScene.getMeshIdByName('white_king')].figureType = 1;
+							        } else if (cell.Figure.Type == 2) {
+								        scene.meshes[customScene.getMeshIdByName('white_queen')].position = customScene.getCenterPointsByPosition(cell.Position);
+								        scene.meshes[customScene.getMeshIdByName('white_queen')].isVisible = true;
+								        scene.meshes[customScene.getMeshIdByName('white_queen')].position.y = 2.5;
+								        scene.meshes[customScene.getMeshIdByName('white_queen')].figureColor = 2;
+								        scene.meshes[customScene.getMeshIdByName('white_queen')].figureType = 2;
+							        } else if (cell.Figure.Type == 3) {
+								        var mesh = !scene.meshes[customScene.getMeshIdByName('white_bishop1')].isUse ? scene.meshes[customScene.getMeshIdByName('white_bishop1')] : scene.meshes[customScene.getMeshIdByName('white_bishop2')];
+								        mesh.figureType = 3;
+								        mesh.figureColor = 2;
+								        mesh.isUse = true;
+								        mesh.isVisible = true;
+								        mesh.position = customScene.getCenterPointsByPosition(cell.Position);
+								        mesh.position.y = 1.5;
+							        } else if (cell.Figure.Type == 4) {
+								        var mesh = !scene.meshes[customScene.getMeshIdByName('white_rook1')].isUse ? scene.meshes[customScene.getMeshIdByName('white_rook1')] : scene.meshes[customScene.getMeshIdByName('white_rook2')];
+								        mesh.figureType = 4;
+								        mesh.figureColor = 2;
+								        mesh.isUse = true;
+								        mesh.isVisible = true;
+								        mesh.position = customScene.getCenterPointsByPosition(cell.Position);
+								        mesh.position.y = 1.5;
+							        } else if (cell.Figure.Type == 5) {
+								        var mesh = !scene.meshes[customScene.getMeshIdByName('white_knight1')].isUse ? scene.meshes[customScene.getMeshIdByName('white_knight1')] : scene.meshes[customScene.getMeshIdByName('white_knight2')];
+								        mesh.figureType = 5;
+								        mesh.figureColor = 2;
+								        mesh.isUse = true;
+								        mesh.isVisible = true;
+								        mesh.position = customScene.getCenterPointsByPosition(cell.Position);
+								        mesh.position.y = 1.5;
+							        } else if (cell.Figure.Type == 6) {
+								        var mesh;
+								        if (!scene.meshes[customScene.getMeshIdByName('white_pawn1')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('white_pawn1')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('white_pawn2')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('white_pawn2')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('white_pawn3')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('white_pawn3')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('white_pawn4')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('white_pawn4')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('white_pawn5')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('white_pawn5')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('white_pawn6')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('white_pawn6')];
+								        } else if (!scene.meshes[customScene.getMeshIdByName('white_pawn7')].isUse) {
+									        mesh = scene.meshes[customScene.getMeshIdByName('white_pawn7')];
+								        } else {
+									        mesh = scene.meshes[customScene.getMeshIdByName('white_pawn8')];
+								        }
+								        mesh.figureType = 6;
+								        mesh.figureColor = 2;
+								        mesh.isUse = true;
+								        mesh.isVisible = true;
+								        mesh.position = customScene.getCenterPointsByPosition(cell.Position);
+								        mesh.position.y = 1;
+							        }
+						        }
+					        } else {
+						        
+					        }
         				});
         			});
 
@@ -600,7 +603,6 @@ var contr = angular.module('app.controllers', [])
         	});
 
         	var refreshBoardInterval = $interval(function () {
-		        console.log(1);
         		refreshBoard();
         	}, 5000);
 

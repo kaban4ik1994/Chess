@@ -190,9 +190,11 @@ CustomScene.prototype.getMeshIdByPosition = function (position) {
 }
 
 CustomScene.prototype.selectMeshById = function (meshId) {
+	console.log(this._scene.meshes[meshId]);
 	this._scene.meshes[meshId].isSelected = true;
 	this._scene.meshes[meshId].position.y += 1;
 }
+
 
 CustomScene.prototype.refreshSelectingMesh = function () {
 	angular.forEach(this._scene.meshes, function (value, key) {
@@ -209,9 +211,9 @@ CustomScene.prototype.getActiveFigureKey = function () {
 		if (value.isSelected) result = key;
 	});
 	return result;
+
 }
 
-CustomScene
 
 CustomScene.prototype.getCenterPointsByPosition = function (position) {
 	var key = position.X + position.Y;
@@ -219,7 +221,8 @@ CustomScene.prototype.getCenterPointsByPosition = function (position) {
 };
 
 CustomScene.prototype.refreshTempProperties = function () {
-	for (var i = 5; i < this._scene.meshes.length; i++) {
+	console.log(this._scene.meshes)
+	for (var i = 2; i < this._scene.meshes.length; i++) {
 		this._scene.meshes[i].isUse = false;
 		this._scene.meshes[i].isVisible = false;
 	};

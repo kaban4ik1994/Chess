@@ -164,7 +164,7 @@
     <Content Include="textures\figures\woodlig4.bmp" />
     <Content Include="textures\figures\woodlig5.bmp" />
     <Content Include="textures\labels\labels.babylon.json" />
-    <Content Include="textures\figures\figures.json" />
+    <None Include="textures\figures\figures.babylon" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
