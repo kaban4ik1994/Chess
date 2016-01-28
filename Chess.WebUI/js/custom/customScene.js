@@ -98,21 +98,15 @@ CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 	scene.shadowsEnabled = true;
 
 	// This creates and positions a free camera (non-mesh)
-	var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 30, BABYLON.Vector3.Zero(), scene);
+	var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 40, BABYLON.Vector3.Zero(), scene);
 	camera.lowerBetaLimit = 0.1;
 	camera.upperBetaLimit = (Math.PI / 2) * 0.9;
 	camera.lowerRadiusLimit = 30;
 	camera.upperRadiusLimit = 30;
 	camera.attachControl(this._canvas, true);
 
-	var light = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-1, -2, -1), scene);
-	light.position = new BABYLON.Vector3(6, 12, 6);
-	light.intensity = 2;
-
-	var lightSphere = BABYLON.Mesh.CreateSphere("sphere", 10, 2, scene);
-	lightSphere.position = light.position;
-	lightSphere.material = new BABYLON.StandardMaterial("light", scene);
-	lightSphere.material.emissiveColor = new BABYLON.Color3(1, 1, 0);
+	var light = new BABYLON.PointLight("Omni0", new BABYLON.Vector3(-17.6, 18.8, -49.9), scene);
+	light.intensity = 2.5;
 
 	// Our built-in 'ground' shape. Params: name, width, depth, subdivs, scene
 	var plane = BABYLON.Mesh.CreatePlane("plane", 20, scene);
@@ -136,21 +130,73 @@ CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 	//    }
 	//};
 
+
+	var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+	var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+	skyboxMaterial.backFaceCulling = false;
+	skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
+	skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+	skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+	skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+	skyboxMaterial.disableLighting = true;
+	skybox.material = skyboxMaterial;
+
+	//white material
+	var whiteFigureMaterial = new BABYLON.StandardMaterial("kosh", scene);
+	whiteFigureMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
+	whiteFigureMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+	whiteFigureMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+	whiteFigureMaterial.alpha = 0.2;
+	whiteFigureMaterial.specularPower = 16;
+
+	whiteFigureMaterial.reflectionFresnelParameters = new BABYLON.FresnelParameters();
+	whiteFigureMaterial.reflectionFresnelParameters.bias = 0.1;
+
+	whiteFigureMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+	whiteFigureMaterial.emissiveFresnelParameters.bias = 0.6;
+	whiteFigureMaterial.emissiveFresnelParameters.power = 4;
+	whiteFigureMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
+	whiteFigureMaterial.emissiveFresnelParameters.rightColor = BABYLON.Color3.Black();
+
+	whiteFigureMaterial.opacityFresnelParameters = new BABYLON.FresnelParameters();
+	whiteFigureMaterial.opacityFresnelParameters.leftColor = BABYLON.Color3.White();
+	whiteFigureMaterial.opacityFresnelParameters.rightColor = BABYLON.Color3.Black();
+
+	//black
+	var blackFigureMaterial = new BABYLON.StandardMaterial("kosh", scene);
+	blackFigureMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
+	blackFigureMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+	blackFigureMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+	blackFigureMaterial.alpha = 0.2;
+	blackFigureMaterial.specularPower = 16;
+
+	blackFigureMaterial.reflectionFresnelParameters = new BABYLON.FresnelParameters();
+	blackFigureMaterial.reflectionFresnelParameters.bias = 100;
+
+	blackFigureMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+	blackFigureMaterial.emissiveFresnelParameters.bias = 0.6;
+	blackFigureMaterial.emissiveFresnelParameters.power = 4;
+	blackFigureMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
+	blackFigureMaterial.emissiveFresnelParameters.rightColor = BABYLON.Color3.Black();
+
+	blackFigureMaterial.opacityFresnelParameters = new BABYLON.FresnelParameters();
+	blackFigureMaterial.opacityFresnelParameters.leftColor = BABYLON.Color3.White();
+	blackFigureMaterial.opacityFresnelParameters.rightColor = BABYLON.Color3.Black();
+
 	BABYLON.SceneLoader.ImportMesh("", "textures/figures/", "figures.babylon", scene, function () {
-		var shadowGenerator = new BABYLON.ShadowGenerator(1024, light);
-		for (var i = 5; i < scene.meshes.length; i++) {
+		for (var i = 2; i < scene.meshes.length; i++) {
 			scene.meshes[i].isVisible = false;
 			scene.meshes[i].isUse = false;
 			if (scene.meshes[i].name.indexOf("black") > -1) {
 				scene.meshes[i].rotation.y = -Math.PI / 2;
+				scene.meshes[i].material = blackFigureMaterial;
 			}
 			if (scene.meshes[i].name.indexOf("white") > -1) {
 				scene.meshes[i].rotation.y = Math.PI / 2;
+				scene.meshes[i].material = whiteFigureMaterial;
 			}
-			shadowGenerator.getShadowMap().renderList.push(scene.meshes[i]);
 		}
 		//// Shadows
-		shadowGenerator.useVarianceShadowMap = true;
 		plane.receiveShadows = true;
 		functionApplyAfterLoadMesh();
 	});
@@ -211,9 +257,7 @@ CustomScene.prototype.getActiveFigureKey = function () {
 		if (value.isSelected) result = key;
 	});
 	return result;
-
 }
-
 
 CustomScene.prototype.getCenterPointsByPosition = function (position) {
 	var key = position.X + position.Y;

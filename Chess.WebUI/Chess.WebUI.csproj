@@ -1453,6 +1453,12 @@
     <Content Include="obj\Release\SunnyHolidays.WebUI.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Release\_WPPLastBuildInfo.txt" />
     <Content Include="textures\chessboard_texture_by_sveinjo.png" />
+    <Content Include="textures\TropicalSunnyDay_nx.jpg" />
+    <Content Include="textures\TropicalSunnyDay_ny.jpg" />
+    <Content Include="textures\TropicalSunnyDay_nz.jpg" />
+    <Content Include="textures\TropicalSunnyDay_px.jpg" />
+    <Content Include="textures\TropicalSunnyDay_py.jpg" />
+    <Content Include="textures\TropicalSunnyDay_pz.jpg" />
     <Content Include="views\game.html" />
     <Content Include="views\gameView.html" />
     <Content Include="views\invitation.html" />
