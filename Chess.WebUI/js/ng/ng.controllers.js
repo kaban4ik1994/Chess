@@ -380,8 +380,8 @@ var contr = angular.module('app.controllers', [])
         	$scope.prompt = '';
 
         	$scope.selectedItem = function (pickResult) {
-        		
-        		if (pickResult.pickedPoint == null) return;
+		        console.log(pickResult);
+		        if (pickResult.pickedPoint == null || pickResult.pickedMesh.id == 'skyBox') return;
         		var clickingChessPosition = customScene.getChessPositionByPosition(pickResult.pickedPoint);
         		var activeFigureId = customScene.getActiveFigureKey();
         		var activateFigureChessPosition = {};
