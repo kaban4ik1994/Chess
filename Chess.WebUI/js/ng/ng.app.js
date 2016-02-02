@@ -38,7 +38,7 @@ smartApp.config(function(blockUIConfig) {
 smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provide) {
     $routeProvider
 		.when('/', {
-		    redirectTo: '/Home'
+			redirectTo: '/Invitation'
 		})
 
 		/* We are loading our views dynamically by passing arguments to the location url */
@@ -47,10 +47,6 @@ smartApp.config(['$routeProvider', '$provide', function ($routeProvider, $provid
 		// We need to reload these pages everytime so widget would work
 		// The trick is to add "/" at the end of the view.
 		// http://stackoverflow.com/a/17588833
-        .when('/Home', {
-            controller: 'HomeController',
-            templateUrl: 'views/home.html'
-        })
         .when('/Login', {
             controller: 'LoginController',
             templateUrl: 'views/login.html'
@@ -89,7 +85,7 @@ smartApp.config(function ($httpProvider) {
 });
 
 smartApp.run(['$rootScope', 'settings', 'authService', function ($rootScope, settings, authService) {
-    settings.currentLang = settings.languages[0]; // en
+	settings.currentLang = settings.languages[0]; // en
     $rootScope.isLoading = false;
     $rootScope.isShowHeader = true;
     $rootScope.isShowLeftPanel = true;

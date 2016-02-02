@@ -3,8 +3,8 @@
         <div class="jarviswidget jarviswidget-color-blue" id="wid-id-4" data-widget-editbutton="false" data-widget-colorbutton="false">
             <header>
                 <span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
-                <h2> Приглашения
-                </h2>
+				<h2 data-localize="Invitation">
+				</h2>
                 <small class="pull-right">
                     <a ng-href="" ng-click="newInvitationWithBot(0)" class="btn btn-block btn-sm btn-success">
                         <i class="fa fa-plus">Monkey Bot</i>
@@ -18,7 +18,7 @@
 
                 <div class="widget-body no-padding smart-form">
                     <h1 class="todo-group-title">
-                        <i class="fa fa-check"></i>Available Invitations(<small class="num-of-tasks">{{availableInvitations.Count}}</small>)
+                        <i class="fa fa-check"></i><span data-localize="Available Invitations"></span> (<small class="num-of-tasks">{{availableInvitations.Count}}</small>)
                         <small class="pull-right">
                             <a ng-href="" ng-click="newInvitation()" class="btn btn-block btn-sm btn-success">
                                 <i class="fa fa-plus"></i>
@@ -33,7 +33,7 @@
 
                         <small class="pull-right margin-right-5 margin-top-5">
                             <label class="txt-color-red">
-                                Automatic update after {{refreshAvailableInvitationsTime}} seconds
+								<span data-localize="Automatic update after"></span> {{refreshAvailableInvitationsTime}} <span data-localize="seconds"></span>
                             </label>
                         </small>
 
@@ -59,7 +59,7 @@
                     </ul>
 
                     <h1 class="todo-group-title">
-                        <i class="fa fa-check"></i>Acccept Invitations (<small class="num-of-tasks">{{acceptInvitations.Count}}</small>)
+                        <i class="fa fa-check"></i><span data-localize="Acccepted Invitations"></span> (<small class="num-of-tasks">{{acceptInvitations.Count}}</small>)
 
                         <small class="pull-right margin-right-5">
                             <a ng-href="" ng-click="refreshAcceptInvitations()" class="btn btn-block btn-sm btn-info">
@@ -69,7 +69,7 @@
 
                         <small class="pull-right margin-right-5 margin-top-5">
                             <label class="txt-color-red">
-                                Automatic update after {{refreshAcceptInvitationsTime}} seconds
+								<span data-localize="Automatic update after"></span> {{refreshAcceptInvitationsTime}} <span data-localize="seconds"></span>
                             </label>
                         </small>
 
@@ -95,7 +95,7 @@
                     </ul>
 
                     <h1 class="todo-group-title">
-                        <i class="fa fa-check"></i>Closed Invitations (<small class="num-of-tasks">{{closedInvitations.Count}}</small>)
+                        <i class="fa fa-check"></i><span data-localize="Closed Invitations"></span> (<small class="num-of-tasks">{{closedInvitations.Count}}</small>)
 
                         <small class="pull-right margin-right-5">
                             <a ng-href="" ng-click="refreshClosedInvitations()" class="btn btn-block btn-sm btn-info">
@@ -105,7 +105,7 @@
 
                         <small class="pull-right margin-right-5 margin-top-5">
                             <label class="txt-color-red">
-                                Automatic update after {{refreshClosedInvitationsTime}} seconds
+								<span data-localize="Automatic update after"></span> {{refreshClosedInvitationsTime}} <span data-localize="seconds"></span>
                             </label>
                         </small>
 

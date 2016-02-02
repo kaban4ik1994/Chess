@@ -12,48 +12,12 @@ var contr = angular.module('app.controllers', [])
                     	langCode: 'en',
                     	flagCode: 'us'
                     },
-                    //{
-                    //    language: 'Espanish',
-                    //    translation: 'Espanish',
-                    //    langCode: 'es',
-                    //    flagCode: 'es'
-                    //},
-                    //{
-                    //    language: 'German',
-                    //    translation: 'Deutsch',
-                    //    langCode: 'de',
-                    //    flagCode: 'de'
-                    //},
-                    //{
-                    //    language: 'Korean',
-                    //    translation: '한국의',
-                    //    langCode: 'ko',
-                    //    flagCode: 'kr'
-                    //},
-                    //{
-                    //    language: 'French',
-                    //    translation: 'français',
-                    //    langCode: 'fr',
-                    //    flagCode: 'fr'
-                    //},
-                    //{
-                    //    language: 'Portuguese',
-                    //    translation: 'português',
-                    //    langCode: 'pt',
-                    //    flagCode: 'br'
-                    //},
                     {
                     	language: 'Russian',
                     	translation: 'русский',
                     	langCode: 'ru',
                     	flagCode: 'ru'
                     },
-                    //{
-                    //    language: 'Chinese',
-                    //    translation: '中國的',
-                    //    langCode: 'zh',
-                    //    flagCode: 'cn'
-                    //}
         		],
 
         	};
@@ -64,10 +28,8 @@ var contr = angular.module('app.controllers', [])
     ])
     .controller('PageViewController', [
         '$scope', '$route', '$animate', function ($scope, $route, $animate) {
-        	// controler of the dynamically loaded views, for DEMO purposes only.
-        	/*$scope.$on('$viewContentLoaded', function() {
-			
-		});*/
+        	$scope.currentLang = settings.currentLang;
+        	localize.setLang(settings.currentLang);
         }
     ])
     .controller('SmartAppController', [
@@ -100,11 +62,13 @@ var contr = angular.module('app.controllers', [])
 
     // Path: /Login
     .controller('LoginController', [
-        '$scope', '$rootScope', '$location', 'authService', 'ngAuthSettings',
-        function ($scope, $rootScope, $location, authService, ngAuthSettings) {
+        '$scope', '$rootScope', '$location', 'authService', 'ngAuthSettings', 'localize', 'settings',
+        function ($scope, $rootScope, $location, authService, ngAuthSettings, localize, settings) {
 
         	if (authService.authentication.isAuth == true) {
-        		$location.path('/Home');
+        		$scope.currentLang = settings.currentLang;
+        		localize.setLang(settings.currentLang);
+        		$location.path('/');
         	} else {
         		$rootScope.isLoading = false;
         		$rootScope.isHideHeader = true;
@@ -128,7 +92,9 @@ var contr = angular.module('app.controllers', [])
         		$scope.login = function () {
         			$scope.showErrorMessages = true;
         			authService.login($scope.loginData).then(function (response) {
-        				$location.path('/Home');
+        				$scope.currentLang = settings.currentLang;
+        				localize.setLang(settings.currentLang);
+        				$location.path('/');
         				$rootScope.isHideHeader = false;
         				$rootScope.isHideLeftPanel = false;
         				$rootScope.isHideFooter = false;
@@ -192,7 +158,7 @@ var contr = angular.module('app.controllers', [])
         '$scope', '$rootScope', '$location', 'authService', 'ngAuthSettings', 'accountApi',
         function ($scope, $rootScope, $location, authService, ngAuthSettings, accountApi) {
         	if (authService.authentication.isAuth == true) {
-        		$location.path('/Home');
+        		$location.path('/');
         	} else {
         		$rootScope.isLoading = false;
         		$rootScope.isHideHeader = true;
@@ -209,23 +175,12 @@ var contr = angular.module('app.controllers', [])
         }
     ])
 
-// Path: /Home
-    .controller('HomeController', [
-        '$scope', '$rootScope', 'authService', '$location', 'TestApi',
-        function ($scope, $rootScope, authService, $location, TestApi) {
-        	if (authService.authentication.isAuth == false) {
-        		$location.path('/Login');
-        	} else {
-        	
-        	}
-        }
-    ])
-
     // Path : /Invitation
     .controller('InvitationController', [
-        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitationApi', 'closedInvitationApi', 'blockUI', 'botInvitationApi',
-        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitationApi, closedInvitationApi, blockUI, botInvitationApi) {
-
+        '$scope', '$rootScope', 'authService', '$location', '$interval', 'availableInvitationApi', 'invitationApi', 'acceptInvitationApi', 'closedInvitationApi', 'blockUI', 'botInvitationApi', 'settings', 'localize',
+        function ($scope, $rootScope, authService, $location, $interval, availableInvitationApi, invitationApi, acceptInvitationApi, closedInvitationApi, blockUI, botInvitationApi, settings, localize) {
+        	$scope.currentLang = settings.currentLang;
+        	localize.setLang(settings.currentLang);
         	function removeInvitationFromListById(list, id) {
         		angular.forEach(list, function (value, index) {
         			if (value.Id == id) {
@@ -234,6 +189,7 @@ var contr = angular.module('app.controllers', [])
         			}
         		});
         	}
+
 
         	if (authService.authentication.isAuth == false) {
         		$location.path('/Login');
@@ -376,7 +332,13 @@ var contr = angular.module('app.controllers', [])
 
     //Path /game/Id
     .controller('GameController', [
-        '$scope', '$interval', '$routeParams', 'gameApi', 'authService', 'blockUI', function ($scope, $interval, $routeParams, gameApi, authService, blockUI) {
+        '$scope', '$interval', '$routeParams', 'gameApi', 'authService', 'blockUI', '$location', 'localize', 'settings', function ($scope, $interval, $routeParams, gameApi, authService, blockUI, $location, localize, settings) {
+        	$scope.currentLang = settings.currentLang;
+        	localize.setLang(settings.currentLang);
+        	if (authService.authentication.isAuth == false) {
+        		$location.path('/Login');
+		        return;
+	        }
         	$scope.prompt = '';
 
         	$scope.selectedItem = function (pickResult) {
@@ -664,8 +626,16 @@ var contr = angular.module('app.controllers', [])
     ])
 
      .controller('GameViewController', [
-        '$scope', '$interval', '$routeParams', 'gameLogApi', 'authService', 'blockUI', function ($scope, $interval, $routeParams, gameLogApi, authService, blockUI) {
+        '$scope', '$interval', '$routeParams', 'gameLogApi', 'authService', 'blockUI', '$location', 'localize', 'settings', function ($scope, $interval, $routeParams, gameLogApi, authService, blockUI, $location, localize, settings) {
+
+        	$scope.currentLang = settings.currentLang;
+        	localize.setLang(settings.currentLang);
         	//scene
+        	if (authService.authentication.isAuth == false) {
+        		$location.path('/Login');
+		        return;
+	        }
+
         	blockUI.start();
 
         	var refreshBoard = function () {

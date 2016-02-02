@@ -80,5 +80,17 @@
     "Subtitle": "Subtitle",
     "Orders": "Orders",
     "Currency Rate": "Currency Rate",
-    "Invitation": "Invitation"
+    "Invitation": "Invitation",
+	"Available Invitations" : "Available Invitations",
+	"Acccepted Invitations" : "Acccepted Invitations",
+	"Automatic update after" : "Automatic update after",
+	"seconds" : "seconds",
+	"Closed Invitations" : "Closed Invitations",
+	"makes a move" : "makes a move",
+	"White" : "White",
+	"Black" : "Black",
+	"VS" : "VS",
+	"Game over" : "Game over",
+	"Refresh time" : "Refresh time",
+	"of" : "of"
 }

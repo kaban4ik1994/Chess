@@ -80,5 +80,17 @@
     "Subtitle": "Подзаголовок",
     "Orders": "Заказы",
     "Currency Rate": "Курсы валют",
-    "Invitation": "Приглашения"
+    "Invitation": "Приглашения",
+	"Available Invitations" : "Доступные приглашения",
+	"Acccepted Invitations" : "Принятые приглашения",
+	"Automatic update after" : "Автоматическое обновление через",
+	"seconds" : "секунд",
+	"Closed Invitations" :"Закрытые приглашения",
+	"makes a move" : "делает ход",
+	"White" : "Белые",
+	"Black" : "Черные",
+	"VS" : "Против",
+	"Game over" : "Конец игры",
+	"Refresh time" : "Время обновления",
+	"of" : "из"
 }

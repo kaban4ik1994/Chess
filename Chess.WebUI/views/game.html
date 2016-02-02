@@ -1,18 +1,18 @@
 ﻿<div id="main" role="main" ng-hide="isLoading">
     <header class="text-align-center font-size-30 txt-color-red">
-        {{chessBoard.FirstPlayerName}} VS {{chessBoard.SecondPlayerName}}
-    </header>
+	    {{chessBoard.FirstPlayerName}} <span data-localize="VS"></span> {{chessBoard.SecondPlayerName}}
+</header>
     <fieldset class="row">
         <section class="col col-sm-12">
             <span class="txt-color-green font-size-20">
-                <span class="txt-color-blue" ng-show="chessBoard.LogIndex%2!=0">{{chessBoard.FirstPlayerName}} (White) </span>
-	            <span class="txt-color-blue" ng-show="chessBoard.LogIndex%2==0">{{chessBoard.SecondPlayerName}} (Black) </span>
-				makes a move
+                <span class="txt-color-blue" ng-show="chessBoard.LogIndex%2!=0">{{chessBoard.FirstPlayerName}} (<span data-localize="White"></span>) </span>
+	            <span class="txt-color-blue" ng-show="chessBoard.LogIndex%2==0">{{chessBoard.SecondPlayerName}} (<span data-localize="Black"></span>) </span>
+				<span data-localize="makes a move"></span>
             </span>
             <br>
             <span class="txt-color-green font-size-20">
                 <span class="txt-color-red" ng-show="prompt && !chessBoard.IsEnded">{{prompt}}</span>
-                <span class="txt-color-red" ng-show="chessBoard.IsEnded">Game over!</span>
+				<span class="txt-color-red" ng-show="chessBoard.IsEnded" data-localize="Game over"></span>
             </span>
 
         </section>

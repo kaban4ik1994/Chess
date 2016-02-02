@@ -1,11 +1,11 @@
 ﻿<div id="main" role="main" ng-hide="isLoading">
     <header class="text-align-center font-size-30 txt-color-red">
-        {{chessBoard.FirstPlayerName}} VS {{chessBoard.SecondPlayerName}}
+        {{chessBoard.FirstPlayerName}} <span data-localize="VS"></span> {{chessBoard.SecondPlayerName}}
     </header>
     <fieldset class="row">
         <section class="col col-sm-12 margin-top-10">
             <div class="col col-sm-3">
-                <label for="refreshTime">Refresh time:</label>
+                <label for="refreshTime"><span data-localize="Refresh time"></span>:</label>
                 <select ng-model="refreshTime" id="refreshTime" class="form-control" ng-change="stop(); start();">
                     <option value="100">100ms</option>
                     <option value="500">500ms</option>
@@ -25,7 +25,7 @@
         </section>
         <section class="col col-sm-12 margin-top-10">
             <span class="txt-color-green font-size-20">
-                <span class="txt-color-blue">{{logIndex}} of {{moveCount}}</span>
+                <span class="txt-color-blue">{{logIndex}} <span data-localize="of"></span> {{moveCount}}</span>
             </span>
         </section>
         <section class="col col-sm-12 margin-top-10">

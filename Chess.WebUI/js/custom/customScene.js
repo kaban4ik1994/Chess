@@ -90,6 +90,8 @@ CustomScene.prototype.roundPoint = function (currentPoint) {
 	return result;
 };
 
+
+
 CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 	// This creates a basic Babylon Scene object (non-mesh)
 	var scene = new BABYLON.Scene(this._engine);
@@ -113,12 +115,15 @@ CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 	plane.position.y = 0;
 	plane.rotation.x = Math.PI / 2;
 
+
 	var materialPlane = new BABYLON.StandardMaterial("texturePlane", scene);
 	materialPlane.diffuseTexture = new BABYLON.Texture("textures/chessboard_texture_by_sveinjo.png", scene);
 	materialPlane.diffuseTexture.uScale = 2.0;//Repeat 5 times on the Vertical Axes
 	materialPlane.diffuseTexture.vScale = 2.0;//Repeat 5 times on the Horizontal Axes
 	materialPlane.backFaceCulling = false;//Allways show the front and the back of an element
 	plane.material = materialPlane;
+
+
 
 
 	//scene.onPointerDown = function (evt, pickResult) {
@@ -146,7 +151,7 @@ CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 	whiteFigureMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
 	whiteFigureMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
 	whiteFigureMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-	whiteFigureMaterial.alpha = 0.2;
+	whiteFigureMaterial.alpha = 0.4;
 	whiteFigureMaterial.specularPower = 16;
 
 	whiteFigureMaterial.reflectionFresnelParameters = new BABYLON.FresnelParameters();
@@ -156,7 +161,7 @@ CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 	whiteFigureMaterial.emissiveFresnelParameters.bias = 0.6;
 	whiteFigureMaterial.emissiveFresnelParameters.power = 4;
 	whiteFigureMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
-	whiteFigureMaterial.emissiveFresnelParameters.rightColor = BABYLON.Color3.Black();
+	whiteFigureMaterial.emissiveFresnelParameters.rightColor = BABYLON.Color3.White();
 
 	whiteFigureMaterial.opacityFresnelParameters = new BABYLON.FresnelParameters();
 	whiteFigureMaterial.opacityFresnelParameters.leftColor = BABYLON.Color3.White();
@@ -167,7 +172,7 @@ CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 	blackFigureMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/TropicalSunnyDay", scene);
 	blackFigureMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
 	blackFigureMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-	blackFigureMaterial.alpha = 0.2;
+	blackFigureMaterial.alpha = 0.4;
 	blackFigureMaterial.specularPower = 16;
 
 	blackFigureMaterial.reflectionFresnelParameters = new BABYLON.FresnelParameters();
@@ -176,7 +181,7 @@ CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 	blackFigureMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
 	blackFigureMaterial.emissiveFresnelParameters.bias = 0.6;
 	blackFigureMaterial.emissiveFresnelParameters.power = 4;
-	blackFigureMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.White();
+	blackFigureMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.Black();
 	blackFigureMaterial.emissiveFresnelParameters.rightColor = BABYLON.Color3.Black();
 
 	blackFigureMaterial.opacityFresnelParameters = new BABYLON.FresnelParameters();
@@ -196,14 +201,17 @@ CustomScene.prototype.createScene = function (functionApplyAfterLoadMesh) {
 				scene.meshes[i].material = whiteFigureMaterial;
 			}
 		}
+	
 		//// Shadows
 		plane.receiveShadows = true;
 		functionApplyAfterLoadMesh();
 	});
+	
 	return scene;
 };
 
 CustomScene.prototype.getScene = function () {
+	
 	return this._scene;
 };
 
@@ -265,15 +273,16 @@ CustomScene.prototype.getCenterPointsByPosition = function (position) {
 };
 
 CustomScene.prototype.refreshTempProperties = function () {
-	console.log(this._scene.meshes)
 	for (var i = 2; i < this._scene.meshes.length; i++) {
-		this._scene.meshes[i].isUse = false;
-		this._scene.meshes[i].isVisible = false;
+			this._scene.meshes[i].isUse = false;
+			this._scene.meshes[i].isVisible = false;
 	};
+
 };
 
 CustomScene.prototype.renderScene = function () {
 	this._engine.runRenderLoop(function () {
+	
 		this._scene.render();
 	});
 }
