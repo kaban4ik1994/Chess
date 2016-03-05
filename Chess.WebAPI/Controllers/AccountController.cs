@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using AutoMapper;
@@ -8,7 +6,6 @@ using Chess.Entities.Models;
 using Chess.Models;
 using Chess.Services.Interfaces;
 using Chess.WebAPI.Models;
-using Repository.Pattern.UnitOfWork;
 
 namespace Chess.WebAPI.Controllers
 {

@@ -41,6 +41,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="pgn.net, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\pgn.NET.1.2.1\lib\net45\pgn.net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,11 +55,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bot\BotMediator.cs" />
+    <Compile Include="Bot\ChessConstants.cs" />
+    <Compile Include="Bot\Interfaces\IAlphaBetaBotColleague.cs" />
+    <Compile Include="Bot\AlphaBetaBotColleague.cs" />
     <Compile Include="Bot\ExtendedPosition.cs" />
     <Compile Include="Bot\Interfaces\IBotColleague.cs" />
     <Compile Include="Bot\Interfaces\IBotMediator.cs" />
     <Compile Include="Bot\Interfaces\IMonkeyBotColleague.cs" />
     <Compile Include="Bot\MonkeyBotColleague.cs" />
+    <Compile Include="DebutDb\DebutDbLoader.cs" />
     <Compile Include="Helpers\CheckerGameHelper.cs" />
     <Compile Include="FactoryFigures\CreatorBishop.cs" />
     <Compile Include="FactoryFigures\CreatorKing.cs" />
@@ -86,6 +94,7 @@
     <Compile Include="Mediator\PawnColleague.cs" />
     <Compile Include="Mediator\QueenColleague.cs" />
     <Compile Include="Mediator\RookColleague.cs" />
+    <Compile Include="Models\AlgorithmResultModel.cs" />
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\Chessboard.cs" />
     <Compile Include="Models\Figure.cs" />
@@ -106,7 +115,10 @@
       <Name>Chess.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ChessTree\" />
+    <Folder Include="DebutDb\DbFiles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

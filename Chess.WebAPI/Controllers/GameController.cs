@@ -26,16 +26,9 @@ namespace Chess.WebAPI.Controllers
 			{
 				
 			}
-
-			else if (await _gameService.IsMoveOfBot(invitationId))
-			{
-				var botMove = await _gameService.GetBotMove(invitationId);
-				await _gameService.MakeMove(invitationId, botMove.From, botMove.To);
-			}
-
 			var result = await _gameService.GetGameBoardByInvitationId(invitationId);
 			if (result == null) return BadRequest();
-			return Ok(new {GameData = result});
+			return Ok(new {GameData = result, isBotMove = await _gameService.IsMoveOfBot(invitationId)});
 		}
 
 		[HttpPost]

@@ -13,3 +13,4 @@ var urlApiClosedInvitation = baseUrlApiChess + "ClosedInvitation";
 var urlApiGameLog = baseUrlApiChess + "GameLog";
 var urlApiBotInvitation = baseUrlApiChess + "BotInvitation";
 var urlApiChat = baseUrlApiChessWithWsScheme + "Chat";
+var urlApiBot = baseUrlApiChess + "Bot";

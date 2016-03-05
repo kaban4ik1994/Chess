@@ -163,8 +163,14 @@
     <Content Include="textures\figures\woodlig3.bmp" />
     <Content Include="textures\figures\woodlig4.bmp" />
     <Content Include="textures\figures\woodlig5.bmp" />
-    <Content Include="textures\labels\labels.babylon.json" />
+    <Content Include="textures\labels\labels.babylon.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="textures\figures.babylon" />
     <None Include="textures\figures\figures.babylon" />
+    <Content Include="textures\labels\figures.babylon">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

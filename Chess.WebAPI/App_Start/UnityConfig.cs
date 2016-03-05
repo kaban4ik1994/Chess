@@ -23,67 +23,68 @@ using Service.Pattern;
 
 namespace Chess.WebAPI.App_Start
 {
-    /// <summary>
-    /// Specifies the Unity configuration for the main container.
-    /// </summary>
-    public class UnityConfig
-    {
-        #region Unity Container
-        private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
-        {
-            var container = new UnityContainer();
-            RegisterTypes(container);
-            return container;
-        });
+	/// <summary>
+	/// Specifies the Unity configuration for the main container.
+	/// </summary>
+	public class UnityConfig
+	{
+		#region Unity Container
+		private static Lazy<IUnityContainer> container = new Lazy<IUnityContainer>(() =>
+		{
+			var container = new UnityContainer();
+			RegisterTypes(container);
+			return container;
+		});
 
-        /// <summary>
-        /// Gets the configured Unity container.
-        /// </summary>
-        public static IUnityContainer GetConfiguredContainer()
-        {
-            return container.Value;
-        }
-        #endregion
+		/// <summary>
+		/// Gets the configured Unity container.
+		/// </summary>
+		public static IUnityContainer GetConfiguredContainer()
+		{
+			return container.Value;
+		}
+		#endregion
 
-        /// <summary>Registers the type mappings with the Unity container.</summary>
-        /// <param name="container">The unity container to configure.</param>
-        /// <remarks>There is no need to register concrete types such as controllers or API controllers (unless you want to 
-        /// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
-        public static void RegisterTypes(IUnityContainer container)
-        {
-            // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
-            // container.LoadConfiguration();
+		/// <summary>Registers the type mappings with the Unity container.</summary>
+		/// <param name="container">The unity container to configure.</param>
+		/// <remarks>There is no need to register concrete types such as controllers or API controllers (unless you want to 
+		/// change the defaults), as Unity allows resolving a concrete type even if it was not previously registered.</remarks>
+		public static void RegisterTypes(IUnityContainer container)
+		{
+			// NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
+			// container.LoadConfiguration();
 
-            container
-                .RegisterType<IDataContextAsync, ChessContext>(new PerThreadLifetimeManager())
-                .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerThreadLifetimeManager())
-                .RegisterType<IRepositoryAsync<User>, Repository<User>>()
-                .RegisterType<IRepositoryAsync<Invitation>, Repository<Invitation>>()
-                .RegisterType<IRepositoryAsync<Game>, Repository<Game>>()
-                .RegisterType<IRepositoryAsync<Bot>, Repository<Bot>>()
-                .RegisterType<IRepositoryAsync<GameLog>, Repository<GameLog>>()
-                .RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
-                .RegisterType<IRepositoryAsync<Player>, Repository<Player>>()
-                .RegisterType<IUserService, UserService>(new PerThreadLifetimeManager())
-                .RegisterType<IGameService, GameService>(new PerThreadLifetimeManager())
-                .RegisterType<IPlayerService, PlayerService>(new PerThreadLifetimeManager())
-                .RegisterType<IInvitationService, InvitationService>(new PerThreadLifetimeManager())
-                .RegisterType<IChessboard, Chessboard>()
-                .RegisterType<ICreatorBishop, CreatorBishop>(new PerThreadLifetimeManager())
-                .RegisterType<ICreatorKing, CreatorKing>(new PerThreadLifetimeManager())
-                .RegisterType<ICreatorKnight, CreatorKnight>(new PerThreadLifetimeManager())
-                .RegisterType<ICreatorPawn, CreatorPawn>(new PerThreadLifetimeManager())
-                .RegisterType<ICreatorQueen, CreatorQueen>(new PerThreadLifetimeManager())
-                .RegisterType<ICreatorRook, CreatorRook>(new PerThreadLifetimeManager())
-                .RegisterType<IMoveMediator, MoveMediator>(new PerThreadLifetimeManager())
-                .RegisterType<IBishopColleague, BishopColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IKingColleague, KingColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IKnightColleague, KnightColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IPawnColleague, PawnColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IQueenColleague, QueenColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IRookColleague, RookColleague>(new PerThreadLifetimeManager())
-                .RegisterType<IBotMediator, BotMediator>(new PerThreadLifetimeManager())
-                .RegisterType<IMonkeyBotColleague, MonkeyBotColleague>(new PerThreadLifetimeManager());
-        }
-    }
+			container
+					.RegisterType<IDataContextAsync, ChessContext>(new PerThreadLifetimeManager())
+					.RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerThreadLifetimeManager())
+					.RegisterType<IRepositoryAsync<User>, Repository<User>>()
+					.RegisterType<IRepositoryAsync<Invitation>, Repository<Invitation>>()
+					.RegisterType<IRepositoryAsync<Game>, Repository<Game>>()
+					.RegisterType<IRepositoryAsync<Bot>, Repository<Bot>>()
+					.RegisterType<IRepositoryAsync<GameLog>, Repository<GameLog>>()
+					.RegisterType<IRepositoryAsync<UserRole>, Repository<UserRole>>()
+					.RegisterType<IRepositoryAsync<Player>, Repository<Player>>()
+					.RegisterType<IUserService, UserService>(new PerThreadLifetimeManager())
+					.RegisterType<IGameService, GameService>(new PerThreadLifetimeManager())
+					.RegisterType<IPlayerService, PlayerService>(new PerThreadLifetimeManager())
+					.RegisterType<IInvitationService, InvitationService>(new PerThreadLifetimeManager())
+					.RegisterType<IChessboard, Chessboard>()
+					.RegisterType<ICreatorBishop, CreatorBishop>(new PerThreadLifetimeManager())
+					.RegisterType<ICreatorKing, CreatorKing>(new PerThreadLifetimeManager())
+					.RegisterType<ICreatorKnight, CreatorKnight>(new PerThreadLifetimeManager())
+					.RegisterType<ICreatorPawn, CreatorPawn>(new PerThreadLifetimeManager())
+					.RegisterType<ICreatorQueen, CreatorQueen>(new PerThreadLifetimeManager())
+					.RegisterType<ICreatorRook, CreatorRook>(new PerThreadLifetimeManager())
+					.RegisterType<IMoveMediator, MoveMediator>(new PerThreadLifetimeManager())
+					.RegisterType<IBishopColleague, BishopColleague>(new PerThreadLifetimeManager())
+					.RegisterType<IKingColleague, KingColleague>(new PerThreadLifetimeManager())
+					.RegisterType<IKnightColleague, KnightColleague>(new PerThreadLifetimeManager())
+					.RegisterType<IPawnColleague, PawnColleague>(new PerThreadLifetimeManager())
+					.RegisterType<IQueenColleague, QueenColleague>(new PerThreadLifetimeManager())
+					.RegisterType<IRookColleague, RookColleague>(new PerThreadLifetimeManager())
+					.RegisterType<IBotMediator, BotMediator>(new PerThreadLifetimeManager())
+					.RegisterType<IMonkeyBotColleague, MonkeyBotColleague>(new PerThreadLifetimeManager())
+					.RegisterType<IAlphaBetaBotColleague, AlphaBetaBotColleague>(new PerThreadLifetimeManager());
+		}
+	}
 }

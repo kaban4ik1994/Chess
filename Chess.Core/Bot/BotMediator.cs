@@ -9,13 +9,13 @@ namespace Chess.Core.Bot
     {
         private readonly IDictionary<BotType, IBotColleague> _botColleagues;
 
-        public BotMediator(IMonkeyBotColleague monkeyBotColleague)
+        public BotMediator(IMonkeyBotColleague monkeyBotColleague, IAlphaBetaBotColleague alphaBetaBotColleague)
         {
-            _botColleagues = new Dictionary<BotType, IBotColleague>
-            {
-                { monkeyBotColleague.GetBotType(), monkeyBotColleague }
-            };
-
+	        _botColleagues = new Dictionary<BotType, IBotColleague>
+	        {
+		        {monkeyBotColleague.GetBotType(), monkeyBotColleague},
+		        {alphaBetaBotColleague.GetBotType(), alphaBetaBotColleague}
+	        };
         }
 
         public ExtendedPosition Send(IChessboard chessboard, Color color, BotType botType)

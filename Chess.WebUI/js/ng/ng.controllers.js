@@ -332,7 +332,7 @@ var contr = angular.module('app.controllers', [])
 
     //Path /game/Id
     .controller('GameController', [
-        '$scope', '$interval', '$routeParams', 'gameApi', 'authService', 'blockUI', '$location', 'localize', 'settings', function ($scope, $interval, $routeParams, gameApi, authService, blockUI, $location, localize, settings) {
+        '$scope', '$interval', '$routeParams', 'gameApi', 'authService', 'blockUI', '$location', 'localize', 'settings', 'botApi', function ($scope, $interval, $routeParams, gameApi, authService, blockUI, $location, localize, settings, botApi) {
         	$scope.currentLang = settings.currentLang;
         	localize.setLang(settings.currentLang);
         	if (authService.authentication.isAuth == false) {
@@ -395,9 +395,22 @@ var contr = angular.module('app.controllers', [])
         	//scene
         	blockUI.start();
 
+        	var sendRefreshBoardRequest = false;
+			var sendBotRequest = false;
+
         	function refreshBoard() {
-        		gameApi.get({ invitationId: $routeParams.invitationId, logId: $scope.logIndex }, function (data) {
-        			var selectedFigureKey = customScene.getActiveFigureKey();
+        		if (sendRefreshBoardRequest || sendBotRequest) return;
+		        sendRefreshBoardRequest = true;
+		        gameApi.get({ invitationId: $routeParams.invitationId, logId: $scope.logIndex }, function (data) {
+			        if (data.isBotMove && !sendBotRequest) {
+				        sendBotRequest = true;
+				        botApi.get({ invitationId: $routeParams.invitationId }, function() {
+					        sendBotRequest = false;
+				        }, function() {
+					        sendBotRequest = false;
+				        });
+			        }
+			        var selectedFigureKey = customScene.getActiveFigureKey();
         			customScene.refreshTempProperties();
         			$scope.moveCount = data.Count;
         			$scope.chessBoard = data.GameData;
@@ -587,7 +600,9 @@ var contr = angular.module('app.controllers', [])
         			if (selectedFigureKey != -1) {
         				customScene.selectMeshById(selectedFigureKey);
         			}
-        		}, function (error) {
+			        sendRefreshBoardRequest = false;
+		        }, function (error) {
+			        sendRefreshBoardRequest = false;
         			$interval.cancel(refreshBoardInterval);
         			$scope.prompt = "Game over!";
         		});
