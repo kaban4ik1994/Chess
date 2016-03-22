@@ -70,6 +70,7 @@
     <Compile Include="ChessContext.cs" />
     <Compile Include="ChessContextInitializer.cs" />
     <Compile Include="Mapping\BotMap.cs" />
+    <Compile Include="Mapping\DebutGameMap.cs" />
     <Compile Include="Mapping\GameMap.cs" />
     <Compile Include="Mapping\GameLogMap.cs" />
     <Compile Include="Mapping\InvitationMap.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Mapping\UserRoleMap.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Bot.cs" />
+    <Compile Include="Models\DebutGame.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameLog.cs" />
     <Compile Include="Models\GameResult.cs" />

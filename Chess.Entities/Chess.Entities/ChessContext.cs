@@ -26,7 +26,8 @@ namespace Chess.Entities
         public DbSet<Invitation> Invitations { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<GameLog> GameLogs { get; set; }
-        public DbSet<Bot> Bots { get; set; } 
+        public DbSet<Bot> Bots { get; set; }
+        public DbSet<DebutGame> DebutGames { get; set; } 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -40,6 +41,7 @@ namespace Chess.Entities
             modelBuilder.Configurations.Add(new InvitationMap());
             modelBuilder.Configurations.Add(new PlayerGameMap());
             modelBuilder.Configurations.Add(new PlayerMap());
+            modelBuilder.Configurations.Add(new DebutGameMap());
         }
     }
 }

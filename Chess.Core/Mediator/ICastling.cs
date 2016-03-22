@@ -1,4 +1,5 @@
-﻿using Chess.Core.Models;
+﻿using Chess.Core.Bot;
+using Chess.Core.Models;
 using Chess.Enums;
 
 namespace Chess.Core.Mediator
@@ -11,6 +12,8 @@ namespace Chess.Core.Mediator
         bool IsMoveIsLongCastling(Position from, Position to, IChessboard chessboard);
         bool IsPossibleToMakeShortCastling(Color colorOfKing, IChessboard chessboard);
         bool IsPossibleToMakeLongCastling(Color colorOfKing, IChessboard chessboard);
+        ExtendedPosition GetLongCastlingMove(Color color);
+        ExtendedPosition GetShortCastlingMove(Color color);
 
     }
 }

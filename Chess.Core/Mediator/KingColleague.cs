@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Chess.Core.Bot;
 using Chess.Core.Models;
 using Chess.Enums;
 
@@ -66,6 +67,14 @@ namespace Chess.Core.Mediator
             return from.Equals(positionKing) && to.Equals(positionRook);
         }
 
+        public ExtendedPosition GetShortCastlingMove(Color color)
+        {
+            var y = color == Color.White ? 1 : 8;
+            var positionKing = new Position {X = 'E', Y = y};
+            var positionRook = new Position {X = 'H', Y = y};
+            return new ExtendedPosition {From = positionKing, To = positionRook};
+        }
+
         public bool IsMoveIsLongCastling(Position from, Position to, IChessboard chessboard)
         {
             var king = chessboard.GetFigureByPosition(from);
@@ -73,6 +82,14 @@ namespace Chess.Core.Mediator
             var positionKing = new Position { X = 'E', Y = y };
             var positionRook = new Position { X = 'A', Y = y };
             return from.Equals(positionKing) && to.Equals(positionRook);
+        }
+
+        public ExtendedPosition GetLongCastlingMove(Color color)
+        {
+            var y = color == Color.White ? 1 : 8;
+            var positionKing = new Position { X = 'E', Y = y };
+            var positionRook = new Position { X = 'A', Y = y };
+            return new ExtendedPosition { From = positionKing, To = positionRook };
         }
 
         public bool IsPossibleToMakeShortCastling(Color colorOfKing, IChessboard chessboard)
