@@ -12,6 +12,7 @@ namespace Chess.Entities.Models
         public Guid GameIdentificator { get; set; }
         public DateTime FirstPlayerGameTime { get; set; }
         public DateTime SecondPlayerGameTime { get; set; }
+        public GameResult Result { get; set; }
 
         public Invitation Invitation { get; set; }
         public List<PlayerGame> Watchers { get; set; }

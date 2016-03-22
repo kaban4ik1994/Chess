@@ -171,6 +171,7 @@ namespace Chess.Services
 			if (moveResult == MoveStatus.Checkmate && !game.IsEnded)
 			{
 				game.IsEnded = true;
+			    game.Result = color == Color.White ? GameResult.BlackWin : GameResult.WhiteWin; 
 				Update(game);
 				await _unitOfWorkAsync.SaveChangesAsync();
 			}

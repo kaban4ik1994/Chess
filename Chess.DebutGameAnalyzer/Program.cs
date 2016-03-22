@@ -6,9 +6,11 @@ namespace Chess.DebutGameAnalyzer
 	{
 		static void Main(string[] args)
 		{
-
-			var test = new DebutDbLoader();
-
+		    var debutDbLoader = new DebutDbLoader();
+            debutDbLoader.Load(0, 1).ForEach(game =>
+            {
+                var a = 1;
+            });
 		}
 	}
 }
