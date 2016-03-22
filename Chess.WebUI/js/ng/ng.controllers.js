@@ -805,10 +805,21 @@ var contr = angular.module('app.controllers', [])
         		});
         	}
 
+        	var refreshBoardInterval;
+        	$scope.logIndex = 1;
+        	$scope.isStop = true;
+        	$scope.refreshTime = 100;
+
         	var functionApplyAfterLoadMesh = function () {
         		blockUI.stop();
         		refreshBoard();
-        	}
+        		$scope.start = function () {
+        		    refreshBoardInterval = $interval(function () {
+        		        refreshBoard();
+        		    }, $scope.refreshTime);
+        		    $scope.isStop = false;
+        		}
+	        }
 
         	var canvas = document.getElementById('scene');
         	// init Babylon engine
@@ -821,23 +832,11 @@ var contr = angular.module('app.controllers', [])
         	// customScene.renderScene();
 
         	//
-        	var refreshBoardInterval;
-        	$scope.logIndex = 1;
-        	$scope.isStop = true;
-        	$scope.refreshTime = 100;
-
-        	$scope.start = function () {
-        		refreshBoardInterval = $interval(function () {
-        			refreshBoard();
-        		}, $scope.refreshTime);
-        		$scope.isStop = false;
-        	}
-
+        	
         	$scope.stop = function () {
         		$scope.isStop = true;
         		$interval.cancel(refreshBoardInterval);
         	}
-
 
         	$scope.$on('$destroy', function () {
         		$interval.cancel(refreshBoardInterval);
