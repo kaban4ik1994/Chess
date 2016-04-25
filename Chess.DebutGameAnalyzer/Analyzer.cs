@@ -33,8 +33,9 @@ namespace Chess.DebutGameAnalyzer
                 if (gameResult == GameResult.White)
                     entity.TotalWhiteWinGames += 1;
 
-                entity.BlackWinPercent = (entity.TotalBlackWinGames * 100 ) / entity.TotalGame;
-                entity.WhiteWinPercent = (entity.TotalWhiteWinGames * 100) / entity.TotalGame;
+                entity.BlackWinPercent = (entity.TotalBlackWinGames * 100.0 ) / entity.TotalGame;
+                entity.WhiteWinPercent = (entity.TotalWhiteWinGames * 100.0) / entity.TotalGame;
+                debutGaemeRepository.Update(entity);
             }
             else
             {
@@ -51,8 +52,8 @@ namespace Chess.DebutGameAnalyzer
 
                 if (gameResult == GameResult.White)
                     newDebut.TotalWhiteWinGames += 1;
-                entity.BlackWinPercent = (entity.TotalBlackWinGames * 100) / entity.TotalGame;
-                entity.WhiteWinPercent = (entity.TotalWhiteWinGames * 100) / entity.TotalGame;
+                newDebut.BlackWinPercent = (newDebut.TotalBlackWinGames * 100.0) / newDebut.TotalGame;
+                newDebut.WhiteWinPercent = (newDebut.TotalWhiteWinGames * 100.0) / newDebut.TotalGame;
 
                 debutGaemeRepository.Insert(newDebut);
             }

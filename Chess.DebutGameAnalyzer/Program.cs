@@ -26,7 +26,7 @@ namespace Chess.DebutGameAnalyzer
 
             var moveMediator = diContainer.Resolve<IMoveMediator>();
             var castlingService = diContainer.Resolve<ICastling>();
-            for (var k = 0; k < debutDbLoader.CountOfFiles() - 1; k++)
+            for (var k = 0; k < debutDbLoader.CountOfFiles(); k++)
             {
                 var games = debutDbLoader.Load(k, 1);
 
@@ -36,7 +36,7 @@ namespace Chess.DebutGameAnalyzer
                     var moves = games[i].MoveText.GetMoves().ToList();
                     for (var j = 0; j < moves.Count(); j++)
                     {
-                        var color = (j + 1)%2 != 0 ? Color.White : Color.Black;
+                        var color = (j + 1) % 2 != 0 ? Color.White : Color.Black;
                         var move = moves[j];
                         ExtendedPosition extendedPosition;
                         if (move.Type == MoveType.CastleKingSide)
