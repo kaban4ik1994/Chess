@@ -11,7 +11,7 @@ namespace Chess.Core.DebutDb
         private readonly PgnReader _pgnReader;
         private readonly string _debutDbPath;
 
-        public DebutDbLoader(string debutDbPath = "../../../Chess.Core/DebutDb/DbFiles")
+        public DebutDbLoader(string debutDbPath = "C:/DbFiles")//"../../../Chess.Core/DebutDb/DbFiles")
         {
             _debutDbPath = debutDbPath;
             _pgnReader = new PgnReader();

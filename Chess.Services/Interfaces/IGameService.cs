@@ -13,7 +13,7 @@ namespace Chess.Services.Interfaces
 		Task<GameViewModel> MakeMove(long gameId, Position from, Position to);
 		Task<GameLogViewModel> GetGameLogByInvitationIdAndLogId(long invitationId, long logId);
 		Task<long> GetQuantityOfMoveByInvitationId(long invitationId);
-		Task<ExtendedPosition> GetBotMove(long gameId);
+		Task<ExtendedPosition> GetBotMove(long gameId, bool searchDebut = true);
 		Task<bool> IsMoveOfBot(long gameId);
 		Task<bool> IsGameEnded(long gameId);
 	}

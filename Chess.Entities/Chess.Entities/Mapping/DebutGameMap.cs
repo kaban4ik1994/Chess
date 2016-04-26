@@ -17,6 +17,8 @@ namespace Chess.Entities.Mapping
             Property(game => game.WhiteWinPercent);
             Property(game => game.BlackWinPercent);
             Property(game => game.MoveColor);
+            Property(game => game.FromPosition);
+            Property(game => game.WinColor);
 
             ToTable("DebutGames");
         }

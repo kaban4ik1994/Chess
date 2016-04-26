@@ -11,6 +11,7 @@ using Chess.Enums;
 using Chess.Helpers;
 using Chess.Models;
 using Chess.Services.Interfaces;
+using Newtonsoft.Json;
 using Repository.Pattern.Infrastructure;
 using Repository.Pattern.Repositories;
 using Repository.Pattern.UnitOfWork;
@@ -26,8 +27,9 @@ namespace Chess.Services
 		private readonly IMoveMediator _moveMediator;
 		private readonly IBotMediator _botMediator;
 		private readonly IRepositoryAsync<GameLog> _gameLogRepository;
+	    private readonly IRepositoryAsync<DebutGame> _debutGameRepository; 
 
-		public GameService(IRepositoryAsync<Game> repository, IUnitOfWorkAsync unitOfWorkAsync, IChessboard chessboard, IRepositoryAsync<Invitation> invitationRepository, IMoveMediator moveMediator, IRepositoryAsync<GameLog> gameLogRepository, IBotMediator botMediator)
+		public GameService(IRepositoryAsync<Game> repository, IUnitOfWorkAsync unitOfWorkAsync, IChessboard chessboard, IRepositoryAsync<Invitation> invitationRepository, IMoveMediator moveMediator, IRepositoryAsync<GameLog> gameLogRepository, IBotMediator botMediator, IRepositoryAsync<DebutGame> debutGameRepository)
 			: base(repository)
 		{
 			_unitOfWorkAsync = unitOfWorkAsync;
@@ -36,6 +38,7 @@ namespace Chess.Services
 			_moveMediator = moveMediator;
 			_gameLogRepository = gameLogRepository;
 			_botMediator = botMediator;
+            _debutGameRepository = debutGameRepository;
 		}
 
 		public async Task<GameViewModel> GetGameBoardByInvitationId(long invitationId)
@@ -97,7 +100,7 @@ namespace Chess.Services
 			return await Task.FromResult(result);
 		}
 
-		public async Task<ExtendedPosition> GetBotMove(long gameId)
+		public async Task<ExtendedPosition> GetBotMove(long gameId, bool searchDebut = true)
 		{
 			var game = Query(x => x.Id == gameId).Include(x => x.GameLogs)
 					.Include(game1 => game1.Invitation)
@@ -109,7 +112,27 @@ namespace Chess.Services
 			_chessboard.DeserializeBoard(game.GameLogs.Last().Log);
 			var color = game.GameLogs.Last().Index % 2 != 0 ? Color.White : Color.Black;
 			if (!game.Invitation.Acceptor.IsBot) return null;
-			var result = await Task.FromResult(_botMediator.Send(_chessboard, color, game.Invitation.Acceptor.Bot.Type));
+
+		    if (searchDebut)
+		    {
+		        var gamelog = game.GameLogs.Last().Log;
+
+                var debutGameEntity = _debutGameRepository.Queryable()
+		            .FirstOrDefault(
+		                debutGame =>
+		                    debutGame.Log == gamelog && debutGame.MoveColor == color &&
+		                    (color == Color.Black ? debutGame.BlackWinPercent > 30.0 : debutGame.WhiteWinPercent > 30.0));
+		        if (debutGameEntity != null)
+		        {
+		            return new ExtendedPosition
+		            {
+		                From = JsonConvert.DeserializeObject<Position>(debutGameEntity.FromPosition),
+		                To = JsonConvert.DeserializeObject<Position>(debutGameEntity.NextMove)
+		            };
+		        }
+		    }
+
+		    var result = await Task.FromResult(_botMediator.Send(_chessboard, color, game.Invitation.Acceptor.Bot.Type));
 			return result;
 		}
 

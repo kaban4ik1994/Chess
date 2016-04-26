@@ -320,7 +320,8 @@ namespace Chess.Core.Models
 
 		public void InitNewGame()
 		{
-			for (var x = 0; x <= 7; x++)
+            _oldBoards.Clear();
+            for (var x = 0; x <= 7; x++)
 			{
 				for (var y = 0; y <= 7; y++)
 				{
